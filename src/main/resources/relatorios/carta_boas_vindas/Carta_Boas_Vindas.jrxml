@@ -23,7 +23,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/imagem_background_boas_vindas.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/cartaoamigo.com.br/imagens/imagem_background_boas_vindas.png"]]></imageExpression>
 			</image>
 		</band>
 	</background>
@@ -44,7 +44,7 @@
 				<reportElement x="155" y="117" width="249" height="158" uuid="fa1c84db-5b53-4cbf-bfc0-81d02b989fec">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
-				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/cartao-frente.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/cartaoamigo.com.br/imagens/cartao-frente.png"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement x="224" y="124" width="124" height="110" uuid="5ac05807-fb95-4e1a-9a9a-f306b863026c">

@@ -17,14 +17,14 @@
 		<band height="162" splitType="Stretch">
 			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
 				<reportElement x="19" y="4" width="249" height="158" uuid="b50e1dd7-b293-4d0b-8abb-f8f5ba665e48"/>
-				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/cartao-frente.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/cartaoamigo.com.br/imagens/cartao-frente.png"]]></imageExpression>
 			</image>
 			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="290" y="4" width="249" height="158" uuid="48baf54f-f2ea-4828-a785-5526dd62c1a0">
 					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
-				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/cartao-verso.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/cartaoamigo.com.br/imagens/cartao-verso.png"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement x="88" y="12" width="124" height="110" uuid="636ae84c-56b7-4c0f-a3a4-ff49b1b207dc">
