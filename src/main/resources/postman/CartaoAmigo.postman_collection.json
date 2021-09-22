@@ -1,0 +1,1720 @@
+{
+	"info": {
+		"_postman_id": "e7a752ac-8b88-45ee-a428-316f9169c7f4",
+		"name": "CartaoAmigo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PRODUCAO",
+			"item": []
+		},
+		{
+			"name": "DESENVOLVIMENTO",
+			"item": [
+				{
+					"name": "Controle Acesso",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"userName\": \"admin\",\r\n \"senha\": \"123\",\r\n \"idsession\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/autenticador/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"autenticador",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "trocar-senha",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTIzODQzNjl9.3qfZd7KTlx9Ty3AYRf6HH2wqZ8Th0k9KkLIgBuSiC2ivjRWaTWjT6Qg6fBC_NMhf-09A_GD2A-_cx9kCWDlDjA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"senhaAtual\": \"1234\",\r\n \"senhaNova\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/autenticador/trocar-senha",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"autenticador",
+										"trocar-senha"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SalvarGruposDeAcesso",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ0NTgwMzZ9.0IpFsI-DeSH8IlwRlL_L6L_yrl8FUsxQz-RRMkEBVg_z1uiya2oabvmOZjUg4jhK2sfkG85An4QEiZ29DsfTCA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Gerente\",\r\n    \"perfilAcesso\": {\r\n        \"id\": 4\r\n    },\r\n    \"gruposAcessoModulos\": [\r\n            {\r\n              \"modulo\": {\r\n                  \"id\": 7\r\n              }   \r\n            }            \r\n        ]\r\n\r\n\r\n    }"
+								},
+								"url": {
+									"raw": "localhost:8080/titular",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"titular"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Grupos De Acesso",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQzNzA5MzR9.9v6-zbEDZpvDM_ccsrSC5jFwxEtd_N1sjjwdlPAnkqvtucHd_aH9I2A09cRMQ33p3D_3CipPUmV69rOWhPD-Iw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/gruposacessos",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"gruposacessos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Modulos",
+					"item": [
+						{
+							"name": "Lista os módulos do menu",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQzNjgzMDd9.nAEOW_ih6GLGZho3VPpreGDpBrFdJ1CZnMtma49_kT0GK7uma-u5Ji59TSj1o8vBpLkIgwcMCkRYqAlwxgbgSQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/menu",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"menu"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Especialidade",
+					"item": [
+						{
+							"name": "Retorna todos os tipos de especialidades",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYwOTczMzl9.LqehrgiJrvh7zLyu0dzelotXdhZ3y7x0N5hsE6NnnNYAL4_kpkIMMUlG6cJmjOYf3nOADJG2V7Ea96aBkfEzCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/tipoespecialidades",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tipoespecialidades"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleta um tipo de especialidade",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTMxNTMwODV9.jh_b_Hg6rPd7HJ13OwBFOLWwESPE83tPgILkQ5mcORjK35WzM45A50UIkZgNlMsiNwI6TU1XZ2AE4IrD1jkFtA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/tipoespecialidades/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tipoespecialidades",
+										"3"
+									],
+									"query": [
+										{
+											"key": "IDSESSIONUSUARIO",
+											"value": "123456",
+											"disabled": true
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Salva um tipo de especialidade",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYwOTczMzl9.LqehrgiJrvh7zLyu0dzelotXdhZ3y7x0N5hsE6NnnNYAL4_kpkIMMUlG6cJmjOYf3nOADJG2V7Ea96aBkfEzCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"descricao\": \"Traumatologia\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/tipoespecialidades",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tipoespecialidades"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Medico",
+					"item": [
+						{
+							"name": "Medico Especialidade",
+							"item": [
+								{
+									"name": "Buscar Medico Especialidade",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYxNzkxODR9.PCwc98ZOJ-Z7hN7NLvuZ26nBTR6uav7QgcTfQwD6vb-9pJrrQ2w79sopV1MvsSDfX2862I2-ieDiswlq8oWZlw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "IDSESSIONUSUARIO",
+												"value": "123456",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/medicoespecialidades",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"medicoespecialidades"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Salvar Medico por especialidade",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYxNzkxODR9.PCwc98ZOJ-Z7hN7NLvuZ26nBTR6uav7QgcTfQwD6vb-9pJrrQ2w79sopV1MvsSDfX2862I2-ieDiswlq8oWZlw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "IDSESSIONUSUARIO",
+												"value": "123456",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"medico\": \r\n            {\r\n            \"id\": 17\r\n        },\r\n        \"tipoEspecialidade\":\r\n            {\r\n            \"id\": 14\r\n        }\r\n    },\r\n    {\r\n        \"medico\": \r\n            {\r\n            \"id\": 17\r\n        },\r\n        \"tipoEspecialidade\":{\r\n        \"id\": 7\r\n        }  \r\n    }\r\n]\r\n"
+										},
+										"url": {
+											"raw": "localhost:8080/medicoespecialidades/medico/11",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"medicoespecialidades",
+												"medico",
+												"11"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Alterar especialidade medico",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ4ODY1Njd9.qTF0viooIPtKpJk-BClVqHktZKCej-qhxZrw5D65fzbCIFHyMnN1G0yE6ZYWe8H66TOuuuTlj40gZB2A9PQuTA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "IDSESSIONUSUARIO",
+												"value": "123456",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"id\": 2,\r\n        \"medico\": {\r\n            \"id\": 7,\r\n            \"crm\": \"123456\",\r\n            \"pessoaFisica\": {\r\n                \"id\": 28,\r\n                \"nome\": \"Antonio\",\r\n                \"bairro\": \"ceilÃ¢ndia\",\r\n                \"cidade\": \"brasÃ­lia\",\r\n                \"email\": \"antonio@gmail.com\",\r\n                \"endereco\": \"setor o\",\r\n                \"sexo\": \"M\",\r\n                \"cep\": 72200057,\r\n                \"cpf\": \"12345678996\",\r\n                \"celular\": \"987654321\",\r\n                \"uf\": \"df\"\r\n            }\r\n        },\r\n        \"tipoEspecialidade\": {\r\n            \"id\": 6,\r\n            \"descricao\": \"Pediatria\"\r\n        }\r\n    }\r\n]"
+										},
+										"url": {
+											"raw": "localhost:8080/medicoespecialidades/medico/7",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"medicoespecialidades",
+												"medico",
+												"7"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTMxNjI0MDd9.op9SNnklmbGChAO2yla2NXqcLAhs7Ki1Y5ldWQl9ebfvmSiNQL02Wgz47SXT-3vDUNk6taLPQVDX3rHvht8Vqg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/medicos",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"medicos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar médico",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYyNjM3OTJ9.1ezXCqVRuZeblqzw46j0UC9S6GzLvxwK85VUnWRiBhEdDyF-0cSTJJUDfKCltAO0ji4FFzTz2NaUBpJf6uAEDg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/medicos",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"medicos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Salvar perfil médico",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYwOTczMzl9.LqehrgiJrvh7zLyu0dzelotXdhZ3y7x0N5hsE6NnnNYAL4_kpkIMMUlG6cJmjOYf3nOADJG2V7Ea96aBkfEzCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"crm\": \"00009 - DF\",\r\n    \"pessoaFisica\": {\r\n        \"nome\":\"Lara Laís da Mata\",\r\n        \"bairro\":\"Setor de Habitações Individuais Sul\",\r\n        \"cidade\":\"brasília\",\r\n        \"email\":\"laramata_q@gmail.com\",\r\n        \"endereco\":\"Quadra SHIS QI 9 Conjunto 19\",\r\n        \"sexo\":\"F\",\r\n        \"cep\":71625190,\r\n        \"cpf\":\"01893315185\",\r\n        \"celular\":\"61987593919\",\r\n        \"uf\":\"df\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/medicos",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"medicos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletear perfil médico",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTMxNjQ2MDV9.9igNZEBur8cPRPzrZitjqh79AnvDf8edQvq89qKLUnozQtJuxFqwvdIQXrzjmySc1lCRaA-1G0DK2pZZSMqoOg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/medicos/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"medicos",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Medicos Clinicas",
+					"item": [
+						{
+							"name": "Salvar Medicos na Clinica",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYyNjM3OTJ9.1ezXCqVRuZeblqzw46j0UC9S6GzLvxwK85VUnWRiBhEdDyF-0cSTJJUDfKCltAO0ji4FFzTz2NaUBpJf6uAEDg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[{\r\n    \"medico\": {\r\n        \"id\":7\r\n    },\r\n    \"clinica\":{\r\n        \"id\":21\r\n    },\r\n    \"ativo\": true\r\n}]"
+								},
+								"url": {
+									"raw": "localhost:8080/medicosclinica/clinica/21",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"medicosclinica",
+										"clinica",
+										"21"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clinicas",
+					"item": [
+						{
+							"name": "Clinicas Especialidades",
+							"item": [
+								{
+									"name": "Salvar Tipo Especialidade Clinica",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYxNzkxODR9.PCwc98ZOJ-Z7hN7NLvuZ26nBTR6uav7QgcTfQwD6vb-9pJrrQ2w79sopV1MvsSDfX2862I2-ieDiswlq8oWZlw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "IDSESSIONUSUARIO",
+												"value": "123456",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"clinica\": {\r\n        \"id\": 24\r\n        },\r\n        \"tipoEspecialidade\": {\r\n            \"id\": 12\r\n        },\r\n        \"valorParticular\": 150,\r\n        \"valorAssociado\": 100,\r\n        \"ativo\": true\r\n    },\r\n    {\r\n        \"clinica\": {\r\n        \"id\": 24\r\n        },\r\n        \"tipoEspecialidade\": {\r\n            \"id\": 20\r\n        },\r\n        \"valorParticular\": 150,\r\n        \"valorAssociado\": 100,\r\n        \"ativo\": false\r\n    },\r\n    {\r\n        \"clinica\": {\r\n        \"id\": 24\r\n        },\r\n        \"tipoEspecialidade\": {\r\n            \"id\": 6\r\n        },\r\n        \"valorParticular\": 150,\r\n        \"valorAssociado\": 100,\r\n        \"ativo\": true\r\n    }\r\n]"
+										},
+										"url": {
+											"raw": "localhost:8080/clinicastipoespecialidade/clinica/24",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"clinicastipoespecialidade",
+												"clinica",
+												"24"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar Tipo Especialidade Clinica",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYyNjM3OTJ9.1ezXCqVRuZeblqzw46j0UC9S6GzLvxwK85VUnWRiBhEdDyF-0cSTJJUDfKCltAO0ji4FFzTz2NaUBpJf6uAEDg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "IDSESSIONUSUARIO",
+												"value": "123456",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/clinicastipoespecialidade/tipoEspecialidade/17",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"clinicastipoespecialidade",
+												"tipoEspecialidade",
+												"17"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar Especialidades Clinicas",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYyNjM3OTJ9.1ezXCqVRuZeblqzw46j0UC9S6GzLvxwK85VUnWRiBhEdDyF-0cSTJJUDfKCltAO0ji4FFzTz2NaUBpJf6uAEDg",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "IDSESSIONUSUARIO",
+												"value": "123456",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "localhost:8080/clinicastipoespecialidade",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"clinicastipoespecialidade"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Buscar clinicas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYyNjM3OTJ9.1ezXCqVRuZeblqzw46j0UC9S6GzLvxwK85VUnWRiBhEdDyF-0cSTJJUDfKCltAO0ji4FFzTz2NaUBpJf6uAEDg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/clinicas",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Salvar clinica",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYwOTczMzl9.LqehrgiJrvh7zLyu0dzelotXdhZ3y7x0N5hsE6NnnNYAL4_kpkIMMUlG6cJmjOYf3nOADJG2V7Ea96aBkfEzCg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"codigo\":\"74535880069\",\r\n    \"nomeClinica\" : \"Neuromaster Clínica\",\r\n    \"nomeFantasia\": \"Neuromaster Clínica\",\r\n    \"nomeRazaoSocial\": \"Neuromaster Clínica eireli\",\r\n    \"endereco\": \"Felicittá Shopping Rua 36 Norte, sala 9 - Águas Claras, Brasília - DF\",\r\n    \"cep\":  72025065,\r\n    \"bairro\": \"Águas Claras\",\r\n    \"cidade\": \"Brasília\",\r\n    \"uf\": \"Df\",\r\n    \"Telefone01\": \"61 34360707\",\r\n    \"email\": \"neuromaster@gmail.com\",\r\n    \"cnpj\":\"37705714000105\",\r\n    \"inscricaoEstadual\":\"0710994700115\",\r\n    \"homePage\":\"pagina\",\r\n    \"ativo\": true\r\n}\r\n"
+								},
+								"url": {
+									"raw": "localhost:8080/clinicas",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Clinica Bairro",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYyNjM3OTJ9.1ezXCqVRuZeblqzw46j0UC9S6GzLvxwK85VUnWRiBhEdDyF-0cSTJJUDfKCltAO0ji4FFzTz2NaUBpJf6uAEDg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/clinicas/bairro/Taguatinga",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas",
+										"bairro",
+										"Taguatinga"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Clinica Ativa",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ5Nzc1NDN9._5Wage8M5OS2Sy1BmBtklckPu8DdPsbeTrwbROpSWfCci4PAuH6LZiQSnQn0foOIeXgJf0lB-7-v4kDvl5XLDg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/clinicas/ativos",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas",
+										"ativos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Clinica Valor Associado",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ5Nzc1NDN9._5Wage8M5OS2Sy1BmBtklckPu8DdPsbeTrwbROpSWfCci4PAuH6LZiQSnQn0foOIeXgJf0lB-7-v4kDvl5XLDg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/clinicas/valor/associado/100.0",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas",
+										"valor",
+										"associado",
+										"100.0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Clinica Valor Particular",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ5ODE0NTh9.u57kc5X2c-ZJ0ErCVPuUu4uiGRxksQQhI_nd-62oscXFTAYf8-8y1i_3u5dnnl4MAJE5qzC7nbTNMzhkuZCHOA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/clinicas/valor/particular/150.49",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas",
+										"valor",
+										"particular",
+										"150.49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Clinica Inativas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ5ODE0NTh9.u57kc5X2c-ZJ0ErCVPuUu4uiGRxksQQhI_nd-62oscXFTAYf8-8y1i_3u5dnnl4MAJE5qzC7nbTNMzhkuZCHOA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/clinicas/inativos",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas",
+										"inativos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alterar Clinica",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ5ODE0NTh9.u57kc5X2c-ZJ0ErCVPuUu4uiGRxksQQhI_nd-62oscXFTAYf8-8y1i_3u5dnnl4MAJE5qzC7nbTNMzhkuZCHOA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"id\": 17,\r\n        \"codigo\": \"123\",\r\n        \"nomeClinica\": \"Sua saÃºde\",\r\n        \"nomeFantasia\": \"Sua saude\",\r\n        \"nomeRazaoSocial\": \"Sua Saude eireli\",\r\n        \"endereco\": \"Avenida ciranda Quadra 300\",\r\n        \"cep\": 72620159,\r\n        \"bairro\": \"Recanto da felicidade\",\r\n        \"cidade\": \"Nova brasilia\",\r\n        \"uf\": \"Df\",\r\n        \"telefone01\": \"06133334444\",\r\n        \"telefone02\": \"06144443333\",\r\n        \"celular\": \"061985732141\",\r\n        \"email\": \"suasaude@gmail.com\",\r\n        \"cnpj\": \"79383656000190\",\r\n        \"inscricaoEstadual\": \"0767445600123\",\r\n        \"inscricaoMunicipal\": \"123456\",\r\n        \"homePage\": \"pagina de inicio\",\r\n        \"ativo\": false\r\n    }"
+								},
+								"url": {
+									"raw": "localhost:8080/clinicas",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clinicas"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cartao",
+					"item": [
+						{
+							"name": "Cadastrar Cartão",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTUwNjI4Mjd9.eDqACVto5tCnBotGve076DFtP1An3UXGOHAiYvMGXVJhXjrl978ExT2UnC3N-F4I-zEK24CkSdzY6yYOT3uQsA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"numeroCartao\":\"516904297849\",\r\n    \"nomeImpresso\":\"Maria\",\r\n    \"urlCode\":\"qwdqwerq\",\r\n    \"urlImagemCartao\":\"sadfs1ffas\",\r\n    \"ativo\":true,\r\n    \"metadados\":{},\r\n    \"pessoaFisica\":{\r\n        \"id\":25\r\n    }\r\n\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/cartao",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cartao"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Cartão Número",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTUwNjI4Mjd9.eDqACVto5tCnBotGve076DFtP1An3UXGOHAiYvMGXVJhXjrl978ExT2UnC3N-F4I-zEK24CkSdzY6yYOT3uQsA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/cartao/numeroCartao/535137085574",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cartao",
+										"numeroCartao",
+										"535137085574"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Todos Cartões",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTY1MjI2MDJ9.ALrpwYEUTU0X9riCQQP2IWzG8ov4NGE_x4fOj7GNQmMKDnHiV2uIMagyL1pND6oL2WylU9GO2rVvdOFVzOrFKw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/cartao",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cartao"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PagSeguro",
+					"item": [
+						{
+							"name": "Obter Sessao ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTU1ODg4NzN9.3pTbjFbnU3--fdQ1pjHXaMMX5w5RR9f3FrwoiZHXplGcAt1PDm_B4aR3VuWN37oPXJT2obtD-1LUlxr2a2cdTQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/xml",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/pagseguro/checkouttransparente/sessao",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pagseguro",
+										"checkouttransparente",
+										"sessao"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obter bandeiras",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTU1MDUzMTN9.mkkwR3O14c6l6TxJ2AgWOoAjv9IxON2rI9EH5frlGo3E6PpRxRKyttW9MsYVlVsDpP00aETyjykOuZ1nSb1aAg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/pagseguro/checkouttransparente/bandeiras/sessao/3ca3f48659374c5a8017b92452bdfbc1/bin/411111",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pagseguro",
+										"checkouttransparente",
+										"bandeiras",
+										"sessao",
+										"3ca3f48659374c5a8017b92452bdfbc1",
+										"bin",
+										"411111"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obter métodos de pagamento",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTU1MjA1MzJ9.dZHspbPW9mMAqd_y8tIpZciaRULioa-WClZcT8-vJrN8YMavUzr5Jhaqlr--nCUHvzmnRPGtH4JaGxsEmadCjQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/pagseguro/checkouttransparente/metodospagamento/sessao/800755d71c324da980b36a731e9fce74/valor/150.55",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pagseguro",
+										"checkouttransparente",
+										"metodospagamento",
+										"sessao",
+										"800755d71c324da980b36a731e9fce74",
+										"valor",
+										"150.55"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obter o token do cartão",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTU1ODg4NzN9.3pTbjFbnU3--fdQ1pjHXaMMX5w5RR9f3FrwoiZHXplGcAt1PDm_B4aR3VuWN37oPXJT2obtD-1LUlxr2a2cdTQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"idSessao\": \"23273184af9a420894431c4d50a1ef16\",\r\n    \"valor\": 155.23,\r\n    \"numeroCartao\": \"4111111111111111\",\r\n    \"bandeiraCartao\": \"visa\",\r\n    \"cvv\": \"123\",\r\n    \"mesVencimentoCartao\": \"12\",\r\n    \"anoVencimentoCartao\": \"2030\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/pagseguro/checkouttransparente/tokencartao",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pagseguro",
+										"checkouttransparente",
+										"tokencartao"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obter condiçoes parcelamento",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTU1NjU3MjB9.eZe9qma4EbNUU9xLMLM8zOR-mMr3wo9IDBKz0zXGEy810c5t1IwxnFhJj-xJAGV5OWTeXQ9gMEeuwnVeCIFENA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=ISO-8859-1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/pagseguro/checkouttransparente/condicoesparcelas?sessionId=a81d8cfd414f47f0ba8e4c84cc61e5d2&amount=150.23&creditCardBrand=cabal&maxInstallmentNoInterest=1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"pagseguro",
+										"checkouttransparente",
+										"condicoesparcelas"
+									],
+									"query": [
+										{
+											"key": "sessionId",
+											"value": "a81d8cfd414f47f0ba8e4c84cc61e5d2"
+										},
+										{
+											"key": "amount",
+											"value": "150.23"
+										},
+										{
+											"key": "creditCardBrand",
+											"value": "cabal"
+										},
+										{
+											"key": "maxInstallmentNoInterest",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Titular e Dependentes",
+					"item": [
+						{
+							"name": "Salvar Titular e seus Dependentes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTY1MjI2MDJ9.ALrpwYEUTU0X9riCQQP2IWzG8ov4NGE_x4fOj7GNQmMKDnHiV2uIMagyL1pND6oL2WylU9GO2rVvdOFVzOrFKw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pessoaFisica\": {\r\n                    \"nome\": \"Catarina Patrícia Amanda Cardoso\",\r\n                    \"bairro\": \"Taguatinga sul\",\r\n                    \"cidade\": \"brasília\",\r\n                    \"email\": \"catarina_12@gmail.com\",\r\n                    \"endereco\": \"Conjunto C\",\r\n                    \"sexo\": \"F\",\r\n                    \"cep\": 73366009,\r\n                    \"cpf\": \"82464695173\",\r\n                    \"celular\": \"61994918885\",\r\n                    \"uf\": \"df\"\r\n                },\r\n                    \"ativo\":true,\r\n    \"dependentes\":[]\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8080/titular",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"titular"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Titular e seus Dependentes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTYyNjM3OTJ9.1ezXCqVRuZeblqzw46j0UC9S6GzLvxwK85VUnWRiBhEdDyF-0cSTJJUDfKCltAO0ji4FFzTz2NaUBpJf6uAEDg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/titular",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"titular"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Alterar Titular e seus Dependentes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ4ODY1Njd9.qTF0viooIPtKpJk-BClVqHktZKCej-qhxZrw5D65fzbCIFHyMnN1G0yE6ZYWe8H66TOuuuTlj40gZB2A9PQuTA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 6,\r\n    \"pessoaFisica\": {\r\n        \"id\": 24,\r\n        \"nome\": \"Andrew\",\r\n        \"bairro\": \"ceilÃ¢ndia\",\r\n        \"cidade\": \"brasÃ­lia\",\r\n        \"email\": \"andrew@gmail.com\",\r\n        \"endereco\": \"setor o\",\r\n        \"sexo\": \"M\",\r\n        \"cep\": 72705036,\r\n        \"cpf\": \"90279475039\",\r\n        \"celular\": \"997645741\",\r\n        \"uf\": \"df\"\r\n    },\r\n    \"ativo\": true,\r\n    \"dependentes\": [\r\n        {\r\n            \"id\": 13,\r\n            \"pessoaFisica\": {\r\n                \"id\": 25,\r\n                \"nome\": \"Maria\",\r\n                \"bairro\": \"ceilÃ¢ndia\",\r\n                \"cidade\": \"brasÃ­lia\",\r\n                \"email\": \"maria@gmail.com\",\r\n                \"endereco\": \"setor o\",\r\n                \"sexo\": \"M\",\r\n                \"cep\": 71820482,\r\n                \"cpf\": \"96002320083\",\r\n                \"celular\": \"997652964\",\r\n                \"uf\": \"df\"\r\n            },\r\n            \"idTitular\": 6,\r\n            \"ativo\": true\r\n        },\r\n        {\r\n            \"id\": 14,\r\n            \"pessoaFisica\": {\r\n                \"id\": 26,\r\n                \"nome\": \"Mario\",\r\n                \"bairro\": \"ceilÃ¢ndia\",\r\n                \"cidade\": \"brasÃ­lia\",\r\n                \"email\": \"mario@gmail.com\",\r\n                \"endereco\": \"setor o\",\r\n                \"sexo\": \"M\",\r\n                \"cep\": 72215094,\r\n                \"cpf\": \"30895707004\",\r\n                \"celular\": \"997652469\",\r\n                \"uf\": \"df\"\r\n            },\r\n            \"idTitular\": 6,\r\n            \"ativo\": true\r\n        },\r\n        {\r\n            \"pessoaFisica\": {\r\n                \"nome\": \"Terceiro\",\r\n                \"bairro\": \"ceilÃ¢ndia\",\r\n                \"cidade\": \"brasÃ­lia\",\r\n                \"email\": \"terceiro@gmail.com\",\r\n                \"endereco\": \"setor o\",\r\n                \"sexo\": \"M\",\r\n                \"cep\": 72215094,\r\n                \"cpf\": \"30895703333\",\r\n                \"celular\": \"997652496\",\r\n                \"uf\": \"df\"\r\n            }\r\n        }\r\n    ]\r\n}\r\n"
+								},
+								"url": {
+									"raw": "localhost:8080/titular",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"titular"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar Dependentes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOlsiUk9MRV9BQ0VTU08iLCJST0xFX0FMVEVSQVJfU0VOSEEiLCJST0xFX0FTU09DSUFETyIsIlJPTEVfQ09ORklHVVJBQ09FUyIsIlJPTEVfSE9NRSIsIlJPTEVfVVNVQVJJTyJdLCJleHAiOjE2MTQ4ODY1Njd9.qTF0viooIPtKpJk-BClVqHktZKCej-qhxZrw5D65fzbCIFHyMnN1G0yE6ZYWe8H66TOuuuTlj40gZB2A9PQuTA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "IDSESSIONUSUARIO",
+										"value": "123456",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/dependentesTitular",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"dependentesTitular"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

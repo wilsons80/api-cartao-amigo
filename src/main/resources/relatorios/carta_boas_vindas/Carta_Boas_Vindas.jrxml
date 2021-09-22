@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Carta_Boas_Vindas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82f50610-08df-4338-95b5-510721788408">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="364"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="627"/>
+	<parameter name="P_LINK_QRCODE" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["https://chart.googleapis.com/chart?chf=bg,s,FFFFFF00&amp&chs=400x400&cht=qr&chl=www.cartaoamigo.com.br"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nomeAssociado" class="java.lang.String"/>
+	<field name="numeroCartao" class="java.lang.String"/>
+	<field name="linkUrlQrcode" class="java.lang.String"/>
+	<background>
+		<band height="802" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="RealSize" hAlign="Center" vAlign="Top">
+				<reportElement x="2" y="0" width="550" height="802" uuid="c2f8f530-d67d-4782-ade8-65ab711f09bb">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/imagem_background_boas_vindas.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="160">
+			<staticText>
+				<reportElement x="81" y="129" width="330" height="17" uuid="a69af1b4-415e-4c3c-a59f-48ed393a8090"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEJA BEM VINDO AO CARTÃO AMIGO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="556" splitType="Stretch">
+			<image>
+				<reportElement x="155" y="117" width="249" height="158" uuid="fa1c84db-5b53-4cbf-bfc0-81d02b989fec">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/cartao-frente.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="224" y="124" width="124" height="110" uuid="5ac05807-fb95-4e1a-9a9a-f306b863026c">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{P_LINK_QRCODE} + $F{linkUrlQrcode}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="166" y="232" width="231" height="14" forecolor="#FFFFFF" uuid="3f42e8c9-8e09-4905-86cf-2d92be5cd078">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeAssociado}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="166" y="247" width="231" height="14" forecolor="#FFFFFF" uuid="5a60a61a-6360-4772-a620-3871865e3284">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroCartao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="81" y="24" width="449" height="90" uuid="74ade612-bd84-4717-b10d-41c3e8d67f74"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif" size="13"/>
+					<paragraph lineSpacing="AtLeast" lineSpacingSize="2.0"/>
+				</textElement>
+				<text><![CDATA[Tudo bem?
+O Cartão Amigo lhe dá as boas vindas. 
+A partir de agora, com este cartão, você já pode cuidar da sua saúde e da sua família.
+Este cartão lhe garantirá o atendimento na nossa rede de clínicas parceiras.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="295" width="449" height="260" uuid="b51eeeef-ac8c-42f1-84af-743101df0637"/>
+				<textElement textAlignment="Justified">
+					<font size="13"/>
+					<paragraph lineSpacingSize="3.0"/>
+				</textElement>
+				<text><![CDATA[Não é necessário fazer nenhum pré-pagamento ao Cartão Amigo; você paga apenas o que utilizar pela sua consulta, exame ou procedimento, sem qualquer burocracia, direto na clínica.
+Nos esforçamos ao máximo para ter as melhores negociações para suas consultas e procedimentos na área de assistência à saúde em Brasília e em todo o Distrito Federal.
+
+Bem vindo a nossa rede de AMIGOS!
+
+
+Venha,
+Fique conosco,
+E tenha certeza que sua saúde está boa mãos.
+
+Abraços,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="6" width="28" height="20" uuid="25c225a5-acad-43ec-b363-f69aec41865e"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Olá, ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="6" width="431" height="21" uuid="211edcf5-e3d0-4fa4-8d62-aba3b8ee23f9"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeAssociado}.trim()+"."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="79">
+			<staticText>
+				<reportElement x="80" y="2" width="432" height="45" uuid="31c11b1e-3272-472d-8bd1-fb5554981ae0"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cartão Amigo 
+Siga nossas redes sociais: @cartaoamigo.brasil
+E-mail: faleconosco@cartaoamigo.com.br]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

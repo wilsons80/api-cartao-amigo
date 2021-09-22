@@ -1,0 +1,10 @@
+package br.com.cartaoamigo.ws.pagseguro.checkouttransparente.pagamento;
+
+import br.com.cartaoamigo.ws.pagseguro.to.PagamentoCheckoutTransparenteCartaoCreditoTO;
+import br.com.cartaoamigo.ws.pagseguro.to.RetornoPagamentoCheckoutTransparenteCartaoCreditoTO;
+
+public interface PagamentoCheckoutTransparenteCartaoCreditoService {
+	
+	RetornoPagamentoCheckoutTransparenteCartaoCreditoTO realizarPagamentoCheckoutTransparente(PagamentoCheckoutTransparenteCartaoCreditoTO param) throws Exception;
+
+}

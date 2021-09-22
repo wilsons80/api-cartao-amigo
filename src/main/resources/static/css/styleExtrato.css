@@ -1,0 +1,8 @@
+.extrato {
+	text-align: center; 
+	width: 70%; 
+	border: 1px solid #ccc!important; 
+	margin:0 auto; 
+	padding-bottom: 50px; 
+	background-color: beige;
+}

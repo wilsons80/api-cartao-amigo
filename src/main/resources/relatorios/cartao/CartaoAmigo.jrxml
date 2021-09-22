@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CartaoAmigo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bd8e3634-0b1f-489c-b503-cf10284bd59f">
+	<parameter name="P_LINK_QRCODE" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["https://chart.googleapis.com/chart?chf=bg,s,FFFFFF00&amp&chs=400x400&cht=qr&chl=www.cartaoamigo.com.br"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nomeAssociado" class="java.lang.String"/>
+	<field name="numeroCartao" class="java.lang.String"/>
+	<field name="linkUrlQrcode" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="162" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="19" y="4" width="249" height="158" uuid="b50e1dd7-b293-4d0b-8abb-f8f5ba665e48"/>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/cartao-frente.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="290" y="4" width="249" height="158" uuid="48baf54f-f2ea-4828-a785-5526dd62c1a0">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<imageExpression><![CDATA["https://s3.amazonaws.com/www.cartaoamigo.com.br/imagens/cartao-verso.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="88" y="12" width="124" height="110" uuid="636ae84c-56b7-4c0f-a3a4-ff49b1b207dc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{P_LINK_QRCODE} + $F{linkUrlQrcode}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="30" y="119" width="231" height="14" forecolor="#FFFFFF" uuid="f28d7f6b-6dc4-48fe-a443-94c8c23c8df4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeAssociado}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="134" width="231" height="14" forecolor="#FFFFFF" uuid="d2d1d451-d476-4d39-ad88-ce9745017930">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroCartao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
