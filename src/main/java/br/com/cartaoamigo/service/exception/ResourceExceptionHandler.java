@@ -40,17 +40,16 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler{
 		} else {
 			status = HttpStatus.INTERNAL_SERVER_ERROR.value();
 			log.error("server exception", throwable);
+		}
+		
+		try {
+			final Integer codigoErro = handleExceptionCmd.handle(throwable);
+			String mensagemCodErro = " O código " + codigoErro + " foi gravado.";
 
-			try {
-				final Integer codigoErro = handleExceptionCmd.handle(throwable);
-				String mensagemCodErro = " O código " + codigoErro + " foi gravado.";
-
-				apiError = new ApiError(codigoErro, "Ocorreu um erro interno." + mensagemCodErro);
-			} catch (Exception e) {
-				System.out.println(e.getStackTrace());
-
-				apiError = new ApiError(null, "Ocorreu um erro interno.");
-			}
+			apiError = new ApiError(codigoErro, "Ocorreu um erro interno." + mensagemCodErro);
+		} catch (Exception e) {
+			e.getStackTrace();
+			apiError = new ApiError(null, "Ocorreu um erro interno.");
 		}
 		return ResponseEntity.status(status).body(apiError);
 	}

@@ -17,7 +17,6 @@ public class GetCartaoCmd {
 	@Autowired private CartaoRepository repository;
 	@Autowired private CartaoTOBuilder toBuilder;
 	
-	
 	public CartaoTO getCartaoTitularByIdPessoaFisica(Long idPessoaFisica) {
 		Optional<Cartao> entity = repository.findCartaoTitularByIdPessoaFisica(idPessoaFisica);
 		if(entity.isPresent()) {

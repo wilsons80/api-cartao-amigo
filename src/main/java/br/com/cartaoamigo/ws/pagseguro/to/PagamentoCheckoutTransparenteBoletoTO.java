@@ -213,6 +213,21 @@ public class PagamentoCheckoutTransparenteBoletoTO {
 	public void setCodigoCorretor(String codigoCorretor) {
 		this.codigoCorretor = codigoCorretor;
 	}
+
+	@Override
+	public String toString() {
+		return "PagamentoCheckoutTransparenteBoletoTO [idPlano=" + idPlano + ", descricaoPlano=" + descricaoPlano
+				+ ", valorPlano=" + valorPlano + ", reference=" + reference + ", nomeComprador=" + nomeComprador
+				+ ", cpfComprador=" + cpfComprador + ", codAreaComprador=" + codAreaComprador + ", telefoneComprador="
+				+ telefoneComprador + ", emailComprador=" + emailComprador + ", senderHash=" + senderHash
+				+ ", enderecoCobranca=" + enderecoCobranca + ", numeroCobranca=" + numeroCobranca
+				+ ", complementoCobranca=" + complementoCobranca + ", distritoCobranca=" + distritoCobranca
+				+ ", codPostalCobranca=" + codPostalCobranca + ", cidadeCobranca=" + cidadeCobranca
+				+ ", estadoCobranca=" + estadoCobranca + ", paisCobranca=" + paisCobranca + ", isPorcentagemCorretor="
+				+ isPorcentagemCorretor + ", publicKeyCorretor=" + publicKeyCorretor + ", valorCorretor="
+				+ valorCorretor + ", codigoCorretor=" + codigoCorretor + "]";
+	}
+	
 	
 	
 }

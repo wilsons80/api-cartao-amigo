@@ -5,6 +5,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +54,8 @@ public class PagamentoBoletoSplitCmd {
 	
 	private static final String PAGSEGURO      = "PAGSEGURO";
 	private static final String BOLETO         = "BOLETO";
-
+	private static final Logger LOGGER=LoggerFactory.getLogger(PagamentoBoletoSplitCmd.class);
+	
 	@Autowired private PagamentoSplitBoletoService service;
 	@Autowired private TipoPlanoRepository tipoPlanoRepository;
 	@Autowired private PessoaFisicaRepository pessoaFisicaRepository;
@@ -71,6 +74,7 @@ public class PagamentoBoletoSplitCmd {
 	@Autowired private VoucherRepository voucherRepository;
 	@Autowired private VoucherAtivoRule voucherAtivoRule;
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
+	
 	
 	public RetornoSplitPagamentoTO realizarCheckoutTransparente(CheckoutTransparenteBoletoTO checkoutPagamentoTO) {
 		try {
@@ -121,7 +125,6 @@ public class PagamentoBoletoSplitCmd {
 					     pessoaFisicaComprador.get().getBairro(), 
 					     pessoaFisicaComprador.get().getCep(), 
 					     pessoaFisicaComprador.get().getUf());
-			
 			
 			// Dados do comprador
 			String celular = NumeroUtil.somenteNumeros(pessoaFisicaComprador.get().getCelular());
@@ -183,26 +186,23 @@ public class PagamentoBoletoSplitCmd {
 			pagamentoCheckoutTransparenteBoletoTO.setReference("CA_BO_"+pessoaFisicaComprador.get().getId());			
 			
 			RetornoSplitPagamentoBoletoTO retornoPagSeguroTO = null;
-			try {
-				if(voucher.isPresent() && voucher.get().getPorcentagem() >= 100) {
-					retornoPagSeguroTO = new RetornoSplitPagamentoBoletoTO();
-					retornoPagSeguroTO.setCode(voucher.get().getId().toString());
-					retornoPagSeguroTO.setPaymentMethod(new PaymentMethodSplitTO());
-					retornoPagSeguroTO.setStatus("3");					
-					retornoPagSeguroTO.setPrimaryReceiver(new PrimaryReceiverTO());
-					
-					salvarValidadeCartaoCmd.incrementarValidade(pessoaFisicaComprador.get().getId(), tipoPlano.get().getQuantidadeParcelas().intValue());
-					
-				} else {
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// Realiza a chamada do endpoint de pagamento do PAGSEGURO
-					retornoPagSeguroTO = service.realizarPagamentoCheckoutTransparente(pagamentoCheckoutTransparenteBoletoTO);
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				}
+			if(voucher.isPresent() && voucher.get().getPorcentagem() >= 100) {
+				retornoPagSeguroTO = new RetornoSplitPagamentoBoletoTO();
+				retornoPagSeguroTO.setCode(voucher.get().getId().toString());
+				retornoPagSeguroTO.setPaymentMethod(new PaymentMethodSplitTO());
+				retornoPagSeguroTO.setStatus("3");					
+				retornoPagSeguroTO.setPrimaryReceiver(new PrimaryReceiverTO());
 				
-			} catch (Exception e) {
-				throw new PagSeguroException("Não foi possível gerar o boleto de pagamento, tente novamente mais tarde.");
+				salvarValidadeCartaoCmd.incrementarValidade(pessoaFisicaComprador.get().getId(), tipoPlano.get().getQuantidadeParcelas().intValue());
+				
+			} else {
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// Realiza a chamada do endpoint de pagamento do PAGSEGURO
+				LOGGER.info(">>>>> Dados pagamento: " + pagamentoCheckoutTransparenteBoletoTO.toString());
+				retornoPagSeguroTO = service.realizarPagamentoCheckoutTransparente(pagamentoCheckoutTransparenteBoletoTO);
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			}
+				
 			
 			historicoPagamentoTO.setId                             (null);
 			historicoPagamentoTO.setDtPagamentoPlanoContratado     (LocalDateTime.now());

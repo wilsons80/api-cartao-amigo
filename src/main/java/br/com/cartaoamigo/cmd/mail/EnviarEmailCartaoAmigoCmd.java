@@ -34,10 +34,6 @@ public class EnviarEmailCartaoAmigoCmd {
 	@Value("${spring.profiles.active}")
 	private String ambiente;
 	
-	@Value("${pagseguro.email}")
-	private String endereco_email;
-	
-	
 	@Autowired private EnvioEmailRepository envioEmailRepository;
 	@Autowired private EnvioEmailTOBuilder envioEmailTOBuilder;
 	@Autowired private EmailService sendGridEmailService;
@@ -137,7 +133,7 @@ public class EnviarEmailCartaoAmigoCmd {
 		
 		assuntoEmail = "Cartão Amigo - " + TipoEmail.getPorId(envioEmailTO.getIdTipoEmail()).getDescricao().replaceAll("_", " ");		
 		if(isAmbienteDesenvolvimento()) {
-			sendGridEmailService.sendHTML(endereco_email, assuntoEmail, conteudoHtml);
+			sendGridEmailService.sendHTML("wilsons80@gmail.com", assuntoEmail, conteudoHtml);
 		} else {
 			sendGridEmailService.sendHTML(envioEmailTO.getPessoaFisica().getEmail(), assuntoEmail, conteudoHtml);
 		}

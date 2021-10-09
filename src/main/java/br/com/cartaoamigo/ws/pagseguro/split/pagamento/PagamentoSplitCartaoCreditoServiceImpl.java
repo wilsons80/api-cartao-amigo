@@ -88,7 +88,7 @@ public class PagamentoSplitCartaoCreditoServiceImpl implements PagamentoSplitCar
 			map.add("sender.CPF"                    , param.getCpfComprador());
 			map.add("sender.areaCode"               , param.getCodAreaComprador()); //DDD
 			map.add("sender.phone"                  , param.getTelefoneComprador()); //TELEFONE
-			map.add("sender.email"                  , param.getEmailComprador());
+			map.add("sender.email"                  , param.getEmailComprador().toLowerCase());
 			
 			map.add("creditCard.holder.name"          , param.getNomeImpressoCartao());
 			map.add("creditCard.holder.CPF"           , param.getCpfTitularCartao());

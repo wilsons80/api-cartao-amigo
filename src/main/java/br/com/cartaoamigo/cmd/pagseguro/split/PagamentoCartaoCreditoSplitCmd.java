@@ -79,6 +79,7 @@ public class PagamentoCartaoCreditoSplitCmd {
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
 	@Autowired private ValidarDadosCartaoCRPagSeguroRule validarDadosCartaoCRPagSeguroRule;
 	
+	
 	public RetornoSplitPagamentoTO realizarCheckoutTransparente(CheckoutTransparenteCartaoCreditoTO checkoutPagamentoTO) {
 		try {
 			PagamentoCheckoutTransparenteCartaoCreditoTO pagamentoCheckoutTransparenteCartaoCreditoTO = new PagamentoCheckoutTransparenteCartaoCreditoTO();
@@ -235,27 +236,21 @@ public class PagamentoCartaoCreditoSplitCmd {
 			
 			
 			RetornoSplitPagamentoCartaoCreditoTO retornoPagSeguroTO = null;
-			try {
-				if(voucher.isPresent() && voucher.get().getPorcentagem() >= 100) {
-					retornoPagSeguroTO = new RetornoSplitPagamentoCartaoCreditoTO();
-					retornoPagSeguroTO.setCode           (voucher.get().getId().toString());
-					retornoPagSeguroTO.setPaymentMethod  (new PaymentMethodSplitTO());
-					retornoPagSeguroTO.setStatus         ("3");					
-					retornoPagSeguroTO.setPrimaryReceiver(new PrimaryReceiverTO());
-					
-					salvarValidadeCartaoCmd.incrementarValidade(comprador.get().getId(), tipoPlano.get().getQuantidadeParcelas().intValue());
-					
-				} else {
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// Realiza a chamada do endpoint de pagamento do PAGSEGURO
-					retornoPagSeguroTO = service.realizarPagamentoCheckoutTransparente(pagamentoCheckoutTransparenteCartaoCreditoTO);
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				}				
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				throw new PagSeguroException("Não foi possível concluir o pagamento, por favor verifique os dados do seu cartão.");
-			}
-			
+			if(voucher.isPresent() && voucher.get().getPorcentagem() >= 100) {
+				retornoPagSeguroTO = new RetornoSplitPagamentoCartaoCreditoTO();
+				retornoPagSeguroTO.setCode           (voucher.get().getId().toString());
+				retornoPagSeguroTO.setPaymentMethod  (new PaymentMethodSplitTO());
+				retornoPagSeguroTO.setStatus         ("3");					
+				retornoPagSeguroTO.setPrimaryReceiver(new PrimaryReceiverTO());
+				
+				salvarValidadeCartaoCmd.incrementarValidade(comprador.get().getId(), tipoPlano.get().getQuantidadeParcelas().intValue());
+				
+			} else {
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// Realiza a chamada do endpoint de pagamento do PAGSEGURO
+				retornoPagSeguroTO = service.realizarPagamentoCheckoutTransparente(pagamentoCheckoutTransparenteCartaoCreditoTO);
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			}				
 			
 			historicoPagamentoTO.setId                             (null);
 			historicoPagamentoTO.setDtPagamentoPlanoContratado     (LocalDateTime.now());

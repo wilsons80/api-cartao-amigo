@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
@@ -20,7 +21,7 @@ public class HandleExceptionCmd {
 	@Autowired
 	private LogErroRepository logErroDAO;
 
-	@Autowired
+	@Inject
 	private GetUsuarioLogadoCmd getUsuarioLogadoCmd;
 
 	@Transactional(value = TxType.REQUIRES_NEW)
@@ -28,7 +29,12 @@ public class HandleExceptionCmd {
 		LogErro logErro = new LogErro();
 		logErro.setDataRegistro(LocalDateTime.now());
 		logErro.setMensagemErro(getStackTraceAsString(throwable));
-		logErro.setLogin(getUsuarioLogadoCmd.getUsuarioLogado().getUsername());
+		
+		try {
+			logErro.setLogin(getUsuarioLogadoCmd.getUsuarioLogado().getUsername());
+		} catch (Exception e) {
+			logErro.setLogin("aplicacao");
+		}
 
 		logErroDAO.save(logErro);
 

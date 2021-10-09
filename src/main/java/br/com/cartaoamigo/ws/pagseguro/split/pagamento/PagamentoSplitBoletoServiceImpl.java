@@ -1,5 +1,7 @@
 package br.com.cartaoamigo.ws.pagseguro.split.pagamento;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import br.com.cartaoamigo.ws.pagseguro.to.RetornoSplitPagamentoBoletoTO;
 
 @Component
 public class PagamentoSplitBoletoServiceImpl implements PagamentoSplitBoletoService{
+	private static final Logger LOGGER=LoggerFactory.getLogger(PagamentoSplitBoletoServiceImpl.class);
 	
 	@Value("${pagseguro.email}")                        private String emailPagSeguro;
 	@Value("${pagseguro.split.urlNotificationURL}")     private String notificationURL;
@@ -69,7 +72,7 @@ public class PagamentoSplitBoletoServiceImpl implements PagamentoSplitBoletoServ
 			map.add("sender.CPF"                    , param.getCpfComprador());
 			map.add("sender.areaCode"               , param.getCodAreaComprador()); //DDD
 			map.add("sender.phone"                  , param.getTelefoneComprador()); //TELEFONE
-			map.add("sender.email"                  , param.getEmailComprador());
+			map.add("sender.email"                  , param.getEmailComprador().toLowerCase());
 			
 			//Identificador do comprador (fingerprint) gerado pelo JavaScript do PagSeguro.
 			map.add("sender.hash"                   , param.getSenderHash());
@@ -96,7 +99,7 @@ public class PagamentoSplitBoletoServiceImpl implements PagamentoSplitBoletoServ
 		map.add("billingAddress.country"         , "BRA");
 		
 
-		
+		LOGGER.info(">>>>> Dados pagamento: " + map.toString());
 		return httpRestUtil.postFormPagSeguro(pagSeguroProvider.getUrlCheckoutTransparenteBoleto(), map, RetornoSplitPagamentoBoletoTO.class);
 	}
 

@@ -26,9 +26,6 @@ public class EmailService {
 	
 	@Value("${spring.profiles.active}")
 	private String ambiente;
-	
-	@Value("${pagseguro.email}")
-	private String endereco_email;
 		
 	@Autowired
 	private MailSender mailSender;
@@ -54,7 +51,7 @@ public class EmailService {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		
 		if(isAmbienteDesenvolvimento()) {
-			sm.setTo(endereco_email);
+			sm.setTo("wilsons80@gmail.com");
 		} else {
 			//Destinatário do email
 			sm.setTo(envioEmailTO.getPessoaFisica().getEmail());
@@ -91,7 +88,7 @@ public class EmailService {
 		
 		//Destinatário do email
 		if(isAmbienteDesenvolvimento()) {
-			helper.setTo(endereco_email);
+			helper.setTo("wilsons80@gmail.com");
 		} else {
 			helper.setTo(envioEmailTO.getPessoaFisica().getEmail());
 		}
