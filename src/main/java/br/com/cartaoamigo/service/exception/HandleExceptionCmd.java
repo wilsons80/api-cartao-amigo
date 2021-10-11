@@ -33,7 +33,7 @@ public class HandleExceptionCmd {
 		try {
 			logErro.setLogin(getUsuarioLogadoCmd.getUsuarioLogado().getUsername());
 		} catch (Exception e) {
-			logErro.setLogin("aplicacao");
+			logErro.setLogin("site");
 		}
 
 		logErroDAO.save(logErro);
