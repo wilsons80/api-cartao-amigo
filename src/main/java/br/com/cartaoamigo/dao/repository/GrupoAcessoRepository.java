@@ -31,6 +31,11 @@ public interface GrupoAcessoRepository extends JpaRepository<GrupoAcesso, Long>{
 			+ "   and ga.visivel = true                                                             ")
 	Optional<GrupoAcesso> findByNome(String nome);
 	
+
+	@Query("select ga from GrupoAcesso ga "
+			+ " where ga.nomeGrupoAcesso = 'CLINICAS'")
+	Optional<GrupoAcesso> findGruposClinicas();
+
 	
 	@Query("select ga from GrupoAcesso ga "
 			+ " where ga.nomeGrupoAcesso = 'GP_ASSOCIADO_TITULAR'")

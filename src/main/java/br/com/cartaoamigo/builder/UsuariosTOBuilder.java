@@ -85,7 +85,7 @@ public class UsuariosTOBuilder {
 			}
 		}
 		
-		List<PerfilAcessoUsuarioTO> gruposAcesso = getPerfilAcessoUsuarioCmd.getAllByUsuario(p.getId());
+		List<PerfilAcessoUsuarioTO> gruposAcesso = getPerfilAcessoUsuarioCmd.getAllTOByUsuario(p.getId());
 		retorno.setGruposAcesso(gruposAcesso);
 		
 		return retorno;
