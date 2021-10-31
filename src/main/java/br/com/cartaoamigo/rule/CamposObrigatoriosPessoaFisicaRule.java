@@ -21,7 +21,7 @@ public class CamposObrigatoriosPessoaFisicaRule {
 		}
 		
 		if(!to.getNome().contains(" ")) {
-			throw new CamposObrigatoriosException("Informe nome e sobrenome.");
+			throw new CamposObrigatoriosException("Informe o nome completo.");
 		}
 		
 		if(StringUtils.isEmpty(to.getEmail())) {
