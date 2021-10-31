@@ -15,6 +15,7 @@ import br.com.cartaoamigo.exception.NotFoundException;
 import br.com.cartaoamigo.exception.PessoaFisicaJaExisteException;
 import br.com.cartaoamigo.infra.util.NumeroUtil;
 import br.com.cartaoamigo.rule.CampoObrigatorioTitularRule;
+import br.com.cartaoamigo.rule.CamposObrigatoriosPessoaFisicaRule;
 import br.com.cartaoamigo.rule.DependenteLimitadorRule;
 import br.com.cartaoamigo.to.TitularTO;
 
@@ -28,10 +29,12 @@ public class AlterarTitularCmd {
 	@Autowired private AlterarListaDependentesCmd alterarListaDependentesCmd;
 	@Autowired private PessoaFisicaTOBuilder pessoaFisicaTOBuilder;
 	@Autowired private PessoaFisicaRepository pessoaFisicaRepository;
+	@Autowired private CamposObrigatoriosPessoaFisicaRule camposObrigatoriosPessoaFisicaRule;
 
 	public TitularTO alterar(TitularTO titularTO) {
 		rule.verificar(titularTO);
 		dependenteLimitadorRule.validar(titularTO.getDependentes());
+		camposObrigatoriosPessoaFisicaRule.verificar(titularTO.getPessoaFisica());
 		
 		Optional<Titular> email = repository.findByEmailOutroCpf(titularTO.getPessoaFisica().getEmail().toUpperCase(), NumeroUtil.somenteNumeros(titularTO.getPessoaFisica().getCpf()));
 		if(email.isPresent()) {

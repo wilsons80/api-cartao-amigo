@@ -20,6 +20,10 @@ public class CamposObrigatoriosPessoaFisicaRule {
 			throw new CamposObrigatoriosException("Nome deve ser informado.");
 		}
 		
+		if(!to.getNome().contains(" ")) {
+			throw new CamposObrigatoriosException("Informe nome e sobrenome.");
+		}
+		
 		if(StringUtils.isEmpty(to.getEmail())) {
 			throw new CamposObrigatoriosException("O E-mail deve ser informado.");
 		}
