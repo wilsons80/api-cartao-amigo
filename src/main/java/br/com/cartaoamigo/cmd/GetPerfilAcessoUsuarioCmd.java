@@ -20,12 +20,12 @@ public class GetPerfilAcessoUsuarioCmd {
 	@Autowired private GetUsuarioLogadoCmd getUsuarioLogadoCmd;
 
 	public List<PerfilAcessoUsuarioTO> getAllByUsuarioLogado() {
-		return getAllByUsuario(getUsuarioLogadoCmd.getUsuarioLogado().getIdUsuario());
+		return getAllTOByUsuario(getUsuarioLogadoCmd.getUsuarioLogado().getIdUsuario());
 	}
 
 	
-	public List<PerfilAcessoUsuarioTO> getAllByUsuario(Long idUsuario) {
-		Optional<List<PerfilAcessoUsuario>> entitys = perfilAcessoRepository.findAllComAcessoByUsuario(idUsuario);
+	public List<PerfilAcessoUsuarioTO> getAllTOByUsuario(Long idUsuario) {
+		Optional<List<PerfilAcessoUsuario>> entitys = getAllByUsuario(idUsuario);
 		if (!entitys.isPresent()) {
 			return new ArrayList<PerfilAcessoUsuarioTO>();
 		}
@@ -33,5 +33,8 @@ public class GetPerfilAcessoUsuarioCmd {
 	}
 	
 
-
+	public Optional<List<PerfilAcessoUsuario>> getAllByUsuario(Long idUsuario) {
+		Optional<List<PerfilAcessoUsuario>> entitys = perfilAcessoRepository.findAllComAcessoByUsuario(idUsuario);
+		return entitys;
+	}
 }

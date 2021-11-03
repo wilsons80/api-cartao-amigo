@@ -74,7 +74,7 @@ public class GetUsuarioDao extends BaseDao {
 		sql.append("		inner join tipo_acesso_usuarios tau on tau.id_usuario =  u.id_usuario        ");
 		sql.append("		inner join tipo_usuario tu on tu.id_tipo_usuario = tau.id_tipo_usuario       ");
 		sql.append("		WHERE 1 = 1                                                                  ");
-		sql.append("		  and tu.id_tipo_usuario in(3,4,5)                                             ");
+		sql.append("		  and tu.id_tipo_usuario in(3,4,5)                                           ");
 		
 		if(Objects.nonNull(idUsuario)) {
 			sql.append("  and :p_usuario = u.id_usuario  ");

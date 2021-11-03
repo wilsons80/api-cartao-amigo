@@ -40,6 +40,12 @@ public class GetGrupoAcessoCmd {
 		return builder(entity);
 	}
 
+	public GrupoAcessoTO getGrupoClinica() {
+		Optional<GrupoAcesso> entity = repository.findGruposClinicas();
+		return builder(entity);
+	}
+
+	
 	public GrupoAcessoTO getGrupoAssociadoTitular() {
 		Optional<GrupoAcesso> entity = repository.findGruposAssociadoTitular();
 		return builder(entity);

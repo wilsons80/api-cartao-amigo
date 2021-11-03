@@ -42,7 +42,7 @@ public class PerfilAcessoUsuarioService {
 	
 	@GetMapping(path = "/gruposacesso/usuario/{idUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PerfilAcessoUsuarioTO> getAllByUsuario(@PathVariable(name = "idUsuario") Long idUsuario) {
-		return getPerfilAcessoUsuarioCmd.getAllByUsuario(idUsuario);
+		return getPerfilAcessoUsuarioCmd.getAllTOByUsuario(idUsuario);
 	}
 	
 	@GetMapping(path = "/logado", produces = MediaType.APPLICATION_JSON_VALUE)

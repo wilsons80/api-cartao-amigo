@@ -37,7 +37,7 @@ public class GetModulosCmd {
 			idsModulosPai.addAll(Arrays.asList(2L,3L,4L, 20L));
 		}
 		if(getUsuarioLogadoCmd.getTipoUsuarioLogado().getTipo().equals(TipoUsuarioSistema.ADMINISTRATIVO.getTipo()) ) {
-			idsModulosPai.addAll(Arrays.asList(3L,4L));
+			idsModulosPai.addAll(Arrays.asList(3L,4L,20L));
 		}
 		if(getUsuarioLogadoCmd.getTipoUsuarioLogado().getTipo().equals(TipoUsuarioSistema.CLINICA.getTipo()) ) {
 			idsModulosPai.addAll(Arrays.asList(20L));
