@@ -15,6 +15,10 @@ public class CamposObrigatoriosUsuariosRule {
 		if(StringUtils.isEmpty(to.getUsername())) {
 			throw new CamposObrigatoriosException("Login/CPF deve ser informado.");
 		}
+		
+		if(to.getUsername().length() > 45) {
+			throw new CamposObrigatoriosException("O login deve ter no máximo 45 caracteres.");
+		}
 
 		if (Objects.isNull(to.getSenha())) {
 			throw new CamposObrigatoriosException("Senha deve ser informada.");
