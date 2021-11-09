@@ -17,6 +17,7 @@ import br.com.cartaoamigo.enums.TipoUsuarioSistema;
 import br.com.cartaoamigo.exception.NotFoundException;
 import br.com.cartaoamigo.rule.CamposObrigatoriosUsuariosRule;
 import br.com.cartaoamigo.rule.EmailJaCadastradoRule;
+import br.com.cartaoamigo.rule.ValidarUsuarioDuplicadoRule;
 import br.com.cartaoamigo.security.CustomPasswordEncoder;
 import br.com.cartaoamigo.to.UsuariosTO;
 
@@ -32,10 +33,11 @@ public class AlterarUsuarioCmd {
 	@Autowired private GetUsuarioCmd getCmd;
 	@Autowired private EmailJaCadastradoRule emailJaCadastradoRule;
 	@Autowired private TipoAcessoUsuarioRepository tipoAcessoUsuarioRepository;
-	
+	@Autowired private ValidarUsuarioDuplicadoRule validarUsuarioDuplicadoRule ;
 	
 	public UsuariosTO alterar(UsuariosTO to) {
 		camposObrigatoriosRule.verificar(to);
+		validarUsuarioDuplicadoRule.validar(to.getUsername());
 		
 		Usuarios usuarioSistema = repository.findById(to.getId()).orElseThrow((() -> new NotFoundException("Usuário informado não existe.")));
 		
