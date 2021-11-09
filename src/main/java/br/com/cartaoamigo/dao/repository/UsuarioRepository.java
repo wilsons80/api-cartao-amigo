@@ -24,8 +24,9 @@ public interface UsuarioRepository extends JpaRepository<Usuarios, Long>{
 	
 	@Query(value = "SELECT u FROM Usuarios u                      "
 			+ " inner join PessoaFisica pf on pf = u.pessoaFisica "
-			+ " where Upper(u.username) = Upper(?1)               ")
-	public Optional<List<Usuarios>> findDuplicateByUsernameUsuario(String username);
+			+ " where Upper(u.username) = Upper(?2)               "
+			+ "   and u.id != ?1                                   ")
+	public Optional<Usuarios> findDuplicateByUsernameUsuario(Long idUsuario, String username);
 	
 	@Query(value = "SELECT u FROM Usuarios u                           "
 			+ " inner join TipoAcessoUsuario ta on ta.idUsuario = u.id "

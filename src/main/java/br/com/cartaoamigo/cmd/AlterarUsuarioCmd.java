@@ -37,7 +37,7 @@ public class AlterarUsuarioCmd {
 	
 	public UsuariosTO alterar(UsuariosTO to) {
 		camposObrigatoriosRule.verificar(to);
-		validarUsuarioDuplicadoRule.validar(to.getUsername());
+		validarUsuarioDuplicadoRule.validar(to.getId(), to.getUsername());
 		
 		Usuarios usuarioSistema = repository.findById(to.getId()).orElseThrow((() -> new NotFoundException("Usuário informado não existe.")));
 		

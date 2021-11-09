@@ -1,6 +1,5 @@
 package br.com.cartaoamigo.rule;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,9 @@ public class ValidarUsuarioDuplicadoRule {
 
 	@Autowired private UsuarioRepository repository;
 	
-	public void validar(String username) {
-		Optional<List<Usuarios>> duplicateUsuario = repository.findDuplicateByUsernameUsuario(username);
-		if(duplicateUsuario.isPresent() && duplicateUsuario.get().size() > 1) {
+	public void validar(Long idUsuario, String username) {
+		Optional<Usuarios> duplicateUsuario = repository.findDuplicateByUsernameUsuario(idUsuario, username);
+		if(duplicateUsuario.isPresent()) {
 			throw new UsuarioDuplicadoException("Já existe um usuário com esse login, mude e tente novamente.");
 		}
 	}
