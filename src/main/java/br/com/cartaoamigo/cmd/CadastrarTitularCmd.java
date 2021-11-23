@@ -3,6 +3,7 @@ package br.com.cartaoamigo.cmd;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,7 @@ import br.com.cartaoamigo.exception.TitularJaExisteException;
 import br.com.cartaoamigo.infra.util.NumeroUtil;
 import br.com.cartaoamigo.rule.CamposObrigatoriosPessoaFisicaRule;
 import br.com.cartaoamigo.rule.DependenteLimitadorRule;
+import br.com.cartaoamigo.rule.ValidarDependentesCPFDuplicadosRule;
 import br.com.cartaoamigo.rule.ValidarSenhaInformadaRule;
 import br.com.cartaoamigo.to.CartaoTO;
 import br.com.cartaoamigo.to.EnvioEmailTO;
@@ -57,12 +59,17 @@ public class CadastrarTitularCmd {
 	@Autowired private DependentesTitularRepository dependentesTitularRepository;
 	@Autowired private ExcluirUsuarioCmd excluirUsuarioCmd;
 	@Autowired private UsuarioRepository usuarioRepository;
+	@Autowired private ValidarDependentesCPFDuplicadosRule validarDependentesCPFDuplicadosRule;
+	
 	
 	public TitularTO cadastrar(TitularTO to) {
 		try {
 			dependenteLimitadorRule.validar(to.getDependentes());
 			pessoaFisicaRule.verificar(to.getPessoaFisica());
 			validarSenhaInformadaRule.validar(to.getSenha(), to.getSenhaConfirmada());
+			
+			List<String> listaCPFs = to.getDependentes().stream().map(d -> d.getPessoaFisica()).map(p -> p.getCpf()).collect(Collectors.toList());
+			validarDependentesCPFDuplicadosRule.validar(listaCPFs);
 			
 			Optional<Titular> jaExisteTitular = titularRepository.findByCPF(to.getPessoaFisica().getCpf());
 			if(jaExisteTitular.isPresent()) {

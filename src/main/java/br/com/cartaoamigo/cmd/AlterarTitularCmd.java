@@ -1,6 +1,8 @@
 package br.com.cartaoamigo.cmd;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import br.com.cartaoamigo.infra.util.NumeroUtil;
 import br.com.cartaoamigo.rule.CampoObrigatorioTitularRule;
 import br.com.cartaoamigo.rule.CamposObrigatoriosPessoaFisicaRule;
 import br.com.cartaoamigo.rule.DependenteLimitadorRule;
+import br.com.cartaoamigo.rule.ValidarDependentesCPFDuplicadosRule;
 import br.com.cartaoamigo.to.TitularTO;
 
 @Component
@@ -30,11 +33,15 @@ public class AlterarTitularCmd {
 	@Autowired private PessoaFisicaTOBuilder pessoaFisicaTOBuilder;
 	@Autowired private PessoaFisicaRepository pessoaFisicaRepository;
 	@Autowired private CamposObrigatoriosPessoaFisicaRule camposObrigatoriosPessoaFisicaRule;
-
+	@Autowired private ValidarDependentesCPFDuplicadosRule validarDependentesCPFDuplicadosRule;
+	
 	public TitularTO alterar(TitularTO titularTO) {
 		rule.verificar(titularTO);
 		dependenteLimitadorRule.validar(titularTO.getDependentes());
 		camposObrigatoriosPessoaFisicaRule.verificar(titularTO.getPessoaFisica());
+		
+		List<String> listaCPFs = titularTO.getDependentes().stream().map(d -> d.getPessoaFisica()).map(p -> p.getCpf()).collect(Collectors.toList());
+		validarDependentesCPFDuplicadosRule.validar(listaCPFs);
 		
 		Optional<Titular> email = repository.findByEmailOutroCpf(titularTO.getPessoaFisica().getEmail().toUpperCase(), NumeroUtil.somenteNumeros(titularTO.getPessoaFisica().getCpf()));
 		if(email.isPresent()) {
@@ -53,5 +60,6 @@ public class AlterarTitularCmd {
 		
 		return toBuilder.buildTO(repository.findById(entity.getId()).get());
 	}
+	
 
 }
