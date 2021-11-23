@@ -1,6 +1,5 @@
 package br.com.cartaoamigo.cmd;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -53,14 +52,7 @@ public class AlterarUsuarioCmd {
 		
 		emailJaCadastradoRule.verificar(pessoaFisica.getEmail(), pessoaFisica.getId());
 			
-		if(to.getStTrocaSenha()) {
-			String novaSenhaEncode = customPasswordEncoder.encode( Objects.nonNull(to.getPessoaFisica().getCpf()) ? to.getPessoaFisica().getCpf().toString() : "123");
-			usuarioSistema.setSenha( novaSenhaEncode );
-			usuarioSistema.setQtdAcessoNegado(0L);
-		}
-		
 		Usuarios usuarioSalvo = repository.save(usuarioSistema);
-		
 		
 		Optional<TipoAcessoUsuario> tipoAcessoUsuario = tipoAcessoUsuarioRepository.findByUsuario(usuarioSalvo.getId());
 		if(tipoAcessoUsuario.isPresent()) {
