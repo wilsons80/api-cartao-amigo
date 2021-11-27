@@ -3,6 +3,8 @@ package br.com.cartaoamigo.security;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.infra.constantes.SecurityContantes;
@@ -22,11 +24,15 @@ public class JwtManager {
 			username = username.substring(0, username.indexOf("@@"));
 		}
 		
+		String key = SecurityContantes.API_KEY;
+		String base64Key = DatatypeConverter.printBase64Binary(key.getBytes());
+		byte[] secretBytes = DatatypeConverter.parseBase64Binary(base64Key);
+		
 		JwtBuilder token = Jwts.builder()
   							   .setSubject(username)
 							   .claim(SecurityContantes.JWT_ROLE_KEY, roles)
 							   .setIssuedAt(new Date())
-							   .signWith(SignatureAlgorithm.HS512, SecurityContantes.API_KEY.getBytes());
+							   .signWith(SignatureAlgorithm.HS512, secretBytes);
 				 
 		/*
 		Integer minutes = getTimeTokenExpiredCmd.getTimeExpieredToken();
