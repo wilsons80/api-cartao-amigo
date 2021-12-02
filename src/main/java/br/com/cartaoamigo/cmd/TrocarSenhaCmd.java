@@ -29,8 +29,7 @@ public class TrocarSenhaCmd {
 			throw new NotFoundException("Problema ao recuperar o usuário logado.");
 		}
 		
-		String usernameSemIDSESSION = authentication.getName().substring(0, authentication.getName().indexOf("@@"));
-		Usuarios usuario = getUsuarioCmd.get(usernameSemIDSESSION);
+		Usuarios usuario = getUsuarioCmd.get(authentication.getName());
 		
 		validarTrocaSenhaRule.validar(usuario.getSenha(), trocaSenhaTO.getSenhaAtual(), trocaSenhaTO.getSenhaNova());
 		

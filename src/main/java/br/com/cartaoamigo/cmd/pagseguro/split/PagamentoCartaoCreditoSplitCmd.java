@@ -190,7 +190,7 @@ public class PagamentoCartaoCreditoSplitCmd {
 		pagamentoCheckoutTransparenteCartaoCreditoTO.setCidadeCobranca     (comprador.get().getCidade());
 		pagamentoCheckoutTransparenteCartaoCreditoTO.setEnderecoCobranca   (comprador.get().getEndereco());
 		pagamentoCheckoutTransparenteCartaoCreditoTO.setNumeroCobranca     (comprador.get().getNumeroEndereco());
-		pagamentoCheckoutTransparenteCartaoCreditoTO.setComplementoCobranca("");
+		pagamentoCheckoutTransparenteCartaoCreditoTO.setComplementoCobranca(comprador.get().getComplemento());
 		pagamentoCheckoutTransparenteCartaoCreditoTO.setDistritoCobranca   (comprador.get().getBairro());
 		pagamentoCheckoutTransparenteCartaoCreditoTO.setCodPostalCobranca  (comprador.get().getCep().toString());
 		pagamentoCheckoutTransparenteCartaoCreditoTO.setEstadoCobranca     (comprador.get().getUf());
@@ -246,7 +246,7 @@ public class PagamentoCartaoCreditoSplitCmd {
 			retornoPagSeguroTO.setStatus         ("3");					
 			retornoPagSeguroTO.setPrimaryReceiver(new PrimaryReceiverTO());
 			
-			salvarValidadeCartaoCmd.incrementarValidade(comprador.get().getId(), tipoPlano.get().getQuantidadeParcelas().intValue());
+			salvarValidadeCartaoCmd.incrementarValidade(comprador.get().getId(), tipoPlano.get().getQuantidadeDiasVigencia().intValue());
 			
 		} else {
 			

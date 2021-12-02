@@ -193,7 +193,7 @@ public class PagamentoBoletoSplitCmd {
 			retornoPagSeguroTO.setStatus("3");					
 			retornoPagSeguroTO.setPrimaryReceiver(new PrimaryReceiverTO());
 			
-			salvarValidadeCartaoCmd.incrementarValidade(pessoaFisicaComprador.get().getId(), tipoPlano.get().getQuantidadeParcelas().intValue());
+			salvarValidadeCartaoCmd.incrementarValidade(pessoaFisicaComprador.get().getId(), tipoPlano.get().getQuantidadeDiasVigencia().intValue());
 			
 		} else {
 			try {

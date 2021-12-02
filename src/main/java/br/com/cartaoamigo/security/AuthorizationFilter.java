@@ -38,8 +38,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String jwt              = request.getHeader(HttpHeaders.AUTHORIZATION);
-		String idsessionusuario = request.getHeader(SecurityContantes.IDSESSIONUSUARIO);
+		String jwt = request.getHeader(HttpHeaders.AUTHORIZATION);
 		
 		try {
 			if(jwt == null || !jwt.startsWith(SecurityContantes.JWT_PROVIDER)) {
@@ -66,7 +65,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 					grantedAuthorities.add(new SimpleGrantedAuthority(role));
 				});
 				
-				Authentication authentication = new UsernamePasswordAuthenticationToken(username +"@@"+idsessionusuario, null, grantedAuthorities);
+				Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, grantedAuthorities);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
 			

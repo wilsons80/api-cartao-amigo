@@ -50,19 +50,18 @@ public class SaveUsuarioLogadoCmd {
 	
 	
 	private UsuarioLogadoTO montarUsuarioLogado(String username, Collection<? extends GrantedAuthority> authorities) {
-		String usernameSemIDSESSION = username.substring(0, username.indexOf("@@"));
-		String jwt = createTokenJwtCmd.createToken(usernameSemIDSESSION, authorities);
+		String jwt = createTokenJwtCmd.createToken(username, authorities);
 		
 		UsuarioLogadoTO usuarioLogadoTO = UsuarioLocals.get(username);
 		if(usuarioLogadoTO == null) {
 			usuarioLogadoTO = new UsuarioLogadoTO();
 		}
 		
-		Usuarios usuarios = getUsuarioCmd.get(usernameSemIDSESSION);
+		Usuarios usuarios = getUsuarioCmd.get(username);
 		usuarioLogadoTO.setIdUsuario(usuarios.getId());
 		usuarioLogadoTO.setToken(jwt);
 		usuarioLogadoTO.setNomeUsuario(usuarios.getPessoaFisica().getNome());
-		usuarioLogadoTO.setUsername(usernameSemIDSESSION);
+		usuarioLogadoTO.setUsername(username);
 		usuarioLogadoTO.setTrocarSenha(usuarios.getStTrocaSenha());
 		usuarioLogadoTO.setIdPessoaFisica(usuarios.getPessoaFisica().getId());
 		usuarioLogadoTO.setEmail(usuarios.getPessoaFisica().getEmail());

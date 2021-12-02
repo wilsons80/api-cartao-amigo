@@ -90,7 +90,7 @@ public class SalvarNotificacaoTransacaoCmd {
 			
 			if(isTransacaoAprovada(notificacaoGateWay.getStatus().getCodigoTransacao()) ) {
 				
-				salvarValidadeCartaoCmd.incrementarValidade(pagamento.getTitular().getPessoaFisica().getId(), historicoPagamentoTO.getTipoPlano().getQuantidadeParcelas().intValue());
+				salvarValidadeCartaoCmd.incrementarValidade(pagamento.getTitular().getPessoaFisica().getId(), historicoPagamentoTO.getTipoPlano().getQuantidadeDiasVigencia().intValue());
 				
 				/////////////////////////////////////////////////////////////////////////////////
 				//Enviar email de pagamento >>> 3: Pago - 4: Disponível
@@ -112,12 +112,12 @@ public class SalvarNotificacaoTransacaoCmd {
 
 	private boolean isTransacaoAprovada(Long codigoTransacao) {
 		//3: Pago - 4: Disponível
-		return codigoTransacao == 3L || codigoTransacao == 4L;
+		return codigoTransacao.equals(3L) || codigoTransacao.equals(4L);
 	}
 	
 	private boolean isTransacaoNaoAprovada(Long codigoTransacao) {
 		//3: Pago - 4: Disponível
-		return codigoTransacao != 3L && codigoTransacao != 4L;
+		return !codigoTransacao.equals(3L) && !codigoTransacao.equals(4L);
 	}
 
 	

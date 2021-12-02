@@ -36,7 +36,7 @@ public class AutenticadorCmd {
 				user.setLogin(loginCPF);
 			}
 			
-			UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(user.getLogin().toLowerCase()+"@@"+user.getIdsession() ,user.getSenha());
+			UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(user.getLogin().toLowerCase() ,user.getSenha());
 			Authentication auth = authManager.authenticate(userAuth);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 			

@@ -1,13 +1,18 @@
 package br.com.cartaoamigo.security;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.com.cartaoamigo.cmd.GetTimeTokenExpiredCmd;
 import br.com.cartaoamigo.infra.constantes.SecurityContantes;
+import br.com.cartaoamigo.infra.util.Java8DateUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtException;
@@ -17,13 +22,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtManager {
 	
-	// @Autowired private GetTimeTokenExpiredCmd getTimeTokenExpiredCmd;
+	@Autowired private GetTimeTokenExpiredCmd getTimeTokenExpiredCmd;
 
 	public String createToken(String username, List<String> roles) {
-		if(username.contains("@@")) {
-			username = username.substring(0, username.indexOf("@@"));
-		}
-		
 		String key = SecurityContantes.API_KEY;
 		String base64Key = DatatypeConverter.printBase64Binary(key.getBytes());
 		byte[] secretBytes = DatatypeConverter.parseBase64Binary(base64Key);
@@ -33,14 +34,12 @@ public class JwtManager {
 							   .claim(SecurityContantes.JWT_ROLE_KEY, roles)
 							   .setIssuedAt(new Date())
 							   .signWith(SignatureAlgorithm.HS512, secretBytes);
-				 
-		/*
+		
 		Integer minutes = getTimeTokenExpiredCmd.getTimeExpieredToken();
 		if( Objects.nonNull(minutes)  && minutes > 0 ) {
 			LocalDateTime expired = LocalDateTime.now().plusMinutes(minutes);
 			token.setExpiration(Java8DateUtil.getDate(expired));
 		}
-		*/
 		
 		return token.compact();
 	}

@@ -12,7 +12,8 @@ import br.com.cartaoamigo.entity.Usuarios;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuarios, Long>{
 	
-	
+	@Query(value = "SELECT u FROM Usuarios u                      "
+			+ " where Upper(u.username) = Upper(?1)               ")
 	public Optional<Usuarios> findByUsername(String username);
 
 	

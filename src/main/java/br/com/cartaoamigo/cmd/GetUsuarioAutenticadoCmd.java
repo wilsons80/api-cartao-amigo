@@ -37,9 +37,7 @@ public class GetUsuarioAutenticadoCmd implements UserDetailsService{
 		User userSpring = null;
 		Optional<Usuarios> usuario = null;
 		
-		String loginSemIDSESSION = login.substring(0, login.indexOf("@@"));
-				
-		String loginCPF = NumeroUtil.somenteNumeros(loginSemIDSESSION);
+		String loginCPF = NumeroUtil.somenteNumeros(login);
 		
 		// Valida se o acesso é por CPF
 		if(NumeroUtil.isNumero(loginCPF) && loginCPF.length() == 11) {			
@@ -47,7 +45,7 @@ public class GetUsuarioAutenticadoCmd implements UserDetailsService{
 			if(!CPF_CNPJ_Util.isCPF(username)) {throw new CpfInvalidoException("O login informado está inválido.");}			
 			usuario = usuarioRepository.findByUsernameUsuario(username);
 		} else {
-			usuario = usuarioRepository.findByUsername(loginSemIDSESSION);
+			usuario = usuarioRepository.findByUsername(login);
 		}
 
 		if(!usuario.isPresent()) throw new UsernameNotFoundException("Usuário não existe.");
