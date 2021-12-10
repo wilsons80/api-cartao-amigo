@@ -21,6 +21,7 @@ public class PagamentoSplitBoletoServiceImpl implements PagamentoSplitBoletoServ
 	@Value("${pagseguro.email}")                        private String emailPagSeguro;
 	@Value("${pagseguro.split.urlNotificationURL}")     private String notificationURL;
 	@Value("${pagseguro.ambiente}")                     private String pagseguroAmbiente;
+	@Value("${pagseguro.split.aplicacao.appKey}")       private String appKey;
 	
 	@Autowired private PagSeguroSplitProvider pagSeguroProvider ;
 	@Autowired private HttpRestUtil httpRestUtil;
@@ -98,6 +99,7 @@ public class PagamentoSplitBoletoServiceImpl implements PagamentoSplitBoletoServ
 		map.add("billingAddress.state"           , param.getEstadoCobranca());
 		map.add("billingAddress.country"         , "BRA");
 		
+		map.add("primaryReceiver.publicKey"      , appKey);
 
 		LOGGER.info(">>>>> Dados pagamento: " + map.toString());
 		return httpRestUtil.postFormPagSeguro(pagSeguroProvider.getUrlCheckoutTransparenteBoleto(), map, RetornoSplitPagamentoBoletoTO.class);

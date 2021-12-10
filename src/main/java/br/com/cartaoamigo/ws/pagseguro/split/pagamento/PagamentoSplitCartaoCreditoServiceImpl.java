@@ -18,6 +18,7 @@ public class PagamentoSplitCartaoCreditoServiceImpl implements PagamentoSplitCar
 	@Value("${pagseguro.email}")                        private String emailPagSeguro;
 	@Value("${pagseguro.split.urlNotificationURL}")     private String notificationURL;
 	@Value("${pagseguro.ambiente}")                     private String pagseguroAmbiente;
+	@Value("${pagseguro.split.aplicacao.appKey}")       private String appKey;
 	
 	
 	@Autowired private PagSeguroSplitProvider pagSeguroProvider ;
@@ -114,6 +115,7 @@ public class PagamentoSplitCartaoCreditoServiceImpl implements PagamentoSplitCar
 		map.add("billingAddress.state"           , param.getEstadoCobranca().toUpperCase());
 		map.add("billingAddress.country"         , "BRA");
 
+		map.add("primaryReceiver.publicKey"      , appKey);		
 		
 		return httpRestUtil.postFormPagSeguro(pagSeguroProvider.getUrlCheckoutTransparenteCR(), map, RetornoSplitPagamentoCartaoCreditoTO.class);
 	}
