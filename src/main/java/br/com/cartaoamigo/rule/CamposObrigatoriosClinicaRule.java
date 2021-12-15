@@ -14,8 +14,8 @@ public class CamposObrigatoriosClinicaRule {
 			throw new CamposObrigatoriosException("O e-mail deve ser informado.");
 		}
 
-		if(StringUtils.isEmpty(to.getCnpj())) {
-			throw new CamposObrigatoriosException("O cnpj deve ser informado.");
+		if(StringUtils.isEmpty(to.getCnpj()) && StringUtils.isEmpty(to.getCpf())) {
+			throw new CamposObrigatoriosException("Informe o CNPJ ou CPF.");
 		}
 
 	}

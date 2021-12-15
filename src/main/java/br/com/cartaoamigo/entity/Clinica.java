@@ -98,6 +98,9 @@ public class Clinica implements Serializable {
 	@Column(name = "dt_cadastro" )
 	private LocalDateTime dataCadastro;
 	
+	@Column(name = "nr_cpf" )
+	private String cpf;
+	
 	
 	public Clinica() {
 	}
@@ -284,6 +287,14 @@ public class Clinica implements Serializable {
 
 	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	

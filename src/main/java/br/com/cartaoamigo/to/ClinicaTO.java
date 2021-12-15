@@ -26,7 +26,7 @@ public class ClinicaTO {
 	private String numeroEndereco;
 	private String complemento;
 	private LocalDateTime dataCadastro;
-
+	private String cpf;
 	
 	public ClinicaTO() {
 	}
@@ -210,7 +210,13 @@ public class ClinicaTO {
 	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
-	
-	
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
 }
