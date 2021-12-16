@@ -115,8 +115,6 @@ public class PagamentoSplitCartaoCreditoServiceImpl implements PagamentoSplitCar
 		map.add("billingAddress.state"           , param.getEstadoCobranca().toUpperCase());
 		map.add("billingAddress.country"         , "BRA");
 
-		map.add("primaryReceiver.publicKey"      , appKey);		
-		
 		return httpRestUtil.postFormPagSeguro(pagSeguroProvider.getUrlCheckoutTransparenteCR(), map, RetornoSplitPagamentoCartaoCreditoTO.class);
 	}
 

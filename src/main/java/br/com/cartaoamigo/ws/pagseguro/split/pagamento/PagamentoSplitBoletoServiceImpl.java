@@ -99,8 +99,6 @@ public class PagamentoSplitBoletoServiceImpl implements PagamentoSplitBoletoServ
 		map.add("billingAddress.state"           , param.getEstadoCobranca());
 		map.add("billingAddress.country"         , "BRA");
 		
-		map.add("primaryReceiver.publicKey"      , appKey);
-
 		LOGGER.info(">>>>> Dados pagamento: " + map.toString());
 		return httpRestUtil.postFormPagSeguro(pagSeguroProvider.getUrlCheckoutTransparenteBoleto(), map, RetornoSplitPagamentoBoletoTO.class);
 	}
