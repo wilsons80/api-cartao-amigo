@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.ws.HttpRestUtil;
 import br.com.cartaoamigo.ws.pagseguro.split.PagSeguroSplitProvider;
-import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoPagSeguroTO;
+import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 
 
 @Component
@@ -17,12 +17,12 @@ public class ConsultarNotificacaoSplitServiceImpl implements ConsultarNotificaca
 	@Autowired private HttpRestUtil httpRestUtil;
 	
 	@Override
-	public NotificacaoTransacaoPagSeguroTO getNotificacao(String codigoNotificacao) throws Exception {
+	public NotificacaoTransacaoGatewayTO getNotificacao(String codigoNotificacao) throws Exception {
 		String url = pagSeguroProvider.getUrlConsultarNotificacao(codigoNotificacao);
 		
 		HashMap<String, String> parametrosHeader = new HashMap<>();
 
-		return httpRestUtil.getXmlParaObjeto(url, NotificacaoTransacaoPagSeguroTO.class, parametrosHeader);
+		return httpRestUtil.getXmlParaObjeto(url, NotificacaoTransacaoGatewayTO.class, parametrosHeader);
 	}
 
 }

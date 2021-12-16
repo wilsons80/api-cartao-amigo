@@ -229,7 +229,7 @@ public class PagamentoBoletoSplitCmd {
 		}
 		
 		GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo(PAGSEGURO);
-		StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(Long.valueOf(retornoPagSeguroTO.getStatus()), gatewayPagamentoTO.getId());
+		StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(retornoPagSeguroTO.getStatus(), gatewayPagamentoTO.getId());
 
 		historicoPagamentoTO.setStatusTransacao    (statusTO);
 		historicoPagamentoTO.setGatewayPagamento   (gatewayPagamentoTO);

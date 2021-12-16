@@ -1,9 +1,9 @@
 package br.com.cartaoamigo.ws.pagseguro.split.consultarnotificacao;
 
-import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoPagSeguroTO;
+import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 
 public interface ConsultarNotificacaoSplitService {
 	
-	NotificacaoTransacaoPagSeguroTO getNotificacao(String codigoNotificacao) throws Exception;
+	NotificacaoTransacaoGatewayTO getNotificacao(String codigoNotificacao) throws Exception;
 
 }

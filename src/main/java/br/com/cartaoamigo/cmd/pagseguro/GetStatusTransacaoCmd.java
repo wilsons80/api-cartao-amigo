@@ -22,7 +22,7 @@ public class GetStatusTransacaoCmd {
 	}
 
 	
-	public StatusTransacaoGatewayPagamentoTO getByStatusAndGateway(Long codigoTransacao, Long idGateway) {
+	public StatusTransacaoGatewayPagamentoTO getByStatusAndGateway(String codigoTransacao, Long idGateway) {
 		Optional<StatusTransacaoGatewayPagamento> entity = repository.findByStatusAndGateway(codigoTransacao, idGateway);
 		return toBuilder.buildTO(entity.get());
 	}

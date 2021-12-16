@@ -16,6 +16,6 @@ public interface StatusTransacaoGatewayPagamentoRepository extends JpaRepository
 			+ " where 1=1                                               "
 			+ "   and s.codigoTransacao = ?1                            "
 			+ "   and g.id = ?2                                         ")
-	Optional<StatusTransacaoGatewayPagamento> findByStatusAndGateway(Long codigoTransacao, Long idGateway);
+	Optional<StatusTransacaoGatewayPagamento> findByStatusAndGateway(String codigoTransacao, Long idGateway);
 	
 }

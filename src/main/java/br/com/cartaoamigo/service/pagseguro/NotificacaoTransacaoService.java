@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cartaoamigo.cmd.pagseguro.GetNotificacaoTransacaoCmd;
+import br.com.cartaoamigo.cmd.gatewaypagamento.GetNotificacaoTransacaoCmd;
 import br.com.cartaoamigo.cmd.pagseguro.SalvarNotificacaoTransacaoCmd;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
-import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoPagSeguroTO;
+import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 
 @RestController
 @RequestMapping(value = "pagseguro/split/notificacao")
@@ -38,7 +38,7 @@ public class NotificacaoTransacaoService {
 	}
 	
 	@GetMapping(path = "/consultar/notificacao/{codigoNotificacao}", produces = MediaType.APPLICATION_JSON_VALUE )
-	public NotificacaoTransacaoPagSeguroTO getNotificacacao(@PathVariable(name = "codigoNotificacao") String codigoNotificacao) {
+	public NotificacaoTransacaoGatewayTO getNotificacacao(@PathVariable(name = "codigoNotificacao") String codigoNotificacao) {
 		 return getNotificacaoTransacaoCmd.getNotificacaoByPagSeguro(codigoNotificacao);
 	}
 	

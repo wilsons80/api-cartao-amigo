@@ -30,7 +30,7 @@ public class StatusTransacaoGatewayPagamento {
 	private GatewayPagamento gatewayPagamento ;
 	
 	@Column(name = "codigo_transacao")
-	private Long codigoTransacao;
+	private String codigoTransacao;
 
 	public StatusTransacaoGatewayPagamento() {
 	}
@@ -59,11 +59,11 @@ public class StatusTransacaoGatewayPagamento {
 		this.gatewayPagamento = gatewaypagamento;
 	}
 
-	public Long getCodigoTransacao() {
+	public String getCodigoTransacao() {
 		return codigoTransacao;
 	}
 
-	public void setCodigoTransacao(Long codigotransacao) {
+	public void setCodigoTransacao(String codigotransacao) {
 		this.codigoTransacao = codigotransacao;
 	}
 

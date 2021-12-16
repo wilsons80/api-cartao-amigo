@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "transaction")
-public class NotificacaoTransacaoPagSeguroTO {
+public class NotificacaoTransacaoGatewayTO {
 
 	private Date date;	
 	private String code;
@@ -16,7 +16,7 @@ public class NotificacaoTransacaoPagSeguroTO {
 	private Long type;
 	private Long status;
 
-	public NotificacaoTransacaoPagSeguroTO() {
+	public NotificacaoTransacaoGatewayTO() {
 	}
 
 	public Date getDate() {

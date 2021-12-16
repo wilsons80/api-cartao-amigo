@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro;
+package br.com.cartaoamigo.cmd.gatewaypagamento;
 
 import java.util.Optional;
 
@@ -11,7 +11,7 @@ import br.com.cartaoamigo.entity.NotificacaoTransacao;
 import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.ws.pagseguro.split.consultarnotificacao.ConsultarNotificacaoSplitService;
-import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoPagSeguroTO;
+import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 
 @Component
 public class GetNotificacaoTransacaoCmd {
@@ -20,9 +20,9 @@ public class GetNotificacaoTransacaoCmd {
 	@Autowired private NotificacaoTransacaoTOBuilder toBuilder;
 	@Autowired private ConsultarNotificacaoSplitService consultarNotificacao;
 	
-	public NotificacaoTransacaoPagSeguroTO getNotificacaoByPagSeguro(String codigoNotificacao) {
+	public NotificacaoTransacaoGatewayTO getNotificacaoByPagSeguro(String codigoNotificacao) {
 		try {
-			NotificacaoTransacaoPagSeguroTO notificacao = consultarNotificacao.getNotificacao(codigoNotificacao);
+			NotificacaoTransacaoGatewayTO notificacao = consultarNotificacao.getNotificacao(codigoNotificacao);
 			return notificacao;
 		} catch (Exception e) {
 			throw new NotificacaoPagSeguroException("Não foi possível obter a notificação:" + codigoNotificacao);

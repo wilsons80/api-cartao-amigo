@@ -1,18 +1,16 @@
-package br.com.cartaoamigo.cmd.pagseguro;
+package br.com.cartaoamigo.cmd.pagarme;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 
 import br.com.cartaoamigo.builder.HistoricoPagamentoTOBuilder;
 import br.com.cartaoamigo.builder.NotificacaoTransacaoTOBuilder;
 import br.com.cartaoamigo.builder.StatusTransacaoGatewayPagamentoTOBuilder;
 import br.com.cartaoamigo.cmd.GravarEnvioEmailCmd;
 import br.com.cartaoamigo.cmd.SalvarValidadeCartaoCmd;
-import br.com.cartaoamigo.cmd.gatewaypagamento.GetNotificacaoTransacaoCmd;
 import br.com.cartaoamigo.dao.repository.HistoricoPagamentoRepository;
 import br.com.cartaoamigo.dao.repository.NotificacaoTransacaoRepository;
 import br.com.cartaoamigo.entity.HistoricoPagamento;
@@ -22,8 +20,7 @@ import br.com.cartaoamigo.service.pagseguro.NotificacaoBuilder;
 import br.com.cartaoamigo.to.EnvioEmailTO;
 import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
-import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
-import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
+import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 
 @Component
 public class SalvarNotificacaoTransacaoCmd {
@@ -32,32 +29,20 @@ public class SalvarNotificacaoTransacaoCmd {
 	@Autowired private NotificacaoTransacaoTOBuilder toBuilder;
 	@Autowired private StatusTransacaoGatewayPagamentoTOBuilder statusTOBuilder;
 	@Autowired private NotificacaoBuilder notificacaoBuilderCmd;
-	@Autowired private GetNotificacaoTransacaoCmd getNotificacaoTransacaoCmd;
-	@Autowired private GetStatusTransacaoCmd getStatusTransacaoCmd;
 	@Autowired private HistoricoPagamentoRepository historicoPagamentoRepository;
 	@Autowired private HistoricoPagamentoTOBuilder historicoPagamentoTOBuilder;
 	@Autowired private GravarEnvioEmailCmd gravarEnvioEmailCmd;
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
 	
 	
-	public void salvar(MultiValueMap<String,String> paramMap) {
-		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.build(paramMap);
-		
-		// Busca os dados da transação a partir da notificação
-		NotificacaoTransacaoGatewayTO notificacaoTransacaoPagSeguroTO = getNotificacaoTransacaoCmd.getNotificacaoByPagSeguro(notificacaoTransacaoTO.getCodigoNotificacao());
-		
-		StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.findByID(notificacaoTransacaoPagSeguroTO.getStatus());
-		notificacaoTransacaoTO.setStatus(statusTO); 
-		notificacaoTransacaoTO.setNumeroTransacao(notificacaoTransacaoPagSeguroTO.getCode());
-		notificacaoTransacaoTO.addQuantidadeNotificacao();	
-		
-		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
-		
+	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
+		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);		
+		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));		
 		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
 	}
 	
 	
-	public NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
+	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
 		NotificacaoTransacao notificacaoGateWay = null;
 		Optional<NotificacaoTransacao> notificacao = repository.findByCodigoNotificacao(to.getCodigoNotificacao());
 		if(notificacao.isPresent()) {
@@ -94,7 +79,7 @@ public class SalvarNotificacaoTransacaoCmd {
 				salvarValidadeCartaoCmd.incrementarValidade(pagamento.getTitular().getPessoaFisica().getId(), historicoPagamentoTO.getTipoPlano().getQuantidadeDiasVigencia().intValue());
 				
 				/////////////////////////////////////////////////////////////////////////////////
-				//Enviar email de pagamento >>> 3: Pago - 4: Disponível
+				//Enviar email de pagamento >>> Pago
 				/////////////////////////////////////////////////////////////////////////////////
 				EnvioEmailTO envioEmailTO = new EnvioEmailTO();
 				envioEmailTO.setIdTipoEmail         (TipoEmail.PAGAMENTO.getId());
@@ -112,13 +97,11 @@ public class SalvarNotificacaoTransacaoCmd {
 
 
 	private boolean isTransacaoAprovada(String codigoTransacao) {
-		//3: Pago - 4: Disponível
-		return codigoTransacao.equals("3") || codigoTransacao.equals("4");
+		return codigoTransacao.equals("paid");
 	}
 	
 	private boolean isTransacaoNaoAprovada(String codigoTransacao) {
-		//3: Pago - 4: Disponível
-		return !codigoTransacao.equals("3") && !codigoTransacao.equals("4");
+		return !isTransacaoAprovada(codigoTransacao);
 	}
 
 	
