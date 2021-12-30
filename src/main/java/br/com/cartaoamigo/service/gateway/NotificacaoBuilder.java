@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.service.pagseguro;
+package br.com.cartaoamigo.service.gateway;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +26,10 @@ public class NotificacaoBuilder {
 	public NotificacaoTransacaoTO buildPagarMe(NotificacaoPagarmeTransacaoTO notificacaoPagarme) {
 		NotificacaoTransacaoTO notificacaoTO = new NotificacaoTransacaoTO();
 
+		LOGGER.info("=====================================================================");
+		LOGGER.info(notificacaoPagarme.toString());
+		LOGGER.info("=====================================================================");
+		
 		try {
 			notificacaoTO.setId(null);
 			notificacaoTO.setCodigoNotificacao(notificacaoPagarme.getId());
@@ -51,7 +55,7 @@ public class NotificacaoBuilder {
 		}
 	}
 
-	public NotificacaoTransacaoTO build(MultiValueMap<String, String> paramMap) {
+	public NotificacaoTransacaoTO buildPagSeguro(MultiValueMap<String, String> paramMap) {
 		NotificacaoTransacaoTO notificacaoTO = new NotificacaoTransacaoTO();
 
 		try {

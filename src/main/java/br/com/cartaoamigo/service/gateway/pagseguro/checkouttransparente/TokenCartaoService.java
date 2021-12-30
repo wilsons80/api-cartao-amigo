@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.service.pagseguro.checkouttransparente;
+package br.com.cartaoamigo.service.gateway.pagseguro.checkouttransparente;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

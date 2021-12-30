@@ -16,7 +16,7 @@ import br.com.cartaoamigo.dao.repository.NotificacaoTransacaoRepository;
 import br.com.cartaoamigo.entity.HistoricoPagamento;
 import br.com.cartaoamigo.entity.NotificacaoTransacao;
 import br.com.cartaoamigo.enums.TipoEmail;
-import br.com.cartaoamigo.service.pagseguro.NotificacaoBuilder;
+import br.com.cartaoamigo.service.gateway.NotificacaoBuilder;
 import br.com.cartaoamigo.to.EnvioEmailTO;
 import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
