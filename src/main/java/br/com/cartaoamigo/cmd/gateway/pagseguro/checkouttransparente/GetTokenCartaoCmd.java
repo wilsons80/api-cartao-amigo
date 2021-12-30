@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.exception.PagSeguroException;
-import br.com.cartaoamigo.to.ParansTokenCartaoTO;
+import br.com.cartaoamigo.to.ParansTokenCartaoPagSeguroTO;
 import br.com.cartaoamigo.ws.pagseguro.checkouttransparente.tokencartao.TokenCartaoService;
 import br.com.cartaoamigo.ws.pagseguro.to.TokenCartaoTO;
 
@@ -14,7 +14,7 @@ public class GetTokenCartaoCmd {
 
 	@Autowired private TokenCartaoService service;
 
-	public TokenCartaoTO getTokenCartao(ParansTokenCartaoTO tokenCartaoTO) {
+	public TokenCartaoTO getTokenCartao(ParansTokenCartaoPagSeguroTO tokenCartaoTO) {
 		try {
 			return service.getTokenCartao(tokenCartaoTO.getIdSessao(), 
 					                      tokenCartaoTO.getValor(), 

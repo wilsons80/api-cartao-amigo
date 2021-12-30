@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cartaoamigo.cmd.gateway.pagseguro.checkouttransparente.GetTokenCartaoCmd;
-import br.com.cartaoamigo.to.ParansTokenCartaoTO;
+import br.com.cartaoamigo.to.ParansTokenCartaoPagSeguroTO;
 import br.com.cartaoamigo.ws.pagseguro.to.TokenCartaoTO;
 
 @RestController
@@ -18,7 +18,7 @@ public class TokenCartaoService {
 	@Autowired private GetTokenCartaoCmd getCmd;
 	
 	@PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-	public TokenCartaoTO getTokenCartao(@RequestBody ParansTokenCartaoTO tokenCartaoTO) {
+	public TokenCartaoTO getTokenCartao(@RequestBody ParansTokenCartaoPagSeguroTO tokenCartaoTO) {
 		return getCmd.getTokenCartao(tokenCartaoTO);
 	}
 

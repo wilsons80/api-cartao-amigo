@@ -2,6 +2,7 @@ package br.com.cartaoamigo.ws;
 
 import java.io.StringReader;
 import java.lang.reflect.Array;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.xml.bind.JAXB;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -55,7 +57,22 @@ public class HttpRestUtil {
 		jsonContentType.setContentType(MediaType.APPLICATION_JSON);
 		return HttpHeaders.readOnlyHttpHeaders(jsonContentType);
 	}
+	
+	@SuppressWarnings("serial")
+	private static HttpHeaders createHeaders(String username, String password){
+	   return new HttpHeaders() {{
+	         String auth = username + ":" + password;
+	         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+	         String authHeader = "Basic " + new String( encodedAuth );
+	         set( "Authorization", authHeader );
+	   }};
+	}
 
+	
+	public <T> T get(String username, String password, String url, Class<T> responseType) {
+		return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<T>(createHeaders(username, password)), responseType).getBody();
+	}
+	
 	public <T> T get(String url, Class<T> responseType) {
 		return restTemplate.getForObject(url, responseType);
 	}

@@ -1,6 +1,6 @@
 package br.com.cartaoamigo.to;
 
-public class ParansTokenCartaoTO {
+public class ParansTokenCartaoPagSeguroTO {
 	private String idSessao; 
     private Double valor;
     private String numeroCartao; 
@@ -9,7 +9,7 @@ public class ParansTokenCartaoTO {
     private String mesVencimentoCartao; 
     private String anoVencimentoCartao;
     
-    public ParansTokenCartaoTO() {
+    public ParansTokenCartaoPagSeguroTO() {
 	}
 
 	public String getIdSessao() {

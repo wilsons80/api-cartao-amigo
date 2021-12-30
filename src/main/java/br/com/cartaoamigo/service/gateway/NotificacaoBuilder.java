@@ -26,11 +26,6 @@ public class NotificacaoBuilder {
 	
 	public NotificacaoTransacaoTO buildPagarMe(NotificacaoPagarmeTransacaoTO notificacaoPagarme) {
 		NotificacaoTransacaoTO notificacaoTO = new NotificacaoTransacaoTO();
-
-		LOGGER.info("=====================================================================");
-		LOGGER.info(notificacaoPagarme.toString());
-		LOGGER.info("=====================================================================");
-		
 		try {
 			notificacaoTO.setId(null);
 			notificacaoTO.setCodigoNotificacao(notificacaoPagarme.getId());
@@ -44,8 +39,6 @@ public class NotificacaoBuilder {
 			}
 			
 			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo("PAGARME");
-			
-			LOGGER.info("buscando status transacao: " + notificacaoPagarme.getData().getStatus() + " - " + gatewayPagamentoTO.getId());
 			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(notificacaoPagarme.getData().getStatus(), gatewayPagamentoTO.getId());
 			notificacaoTO.setStatus(statusTO);
 
