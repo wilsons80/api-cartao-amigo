@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cartaoamigo.cmd.gatewaypagamento.GetNotificacaoTransacaoCmd;
-import br.com.cartaoamigo.cmd.pagarme.SalvarNotificacaoTransacaoCmd;
+import br.com.cartaoamigo.cmd.pagarme.SalvarNotificacaoPagarMeTransacaoCmd;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 
 @RestController
 @RequestMapping(value = "pagarme/notificacao")
-public class NotificacaoTransacaoService {
+public class NotificacaoPagarmeTransacaoService {
 	
-	@Autowired private SalvarNotificacaoTransacaoCmd salvarCmd;
+	@Autowired private SalvarNotificacaoPagarMeTransacaoCmd salvarCmd;
 	@Autowired private GetNotificacaoTransacaoCmd getNotificacaoTransacaoCmd;
 	
 	/**

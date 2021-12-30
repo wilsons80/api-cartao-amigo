@@ -23,7 +23,7 @@ import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 
 @Component
-public class SalvarNotificacaoTransacaoCmd {
+public class SalvarNotificacaoPagarMeTransacaoCmd {
 	
 	@Autowired private NotificacaoTransacaoRepository repository;
 	@Autowired private NotificacaoTransacaoTOBuilder toBuilder;
