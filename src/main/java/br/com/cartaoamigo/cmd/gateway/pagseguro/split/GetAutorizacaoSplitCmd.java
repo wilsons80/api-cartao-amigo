@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro.split;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.split;
 
 import java.util.List;
 

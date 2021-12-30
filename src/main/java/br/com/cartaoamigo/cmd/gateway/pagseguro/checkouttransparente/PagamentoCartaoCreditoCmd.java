@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro.checkouttransparente;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.checkouttransparente;
 
 import java.util.Objects;
 import java.util.Optional;

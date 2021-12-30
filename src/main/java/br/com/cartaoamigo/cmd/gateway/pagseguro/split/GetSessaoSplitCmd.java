@@ -1,16 +1,16 @@
-package br.com.cartaoamigo.cmd.pagseguro.checkouttransparente;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.split;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.exception.PagSeguroException;
-import br.com.cartaoamigo.ws.pagseguro.checkouttransparente.sessao.SessaoService;
+import br.com.cartaoamigo.ws.pagseguro.split.sessao.SessaoSplitService;
 import br.com.cartaoamigo.ws.pagseguro.to.SessaoTO;
 
 @Component
-public class GetSessaoCmd {
+public class GetSessaoSplitCmd {
 
-	@Autowired private SessaoService sessaoService;
+	@Autowired private SessaoSplitService sessaoService;
 
 	public SessaoTO getSessao() {
 		try {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cartaoamigo.cmd.pagseguro.split.GetCodigoAutorizacaoCorretorSplitCmd;
+import br.com.cartaoamigo.cmd.gateway.pagseguro.split.GetCodigoAutorizacaoCorretorSplitCmd;
 import br.com.cartaoamigo.dao.repository.CorretorRepository;
 import br.com.cartaoamigo.dao.repository.PessoaFisicaRepository;
 import br.com.cartaoamigo.entity.Corretor;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
-import br.com.cartaoamigo.cmd.pagseguro.GetStatusTransacaoCmd;
+import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
 import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;

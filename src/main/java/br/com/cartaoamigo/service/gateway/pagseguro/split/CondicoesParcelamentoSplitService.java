@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cartaoamigo.cmd.pagseguro.split.GetCondicoesParcelamentoSplitCmd;
+import br.com.cartaoamigo.cmd.gateway.pagseguro.split.GetCondicoesParcelamentoSplitCmd;
 import br.com.cartaoamigo.ws.pagseguro.to.CondicaoParcelamentoTO;
 
 @RestController

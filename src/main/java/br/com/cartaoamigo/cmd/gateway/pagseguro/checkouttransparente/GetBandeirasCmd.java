@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro.checkouttransparente;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.checkouttransparente;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

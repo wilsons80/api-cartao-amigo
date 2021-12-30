@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cartaoamigo.cmd.pagseguro.checkouttransparente.PagamentoCartaoCreditoCmd;
+import br.com.cartaoamigo.cmd.gateway.pagseguro.checkouttransparente.PagamentoCartaoCreditoCmd;
 import br.com.cartaoamigo.ws.pagseguro.to.PagamentoCheckoutTransparenteCartaoCreditoTO;
 import br.com.cartaoamigo.ws.pagseguro.to.RetornoPagamentoCheckoutTransparenteCartaoCreditoTO;
 

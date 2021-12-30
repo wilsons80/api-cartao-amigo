@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro.split;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.checkouttransparente;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -9,15 +9,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.exception.PagSeguroException;
-import br.com.cartaoamigo.ws.pagseguro.split.meiopagamento.MetodosPagamentoSplitService;
+import br.com.cartaoamigo.ws.pagseguro.checkouttransparente.meiopagamento.MetodosPagamentoService;
 import br.com.cartaoamigo.ws.pagseguro.to.MetodosPagamentoTO;
 import br.com.cartaoamigo.ws.pagseguro.to.PaymentMethodsTO;
 
 @Component
-public class GetMetodosPagamentoSplitCmd {
-	@Value("${pagseguro.urlImagem}") private String urlImagemPagSeguro;
-	@Autowired private MetodosPagamentoSplitService service;
+public class GetMetodosPagamentoCmd {
 	
+	@Value("${pagseguro.urlImagem}") private String urlImagemPagSeguro; 
+	@Autowired private MetodosPagamentoService service;
+
 	private List<String> tipos = Arrays.asList("CREDIT_CARD", "BOLETO");
 	
 	
@@ -35,7 +36,7 @@ public class GetMetodosPagamentoSplitCmd {
 			
 			return metodosPagamento;
 		} catch (Exception e) {
-			throw new PagSeguroException("Ocorreu um erro ao obter os métodos de pagamento (SPLIT): " + e.getMessage());
+			throw new PagSeguroException("Ocorreu um erro ao obter os métodos de pagamento: " + e.getMessage());
 		}
 	}
 

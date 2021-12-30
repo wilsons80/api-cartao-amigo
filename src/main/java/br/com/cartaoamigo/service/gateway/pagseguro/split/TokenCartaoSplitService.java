@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cartaoamigo.cmd.pagseguro.split.GetTokenCartaoSplitCmd;
+import br.com.cartaoamigo.cmd.gateway.pagseguro.split.GetTokenCartaoSplitCmd;
 import br.com.cartaoamigo.to.ParansTokenCartaoTO;
 import br.com.cartaoamigo.ws.pagseguro.to.TokenCartaoTO;
 

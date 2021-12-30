@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro.split;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.split;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -18,7 +18,7 @@ import br.com.cartaoamigo.cmd.CadastrarHistoricoPagamentoCmd;
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
 import br.com.cartaoamigo.cmd.GetTitularCmd;
 import br.com.cartaoamigo.cmd.SalvarValidadeCartaoCmd;
-import br.com.cartaoamigo.cmd.pagseguro.GetStatusTransacaoCmd;
+import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
 import br.com.cartaoamigo.dao.repository.CorretorRepository;
 import br.com.cartaoamigo.dao.repository.FormaPagamentoRepository;
 import br.com.cartaoamigo.dao.repository.PessoaFisicaRepository;

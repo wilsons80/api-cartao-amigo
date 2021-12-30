@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cartaoamigo.cmd.pagseguro.checkouttransparente.GetSessaoCmd;
+import br.com.cartaoamigo.cmd.gateway.pagseguro.checkouttransparente.GetSessaoCmd;
 import br.com.cartaoamigo.ws.pagseguro.to.SessaoTO;
 
 @RestController

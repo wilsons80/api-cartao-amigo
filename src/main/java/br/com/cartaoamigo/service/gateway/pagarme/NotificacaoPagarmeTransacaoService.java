@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.cartaoamigo.cmd.gateway.pagarme.SalvarNotificacaoPagarMeTransacaoCmd;
 import br.com.cartaoamigo.cmd.gatewaypagamento.GetNotificacaoTransacaoCmd;
-import br.com.cartaoamigo.cmd.pagarme.SalvarNotificacaoPagarMeTransacaoCmd;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;

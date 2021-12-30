@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro;
+package br.com.cartaoamigo.cmd.gateway;
 
 import java.util.Optional;
 

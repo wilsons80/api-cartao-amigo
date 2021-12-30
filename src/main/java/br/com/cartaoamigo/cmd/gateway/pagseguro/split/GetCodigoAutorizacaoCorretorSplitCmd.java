@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.pagseguro.split;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.split;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

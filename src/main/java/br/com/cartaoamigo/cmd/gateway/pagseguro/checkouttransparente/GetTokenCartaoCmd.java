@@ -1,18 +1,18 @@
-package br.com.cartaoamigo.cmd.pagseguro.split;
+package br.com.cartaoamigo.cmd.gateway.pagseguro.checkouttransparente;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.exception.PagSeguroException;
 import br.com.cartaoamigo.to.ParansTokenCartaoTO;
-import br.com.cartaoamigo.ws.pagseguro.split.tokencartao.TokenCartaoSplitService;
+import br.com.cartaoamigo.ws.pagseguro.checkouttransparente.tokencartao.TokenCartaoService;
 import br.com.cartaoamigo.ws.pagseguro.to.TokenCartaoTO;
 
 
 @Component
-public class GetTokenCartaoSplitCmd {
+public class GetTokenCartaoCmd {
 
-	@Autowired private TokenCartaoSplitService service;
+	@Autowired private TokenCartaoService service;
 
 	public TokenCartaoTO getTokenCartao(ParansTokenCartaoTO tokenCartaoTO) {
 		try {
