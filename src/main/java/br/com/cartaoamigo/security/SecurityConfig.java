@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/autenticador/login",
 				                   "/pagseguro/**",
+				                   "/pagarme/**",
 				                   "/contaassociado/criar",
 				                   "/pagamento/corretor/**",
 				                   "/corretores/token/**",
