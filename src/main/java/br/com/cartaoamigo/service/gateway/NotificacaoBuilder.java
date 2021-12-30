@@ -2,6 +2,7 @@ package br.com.cartaoamigo.service.gateway;
 
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,11 @@ public class NotificacaoBuilder {
 			notificacaoTO.setDtNotificacao(LocalDateTime.now());
 			notificacaoTO.setNumeroTransacao(notificacaoPagarme.getData().getCode());
 
-			String[] tentativas = notificacaoPagarme.getAttempts().split("/");
-			notificacaoTO.setQuantidadeNotificacao(Long.valueOf(tentativas[0]));	
+			notificacaoTO.setQuantidadeNotificacao(1L);
+			if(StringUtils.isNotEmpty(notificacaoPagarme.getAttempts())) {
+				String[] tentativas = notificacaoPagarme.getAttempts().split("/");
+				notificacaoTO.setQuantidadeNotificacao(Long.valueOf(tentativas[0]));	
+			}
 			
 			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo("PAGARME");
 			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(notificacaoPagarme.getData().getStatus(), gatewayPagamentoTO.getId());
