@@ -64,6 +64,8 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		notificacaoGateWay.setDtNotificacao        (LocalDateTime.now());
 		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = toBuilder.buildTO(repository.save(notificacaoGateWay));
+		LOGGER.info("build >>> notificacaoTransacaoTO");
+		
 		
 		Optional<HistoricoPagamento> historicoPagamento = historicoPagamentoRepository.findByNumeroTransacao(notificacaoTransacaoTO.getNumeroTransacao());
 		if(historicoPagamento.isPresent()) {			
@@ -105,7 +107,7 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 
 
 	private boolean isTransacaoAprovada(String codigoTransacao) {
-		return codigoTransacao.equals("paid");
+		return "paid".equals(codigoTransacao.toLowerCase());
 	}
 	
 	private boolean isTransacaoNaoAprovada(String codigoTransacao) {
