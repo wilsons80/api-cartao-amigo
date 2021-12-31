@@ -41,6 +41,9 @@ public class Titular {
 	@Column(name = "cd_corretor")
 	private String codigoCorretor;
 	
+	@Column(name = "id_cliente_pagarme")
+	private String idClientePagarMe;
+	
 	public Titular() {
 	}
 
@@ -84,5 +87,12 @@ public class Titular {
 		this.codigoCorretor = codigoCorretor;
 	}
 
+	public String getIdClientePagarMe() {
+		return idClientePagarMe;
+	}
+
+	public void setIdClientePagarMe(String idClientePagarMe) {
+		this.idClientePagarMe = idClientePagarMe;
+	}
 
 }

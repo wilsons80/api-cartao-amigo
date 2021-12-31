@@ -1,7 +1,9 @@
 package br.com.cartaoamigo.dao.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -50,4 +52,9 @@ public interface TitularRepository extends JpaRepository<Titular, Long> {
 			+ " where pessoaFisica.email = ?1								 		        "
 			+ "   and pessoaFisica.cpf != ?2                                                ")
 	public Optional<Titular> findByEmailOutroCpf(String email, String cpf);
+	
+	
+	@Query(value = "select t from Titular t 												"
+			+ " where t.idClientePagarMe is null    						 		        ")
+	public Optional<List<Titular>> findAllTitularesSemCadastroPagarMe(Pageable pageable);
 }

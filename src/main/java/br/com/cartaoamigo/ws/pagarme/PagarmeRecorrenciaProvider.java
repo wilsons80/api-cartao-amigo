@@ -3,8 +3,6 @@ package br.com.cartaoamigo.ws.pagarme;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import br.com.cartaoamigo.infra.util.NumeroUtil;
-
 @Component
 public class PagarmeRecorrenciaProvider {
 	
@@ -13,6 +11,8 @@ public class PagarmeRecorrenciaProvider {
 	
 	@Value("${pagarme.recorrencia.urlTokenCartao}")                        private String tokenCartao;
 	@Value("${pagarme.recorrencia.bandeira.cartao}")                       private String bandeiraCartao;
+	@Value("${pagarme.recorrencia.criar.cliente}")                         private String criarCliente;
+	@Value("${pagarme.recorrencia.editar.cliente}")                        private String editarCliente;
 	
 	
 	@Value("${pagseguro.split.solicitar.autorizacao}")                     private String solicitarAutorizacao;
@@ -31,6 +31,14 @@ public class PagarmeRecorrenciaProvider {
 	
 	public String getUrlTokenCartao() {
 		return String.format(tokenCartao, appId );
+	}
+	
+	public String getUrlCriarCliente() {
+		return String.format(criarCliente, appId );
+	}
+	
+	public String getUrlEditarCliente(String idCliente) {
+		return String.format(editarCliente, idCliente );
 	}
 	
 	

@@ -2,6 +2,8 @@ package br.com.cartaoamigo.ws;
 
 import java.io.StringReader;
 import java.lang.reflect.Array;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -58,16 +61,32 @@ public class HttpRestUtil {
 		return HttpHeaders.readOnlyHttpHeaders(jsonContentType);
 	}
 	
-	@SuppressWarnings("serial")
+	private static String authorizationBasic(String username, String password) {
+		String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("UTF-8")));
+        String authHeader = "Basic " + new String( encodedAuth );
+		return authHeader;
+	}
+	
 	private static HttpHeaders createHeaders(String username, String password){
-	   return new HttpHeaders() {{
-	         String auth = username + ":" + password;
-	         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-	         String authHeader = "Basic " + new String( encodedAuth );
-	         set( "Authorization", authHeader );
-	   }};
+		String authHeader = authorizationBasic(username, password);
+		
+		HttpHeaders jsonContentType = new HttpHeaders();
+		jsonContentType.setContentType(MediaType.APPLICATION_JSON);
+		jsonContentType.set( "Authorization", authHeader );
+		
+		return HttpHeaders.readOnlyHttpHeaders(jsonContentType);
+	}
+		
+	private static <O> HttpEntity<O> getEntityAuthorizacaoBasic(O corpo, String username, String password) {
+		HttpEntity<O> httpEntity = new HttpEntity<>(corpo, createHeaders(username, password));
+		return httpEntity;
 	}
 
+	public <O, T> T post(String username, String password, String url,O corpo, Class<T> responseType) throws RestClientException, URISyntaxException {
+		HttpEntity<O> httpEntity =  getEntityAuthorizacaoBasic(corpo, username, password);
+		return restTemplate.exchange(new URI(url), HttpMethod.POST, httpEntity, responseType).getBody();
+	}
 	
 	public <T> T get(String username, String password, String url, Class<T> responseType) {
 		return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<T>(createHeaders(username, password)), responseType).getBody();
