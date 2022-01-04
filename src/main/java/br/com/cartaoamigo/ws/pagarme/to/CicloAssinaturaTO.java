@@ -9,6 +9,7 @@ public class CicloAssinaturaTO {
     private LocalDateTime end_at;
     private LocalDateTime billing_at;
     private String status;
+    private Integer cycle;
 
 	public CicloAssinaturaTO() {
 	}
@@ -53,5 +54,14 @@ public class CicloAssinaturaTO {
 		this.status = status;
 	}
 
+	public Integer getCycle() {
+		return cycle;
+	}
+
+	public void setCycle(Integer cycle) {
+		this.cycle = cycle;
+	}
+
+	
 
 }

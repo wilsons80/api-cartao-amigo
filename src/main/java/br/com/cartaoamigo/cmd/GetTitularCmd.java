@@ -12,6 +12,7 @@ import br.com.cartaoamigo.dao.repository.TitularRepository;
 import br.com.cartaoamigo.entity.TipoAcessoUsuario;
 import br.com.cartaoamigo.entity.Titular;
 import br.com.cartaoamigo.enums.TipoUsuarioSistema;
+import br.com.cartaoamigo.exception.NotFoundException;
 import br.com.cartaoamigo.exception.PessoaFisicaNaoEncontradaException;
 import br.com.cartaoamigo.to.TitularTO;
 
@@ -29,9 +30,16 @@ public class GetTitularCmd {
 		return toBuilder.buildAll(titular);
 	}
 	
-	public TitularTO getById(Long id) {
-		Optional<Titular> entityOptional =  repository.findById(id);
+	public TitularTO getTOById(Long id) {
+		Optional<Titular> entityOptional =  getById(id);
 		return toBuilder.buildTO(entityOptional.get());
+	}
+	public Optional<Titular> getById(Long id) {
+		Optional<Titular> entityOptional =  repository.findById(id);
+		if(!entityOptional.isPresent()) {
+			throw new NotFoundException("Titular informado não existe: " + id);
+		}
+		return entityOptional;
 	}
 	
 	

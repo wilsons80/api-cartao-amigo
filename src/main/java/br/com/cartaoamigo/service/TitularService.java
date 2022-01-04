@@ -37,7 +37,7 @@ import br.com.cartaoamigo.to.TitularTO;
 
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public TitularTO getById(@PathVariable(name = "id") 	Long idTitular) {
-		return getCmd.getById(idTitular);
+		return getCmd.getTOById(idTitular);
 	}
 	
 	@GetMapping(path = "/usuario/{idUsuario}", produces = MediaType.APPLICATION_JSON_VALUE)

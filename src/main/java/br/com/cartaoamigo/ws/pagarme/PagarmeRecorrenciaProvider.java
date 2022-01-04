@@ -20,8 +20,9 @@ public class PagarmeRecorrenciaProvider {
 	@Value("${pagarme.recorrencia.assinatura}")                            private String assinaturaPlano;
 	@Value("${pagarme.recorrencia.cancelar.assinatura}")                   private String cancelarAssinaturaPlano;
 	@Value("${pagarme.recorrencia.listar.assinaturas}")                    private String listarAssinaturaCliente;
-		
-
+	@Value("${pagarme.recorrencia.listar.assinaturas.faturas}")            private String listarFaturasDaAssinaturaCliente;
+	@Value("${pagarme.recorrencia.cobranca.fatura}")                       private String cobrancaFatura;
+	
 	
 	public String getUrlBandeira(String binCartao) {
 		return String.format(bandeiraCartao, binCartao );
@@ -65,6 +66,14 @@ public class PagarmeRecorrenciaProvider {
 	
 	public String getUrlListarAssinaturasCliente(String idCliente) {
 		return String.format(listarAssinaturaCliente, idCliente);
+	}
+	
+	public String getUrlListarFaturasAssinaturaCliente(String idCliente, String idAssinatura) {
+		return String.format(listarFaturasDaAssinaturaCliente, idCliente, idAssinatura);
+	}
+	
+	public String getUrlCobrancaFatura(String idCobranca) {
+		return String.format(cobrancaFatura, idCobranca);
 	}
 	
 	

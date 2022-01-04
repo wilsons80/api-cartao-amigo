@@ -41,6 +41,8 @@ public class TipoPlano {
 	@Column(name = "st_ativo")
 	private Boolean ativo;
 	
+	@Column(name = "id_plano_pagarme")
+	private String idPlanoPagarme;
 	
 	public TipoPlano() {
 	}
@@ -100,5 +102,15 @@ public class TipoPlano {
 	public void setQuantidadeDiasVigencia(Long quantidadeDiasVigencia) {
 		this.quantidadeDiasVigencia = quantidadeDiasVigencia;
 	}
+
+	public String getIdPlanoPagarme() {
+		return idPlanoPagarme;
+	}
+
+	public void setIdPlanoPagarme(String idPlanoPagarme) {
+		this.idPlanoPagarme = idPlanoPagarme;
+	}
+	
+	
 
 }

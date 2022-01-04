@@ -14,6 +14,8 @@ public class TitularTO {
 	
 	private String senha;
 	private String senhaConfirmada;
+	
+	private String idClientePagarMe;
 
 	public TitularTO() {
 	}
@@ -80,6 +82,14 @@ public class TitularTO {
 
 	public void setCodigoCorretor(String codigoCorretor) {
 		this.codigoCorretor = codigoCorretor;
+	}
+
+	public String getIdClientePagarMe() {
+		return idClientePagarMe;
+	}
+
+	public void setIdClientePagarMe(String idClientePagarMe) {
+		this.idClientePagarMe = idClientePagarMe;
 	}
 
 }

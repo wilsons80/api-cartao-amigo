@@ -42,7 +42,7 @@ public class ValidarCarteirinhaAssociadoCmd {
 		ValidacaoCarteirinhaAssociadoTO carteirinhaTO = new ValidacaoCarteirinhaAssociadoTO();
 		carteirinhaTO.setStatus           (false);
 		
-		TitularTO titularTO = getTitularCmd.getById(cartao.getIdTitular());
+		TitularTO titularTO = getTitularCmd.getTOById(cartao.getIdTitular());
 		
 		//Busca a data de validade baseado ao titular, pois o dependente não faz pagamento da assinatura.
 		if(cartao.getIsTitular()) {

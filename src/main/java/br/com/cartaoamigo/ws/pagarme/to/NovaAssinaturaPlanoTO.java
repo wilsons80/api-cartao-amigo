@@ -7,7 +7,12 @@ public class NovaAssinaturaPlanoTO {
 	private String customer_id;
 	private String card_token;
     private Integer boleto_due_days;
-
+    
+	private String codigoCorretor;
+	private String voucher;
+	private Long   idPlano;
+	private Long   idTitular;
+	
 	public NovaAssinaturaPlanoTO() {
 	}
 
@@ -49,6 +54,46 @@ public class NovaAssinaturaPlanoTO {
 
 	public void setBoleto_due_days(Integer boleto_due_days) {
 		this.boleto_due_days = boleto_due_days;
+	}
+
+	public String getCodigoCorretor() {
+		return codigoCorretor;
+	}
+
+	public void setCodigoCorretor(String codigoCorretor) {
+		this.codigoCorretor = codigoCorretor;
+	}
+
+	public String getVoucher() {
+		return voucher;
+	}
+
+	public void setVoucher(String voucher) {
+		this.voucher = voucher;
+	}
+
+	public Long getIdPlano() {
+		return idPlano;
+	}
+
+	public void setIdPlano(Long idPlano) {
+		this.idPlano = idPlano;
+	}
+
+	public Long getIdTitular() {
+		return idTitular;
+	}
+
+	public void setIdTitular(Long idTitular) {
+		this.idTitular = idTitular;
+	}
+
+	@Override
+	public String toString() {
+		return "NovaAssinaturaPlanoTO [plan_id=" + plan_id + ", payment_method=" + payment_method + ", customer_id="
+				+ customer_id + ", card_token=" + card_token + ", boleto_due_days=" + boleto_due_days
+				+ ", codigoCorretor=" + codigoCorretor + ", voucher=" + voucher + ", idPlano=" + idPlano
+				+ ", idTitular=" + idTitular + "]";
 	}
 
 	

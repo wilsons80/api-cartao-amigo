@@ -18,6 +18,9 @@ public class RetornoAssinaturaPlanoCriadaTO {
 	private LocalDateTime created_at;
 	private PlanoTO plan;
 	
+	private String descricaoStatusTransacao;
+	private String linkPagamento;
+	
 	public RetornoAssinaturaPlanoCriadaTO() {
 	}
 
@@ -125,4 +128,21 @@ public class RetornoAssinaturaPlanoCriadaTO {
 		this.plan = plan;
 	}
 
+	public String getDescricaoStatusTransacao() {
+		return descricaoStatusTransacao;
+	}
+
+	public void setDescricaoStatusTransacao(String descricaoStatusTransacao) {
+		this.descricaoStatusTransacao = descricaoStatusTransacao;
+	}
+
+	public String getLinkPagamento() {
+		return linkPagamento;
+	}
+
+	public void setLinkPagamento(String linkPagamento) {
+		this.linkPagamento = linkPagamento;
+	}
+
+	
 }

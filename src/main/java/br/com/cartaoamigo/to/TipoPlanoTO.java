@@ -8,6 +8,7 @@ public class TipoPlanoTO {
 	private Long quantidadeParcelas;
 	private Long quantidadeDiasVigencia;
 	private Boolean ativo;
+	private String idPlanoPagarme;
 	
 	public TipoPlanoTO() {
 		
@@ -67,6 +68,14 @@ public class TipoPlanoTO {
 
 	public void setQuantidadeDiasVigencia(Long quantidadeDiasVigencia) {
 		this.quantidadeDiasVigencia = quantidadeDiasVigencia;
+	}
+
+	public String getIdPlanoPagarme() {
+		return idPlanoPagarme;
+	}
+
+	public void setIdPlanoPagarme(String idPlanoPagarme) {
+		this.idPlanoPagarme = idPlanoPagarme;
 	}
 	
 	
