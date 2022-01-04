@@ -96,7 +96,7 @@ public class S3ImagemCmd {
 		
 		if(StringUtils.isNotEmpty(nomeFoto)) {
 			nome.append("_");
-			nome.append(StringUtil.removerAcentos(nomeFoto.replaceAll(" ", "_")).toLowerCase() ); 
+			nome.append(StringUtil.removerCaractereEspecial(nomeFoto.replaceAll(" ", "_")).toLowerCase() ); 
 		}
 		nome.append("_");
 		nome.append(idArquivo);

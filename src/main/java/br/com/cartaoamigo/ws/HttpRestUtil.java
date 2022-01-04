@@ -83,6 +83,11 @@ public class HttpRestUtil {
 		return httpEntity;
 	}
 
+	public <O, T> T delete(String username, String password, String url,O corpo, Class<T> responseType) throws RestClientException, URISyntaxException {
+		HttpEntity<O> httpEntity =  getEntityAuthorizacaoBasic(corpo, username, password);
+		return restTemplate.exchange(new URI(url), HttpMethod.DELETE, httpEntity, responseType).getBody();
+	}
+	
 	public <O, T> T post(String username, String password, String url,O corpo, Class<T> responseType) throws RestClientException, URISyntaxException {
 		HttpEntity<O> httpEntity =  getEntityAuthorizacaoBasic(corpo, username, password);
 		return restTemplate.exchange(new URI(url), HttpMethod.POST, httpEntity, responseType).getBody();

@@ -109,7 +109,7 @@ public class StringUtil {
     * @param string
     * @return string sem acentos
     */
-   public static String removerAcentos(String str) {
+   public static String removerCaractereEspecial(String str) {
       return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
    }
    

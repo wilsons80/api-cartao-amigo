@@ -43,7 +43,7 @@ public class GetVoucherDao extends BaseDao{
 		sql.append("  where 1=1                                                                    ");
 
 		if(StringUtils.isNotEmpty(codigo)) {
-			sql.append("  and upper(v.cd_voucher) like  '%"+StringUtil.removerAcentos(codigo.trim()).toUpperCase()+"%' ");
+			sql.append("  and upper(v.cd_voucher) like  '%"+StringUtil.removerCaractereEspecial(codigo.trim()).toUpperCase()+"%' ");
 		}	
 	
 		if(StringUtils.isNotEmpty(ativo)) {

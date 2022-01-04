@@ -7,13 +7,13 @@ import br.com.cartaoamigo.exception.PagarmeException;
 import br.com.cartaoamigo.to.ParansTokenCartaoPagarmeTO;
 import br.com.cartaoamigo.ws.pagarme.to.BandeiraCartaoTO;
 import br.com.cartaoamigo.ws.pagarme.to.TokenCartaoTO;
-import br.com.cartaoamigo.ws.pagarme.tokencartao.TokenCartaoRecorrenciaServiceImpl;
+import br.com.cartaoamigo.ws.pagarme.tokencartao.TokenCartaoRecorrenciaService;
 
 
 @Component
 public class GetTokenCartaoRecorrenciaPagarmeCmd {
 
-	@Autowired private TokenCartaoRecorrenciaServiceImpl service;
+	@Autowired private TokenCartaoRecorrenciaService service;
 	@Autowired private GetBandeiraCartaoRecorrenciaPagarmeCmd getBandeiraCartaoRecorrenciaPagarmeCmd;
 	
 	public TokenCartaoTO getTokenCartao(ParansTokenCartaoPagarmeTO tokenCartaoTO) {

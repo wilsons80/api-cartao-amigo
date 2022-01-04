@@ -26,4 +26,5 @@ public class ClienteRecorrenciaPagarmeService {
 	public void salvarBase() {
 		salvarCmd.salvarBase();
 	}
+	
 }

@@ -71,7 +71,7 @@ public class GetClinicaDao extends BaseDao{
 		
 	      
 		if(StringUtils.isNotEmpty(bairro)) {
-			sql.append("  and upper(c.ds_bairro) like  '%"+StringUtil.removerAcentos(bairro.trim()).toUpperCase()+"%' ");
+			sql.append("  and upper(c.ds_bairro) like  '%"+StringUtil.removerCaractereEspecial(bairro.trim()).toUpperCase()+"%' ");
 		}	
 	
 		if(Objects.nonNull(idClinica)) {
