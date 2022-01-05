@@ -11,9 +11,6 @@ public class NotificacaoFaturaTO {
 	private String payment_method;
 	private String subscriptionId;
 	
-	private LocalDateTime due_at;
-	private LocalDateTime created_at;
-	
 	public NotificacaoFaturaTO() {
 	}
 
@@ -65,27 +62,10 @@ public class NotificacaoFaturaTO {
 		this.subscriptionId = subscriptionId;
 	}
 
-	public LocalDateTime getDue_at() {
-		return due_at;
-	}
-
-	public void setDue_at(LocalDateTime due_at) {
-		this.due_at = due_at;
-	}
-
-	public LocalDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
-	}
-
 	@Override
 	public String toString() {
 		return "NotificacaoFaturaTO [id=" + id + ", code=" + code + ", amount=" + amount + ", status=" + status
-				+ ", payment_method=" + payment_method + ", subscriptionId=" + subscriptionId + ", due_at=" + due_at
-				+ ", created_at=" + created_at + "]";
+				+ ", payment_method=" + payment_method + ", subscriptionId=" + subscriptionId + "]";
 	}
 
 	

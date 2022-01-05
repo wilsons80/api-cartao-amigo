@@ -1,7 +1,5 @@
 package br.com.cartaoamigo.to.pagarme;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.cartaoamigo.ws.pagarme.to.UltimaCobrancaFaturaTO;

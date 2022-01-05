@@ -11,7 +11,7 @@ public class UltimaCobrancaFaturaTO {
     private String status;
     private String success;    
     private Integer paid_amount;
-    private LocalDateTime paid_at;
+//    private LocalDateTime paid_at;
     private String url; //url
     private String pdf; //url
     private String line;
@@ -20,9 +20,9 @@ public class UltimaCobrancaFaturaTO {
     private String nosso_numero;
     private String bank;
     private String instructions;
-    private LocalDateTime due_at;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+//    private LocalDateTime due_at;
+//    private LocalDateTime created_at;
+//    private LocalDateTime updated_at;
 
 	public UltimaCobrancaFaturaTO() {
 	}
@@ -81,14 +81,6 @@ public class UltimaCobrancaFaturaTO {
 
 	public void setPaid_amount(Integer paid_amount) {
 		this.paid_amount = paid_amount;
-	}
-
-	public LocalDateTime getPaid_at() {
-		return paid_at;
-	}
-
-	public void setPaid_at(LocalDateTime paid_at) {
-		this.paid_at = paid_at;
 	}
 
 	public String getUrl() {
@@ -155,30 +147,5 @@ public class UltimaCobrancaFaturaTO {
 		this.instructions = instructions;
 	}
 
-	public LocalDateTime getDue_at() {
-		return due_at;
-	}
-
-	public void setDue_at(LocalDateTime due_at) {
-		this.due_at = due_at;
-	}
-
-	public LocalDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
-	}
-
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
-	}
-
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
-	}
-
-	
 
 }
