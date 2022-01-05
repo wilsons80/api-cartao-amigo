@@ -32,6 +32,8 @@ public class NotificacaoBuilder {
 			notificacaoTO.setCodigoNotificacao(webHookPagarMeTO.getId());
 			notificacaoTO.setDtNotificacao(LocalDateTime.now());
 			notificacaoTO.setNumeroTransacao(webHookPagarMeTO.getData().getCode());
+			
+			LOGGER.info("Buscando o ID da assinatura: " + webHookPagarMeTO.getData().getInvoice().getSubscriptionId());
 			notificacaoTO.setIdAssinaturaPagarme(webHookPagarMeTO.getData().getInvoice().getSubscriptionId());
 
 			notificacaoTO.setQuantidadeNotificacao(1L);
@@ -40,7 +42,11 @@ public class NotificacaoBuilder {
 				notificacaoTO.setQuantidadeNotificacao(Long.valueOf(tentativas[0]));	
 			}
 			
+			
 			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo("PAGARME");
+			
+			LOGGER.info("Buscando o status da transação: " + webHookPagarMeTO.getData().getStatus() + " - " + gatewayPagamentoTO.getId());
+			
 			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(webHookPagarMeTO.getData().getStatus(), gatewayPagamentoTO.getId());
 			notificacaoTO.setStatus(statusTO);
 
@@ -50,6 +56,7 @@ public class NotificacaoBuilder {
 			LOGGER.info("=====================================================================");
 			LOGGER.info("Erro ao recuperar dados da notividação do PAGARME");
 			LOGGER.info(e.getMessage());
+			e.printStackTrace();
 			LOGGER.info("=====================================================================");
 
 			throw new NotificacaoPagSeguroException("Erro ao recuperar dados da notividação da PAGARME - Pedido: " + notificacaoTO.getCodigoNotificacao());
