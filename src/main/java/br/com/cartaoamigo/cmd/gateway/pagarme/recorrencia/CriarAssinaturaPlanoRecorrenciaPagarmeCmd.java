@@ -337,8 +337,6 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				voucherRepository.save(voucher.get());
 			}			
 			
-
-			
 			Optional<FormaPagamento> formaPagamento = formaPagamentoRepository.findByNome(BOLETO);
 			historicoPagamentoTO.setFormaPagamento(formaPagamentoTOBuilder.buildTO(formaPagamento.get()));
 			
