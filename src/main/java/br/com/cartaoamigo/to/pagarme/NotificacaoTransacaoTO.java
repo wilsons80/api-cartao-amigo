@@ -1,5 +1,8 @@
 package br.com.cartaoamigo.to.pagarme;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NotificacaoTransacaoTO {
 	
 	private String id;
