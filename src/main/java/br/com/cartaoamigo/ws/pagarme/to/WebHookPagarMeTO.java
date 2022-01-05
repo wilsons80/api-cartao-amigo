@@ -5,7 +5,6 @@ import br.com.cartaoamigo.to.pagarme.NotificacaoTransacaoTO;
 public class WebHookPagarMeTO {
 
 	private String id;
-	private String url;
 	private String event;
 	private String status;
 	private String attempts;
@@ -20,14 +19,6 @@ public class WebHookPagarMeTO {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public String getEvent() {
@@ -60,12 +51,6 @@ public class WebHookPagarMeTO {
 
 	public void setData(NotificacaoTransacaoTO data) {
 		this.data = data;
-	}
-
-	@Override
-	public String toString() {
-		return "WebHookPagarMeTO [id=" + id + ", url=" + url + ", event=" + event + ", status=" + status + ", attempts="
-				+ attempts + ", data=" + data + "]";
 	}
 
 	

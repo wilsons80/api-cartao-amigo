@@ -1,12 +1,9 @@
 package br.com.cartaoamigo.to.pagarme;
 
-import java.time.LocalDateTime;
-
 public class NotificacaoFaturaTO {
 	
 	private String id;
 	private String code;
-	private Integer amount;
 	private String status;          
 	private String payment_method;
 	private String subscriptionId;
@@ -28,14 +25,6 @@ public class NotificacaoFaturaTO {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	public Integer getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Integer amount) {
-		this.amount = amount;
 	}
 
 	public String getStatus() {
@@ -60,12 +49,6 @@ public class NotificacaoFaturaTO {
 
 	public void setSubscriptionId(String subscriptionId) {
 		this.subscriptionId = subscriptionId;
-	}
-
-	@Override
-	public String toString() {
-		return "NotificacaoFaturaTO [id=" + id + ", code=" + code + ", amount=" + amount + ", status=" + status
-				+ ", payment_method=" + payment_method + ", subscriptionId=" + subscriptionId + "]";
 	}
 
 	
