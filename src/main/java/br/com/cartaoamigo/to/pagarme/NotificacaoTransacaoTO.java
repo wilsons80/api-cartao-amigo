@@ -16,10 +16,6 @@ public class NotificacaoTransacaoTO {
 	private String status;          // Valores possíveis: pending, paid, canceled, scheduled ou failed.
 	private String currency;
 	private String payment_method;
-	private LocalDateTime due_at;
-	private LocalDateTime paid_at;
-	private LocalDateTime created_at;
-	private LocalDateTime updated_at;
 	
 	private NotificacaoFaturaTO invoice;
 	
@@ -87,38 +83,7 @@ public class NotificacaoTransacaoTO {
 		this.payment_method = payment_method;
 	}
 
-	public LocalDateTime getDue_at() {
-		return due_at;
-	}
-
-	public void setDue_at(LocalDateTime due_at) {
-		this.due_at = due_at;
-	}
-
-	public LocalDateTime getPaid_at() {
-		return paid_at;
-	}
-
-	public void setPaid_at(LocalDateTime paid_at) {
-		this.paid_at = paid_at;
-	}
-
-	public LocalDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
-	}
-
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
-	}
-
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
-	}
-
+	
 	public NotificacaoFaturaTO getInvoice() {
 		return invoice;
 	}
@@ -147,8 +112,7 @@ public class NotificacaoTransacaoTO {
 	public String toString() {
 		return "NotificacaoTransacaoTO [id=" + id + ", code=" + code + ", amount=" + amount + ", paid_amount="
 				+ paid_amount + ", status=" + status + ", currency=" + currency + ", payment_method=" + payment_method
-				+ ", due_at=" + due_at + ", paid_at=" + paid_at + ", created_at=" + created_at + ", updated_at="
-				+ updated_at + ", invoice=" + invoice + ", customer=" + customer + ", last_transaction="
+				+ ", invoice=" + invoice + ", customer=" + customer + ", last_transaction="
 				+ last_transaction + "]";
 	}
 
