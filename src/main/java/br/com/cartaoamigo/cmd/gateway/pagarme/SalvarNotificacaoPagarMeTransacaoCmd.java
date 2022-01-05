@@ -3,6 +3,7 @@ package br.com.cartaoamigo.cmd.gateway.pagarme;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +43,21 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private GetWebhookPagarmeCmd getWebhookPagarmeCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
-		WebHookPagarMeTO webHookPagarMeTO = getWebhookPagarmeCmd.getWebhook(notificacao.getId());
-		LOGGER.info("webHookPagarMeTO >>> " + webHookPagarMeTO.toString());
-		
-		LOGGER.info("webHookPagarMeTO builder...");
-		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(webHookPagarMeTO);
-		
-		LOGGER.info("webHookPagarMeTO notificacao transacao...");
-		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
-		
-		LOGGER.info("webHookPagarMeTO salvando historico...");
-		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao), webHookPagarMeTO.getEvent());
-		
-		LOGGER.info("FIM webHookPagarMeTO salvando historico...");
+		if(StringUtils.isNotEmpty(notificacao.getEvent())) {
+			WebHookPagarMeTO webHookPagarMeTO = getWebhookPagarmeCmd.getWebhook(notificacao.getId());
+			LOGGER.info("webHookPagarMeTO >>> " + webHookPagarMeTO.toString());
+			
+			LOGGER.info("webHookPagarMeTO builder...");
+			NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(webHookPagarMeTO);
+			
+			LOGGER.info("webHookPagarMeTO notificacao transacao...");
+			NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
+			
+			LOGGER.info("webHookPagarMeTO salvando historico...");
+			salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao), webHookPagarMeTO.getEvent());
+			
+			LOGGER.info("FIM webHookPagarMeTO salvando historico...");
+		}
 	}
 	
 	
