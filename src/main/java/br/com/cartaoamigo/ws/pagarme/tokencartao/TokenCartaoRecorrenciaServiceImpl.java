@@ -1,6 +1,7 @@
 package br.com.cartaoamigo.ws.pagarme.tokencartao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.ws.HttpRestUtil;
@@ -12,6 +13,8 @@ import br.com.cartaoamigo.ws.pagarme.to.TokenCartaoTO;
 @Component
 public class TokenCartaoRecorrenciaServiceImpl implements TokenCartaoRecorrenciaService{
 
+	@Value("${pagarme.aplicacao.appId}") private String appId;
+	
 	@Autowired private PagarmeRecorrenciaProvider provider ;
 	@Autowired private HttpRestUtil httpRestUtil;
 	
@@ -27,6 +30,7 @@ public class TokenCartaoRecorrenciaServiceImpl implements TokenCartaoRecorrencia
 		requestTO.setType("card");
 		requestTO.setCard(new RequestCardTokenCartaoTO(numeroCartao, nomeImpresso, mesVencimentoCartao, anoVencimentoCartao, cvv, bandeiraCartao));
 		
-		return httpRestUtil.post(provider.getUrlTokenCartao(), requestTO, TokenCartaoTO.class);
+		
+		return httpRestUtil.post(appId, null, provider.getUrlTokenCartao(), requestTO, TokenCartaoTO.class);
 	}
 }

@@ -1,11 +1,9 @@
 package br.com.cartaoamigo.ws.pagarme.fatura;
 
-import java.util.List;
-
-import br.com.cartaoamigo.ws.pagarme.to.FaturaAssinaturaPlanoTO;
+import br.com.cartaoamigo.ws.pagarme.to.ListaFaturasAssinaturaPlanoTO;
 
 public interface FaturaAssinaturaPlanoRecorrenciaService {
 	
-	List<FaturaAssinaturaPlanoTO> getFaturasDaAssinatura(String idCliente, String idAssinatura) throws Exception ;
+	ListaFaturasAssinaturaPlanoTO getFaturasDaAssinatura(String idCliente, String idAssinatura) throws Exception ;
 	
 }

@@ -1,7 +1,5 @@
 package br.com.cartaoamigo.service.gateway.pagarme.recorrencia;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +17,7 @@ import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetTokenCartaoRecorren
 import br.com.cartaoamigo.to.ParansTokenCartaoPagarmeTO;
 import br.com.cartaoamigo.ws.pagarme.to.CartaoClienteTO;
 import br.com.cartaoamigo.ws.pagarme.to.CriarCartaoClienteTO;
+import br.com.cartaoamigo.ws.pagarme.to.ListaCartoesClienteTO;
 import br.com.cartaoamigo.ws.pagarme.to.TokenCartaoTO;
 
 
@@ -44,7 +43,7 @@ public class CartaoClienteRecorrenciaPagarmeService {
 	}
 	
 	@GetMapping(path = "/cartao/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CartaoClienteTO> listarCartoes(@PathVariable(name = "idCliente") String idCliente) {
+	public ListaCartoesClienteTO listarCartoes(@PathVariable(name = "idCliente") String idCliente) {
 		return getCartaoCmd.getCartoesCliente(idCliente);
 	}
 	
@@ -54,7 +53,7 @@ public class CartaoClienteRecorrenciaPagarmeService {
 		return getCartaoCmd.getCartaoCliente(idCliente, idCartao);
 	}
 	
-	@PostMapping(path = "/cartao", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CriarCartaoClienteTO criarCartao(@RequestBody CriarCartaoClienteTO cartaoTO) {
 		return criarCartaoCmd.criarCartao(cartaoTO);
 	}

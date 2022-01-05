@@ -1,7 +1,5 @@
 package br.com.cartaoamigo.ws.pagarme.cartao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,6 +8,7 @@ import br.com.cartaoamigo.ws.HttpRestUtil;
 import br.com.cartaoamigo.ws.pagarme.PagarmeRecorrenciaProvider;
 import br.com.cartaoamigo.ws.pagarme.to.CartaoClienteTO;
 import br.com.cartaoamigo.ws.pagarme.to.CriarCartaoClienteTO;
+import br.com.cartaoamigo.ws.pagarme.to.ListaCartoesClienteTO;
 
 @Component
 public class CartaoClienteRecorrenciaServiceImpl implements CartaoClienteRecorrenciaService{
@@ -24,10 +23,9 @@ public class CartaoClienteRecorrenciaServiceImpl implements CartaoClienteRecorre
 		return httpRestUtil.delete(appId, null, provider.getUrlExcluirCartoesCliente(idCliente, idCartao), null , CartaoClienteTO.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<CartaoClienteTO> listarCartoes(String idCliente) throws Exception {
-		return httpRestUtil.get(appId, null, provider.getUrlListarCartoesCliente(idCliente), List.class);
+	public ListaCartoesClienteTO listarCartoes(String idCliente) throws Exception {
+		return httpRestUtil.get(appId, null, provider.getUrlListarCartoesCliente(idCliente), ListaCartoesClienteTO.class);
 	}
 
 	@Override

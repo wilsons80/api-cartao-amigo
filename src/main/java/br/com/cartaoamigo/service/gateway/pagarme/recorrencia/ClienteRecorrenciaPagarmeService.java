@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.SalvarClienteRecorrenciaPagarmeCmd;
@@ -23,8 +24,8 @@ public class ClienteRecorrenciaPagarmeService {
 	}
 
 	@PostMapping(path = "/salvar/base", produces = MediaType.APPLICATION_JSON_VALUE)
-	public void salvarBase() {
-		salvarCmd.salvarBase();
+	public void salvarBase(@RequestParam(name = "idTitular", required = false) Long idTitular) {
+		salvarCmd.salvarBase(idTitular);
 	}
 	
 }

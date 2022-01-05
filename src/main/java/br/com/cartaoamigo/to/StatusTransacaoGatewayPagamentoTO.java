@@ -4,7 +4,7 @@ public class StatusTransacaoGatewayPagamentoTO {
 	private Long id;
 	private String descricao;
 	private GatewayPagamentoTO gatewayPagamento;
-	private Long codigoTransacao;
+	private String codigoTransacao;
 	
 	public StatusTransacaoGatewayPagamentoTO() {
 		
@@ -34,11 +34,11 @@ public class StatusTransacaoGatewayPagamentoTO {
 		this.gatewayPagamento = gatewaypagamento;
 	}
 
-	public Long getCodigoTransacao() {
+	public String getCodigoTransacao() {
 		return codigoTransacao;
 	}
 
-	public void setCodigoTransacao(Long codigotransacao) {
+	public void setCodigoTransacao(String codigotransacao) {
 		this.codigoTransacao = codigotransacao;
 	}
 	

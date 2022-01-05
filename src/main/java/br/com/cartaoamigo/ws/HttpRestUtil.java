@@ -72,7 +72,7 @@ public class HttpRestUtil {
 		String authHeader = authorizationBasic(username, password);
 		
 		HttpHeaders jsonContentType = new HttpHeaders();
-		jsonContentType.setContentType(MediaType.APPLICATION_JSON);
+		jsonContentType.set("Content-type", "application/json;charset=UTF-8");
 		jsonContentType.set( "Authorization", authHeader );
 		
 		return HttpHeaders.readOnlyHttpHeaders(jsonContentType);

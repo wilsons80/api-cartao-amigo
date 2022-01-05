@@ -41,9 +41,9 @@ public class SalvarClienteRecorrenciaPagarmeCmd {
 	}
 	
 	
-	public void salvarBase() {
+	public void salvarBase(Long idTitular) {
 		try {
-			Optional<List<Titular>> titularesOptional = titularRepository.findAllTitularesSemCadastroPagarMe(PageRequest.of(0,1));
+			Optional<List<Titular>> titularesOptional = titularRepository.findAllTitularesSemCadastroPagarMe(idTitular, PageRequest.of(0,1));
 			
 			if(titularesOptional.isPresent()) {
 				titularesOptional.get().forEach((titular) -> {

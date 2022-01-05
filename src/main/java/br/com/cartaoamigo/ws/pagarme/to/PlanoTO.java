@@ -8,11 +8,10 @@ public class PlanoTO {
 	private String name;
 	private String url;
 	private String currency;
-	private String interval;
 	private Long minimum_price;
+	private String interval;
 	private Integer interval_count;
 	private String billing_type;
-	private Integer installments;
 	private String status;
 	private LocalDateTime created_at;
 
@@ -81,14 +80,6 @@ public class PlanoTO {
 
 	public void setBilling_type(String billing_type) {
 		this.billing_type = billing_type;
-	}
-
-	public Integer getInstallments() {
-		return installments;
-	}
-
-	public void setInstallments(Integer installments) {
-		this.installments = installments;
 	}
 
 	public String getStatus() {

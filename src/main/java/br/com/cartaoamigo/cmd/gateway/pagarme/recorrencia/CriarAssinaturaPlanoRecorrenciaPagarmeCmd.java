@@ -1,7 +1,6 @@
 package br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,6 +41,7 @@ import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
 import br.com.cartaoamigo.ws.pagarme.assinatura.AssinaturaPlanoRecorrenciaService;
 import br.com.cartaoamigo.ws.pagarme.to.CobrancaFaturaTO;
 import br.com.cartaoamigo.ws.pagarme.to.FaturaAssinaturaPlanoTO;
+import br.com.cartaoamigo.ws.pagarme.to.ListaFaturasAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.NovaAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCriadaTO;
 
@@ -203,7 +203,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 
 			
 			retornoAssinaturaTO.setLinkPagamento           (null);
-			retornoAssinaturaTO.setStatus                  (statusTO.getCodigoTransacao().toString());
+			retornoAssinaturaTO.setStatus                  (statusTO.getCodigoTransacao());
 			retornoAssinaturaTO.setDescricaoStatusTransacao(statusTO.getDescricao());
 			return retornoAssinaturaTO;		
 			
@@ -340,8 +340,8 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			
 			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
 			
-			List<FaturaAssinaturaPlanoTO> faturasDaAssinatura = getFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getFaturasDaAssinatura(assinaturaTO.getCustomer_id(), retornoAssinaturaTO.getId() );
-			FaturaAssinaturaPlanoTO faturaTO = faturasDaAssinatura.stream().findFirst().get();
+			ListaFaturasAssinaturaPlanoTO faturasDaAssinatura = getFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getFaturasDaAssinatura(assinaturaTO.getCustomer_id(), retornoAssinaturaTO.getId() );
+			FaturaAssinaturaPlanoTO faturaTO = faturasDaAssinatura.getData().stream().findFirst().get();
 			
 			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getCobrancaFaturasDaAssinatura(faturaTO.getCharge().getId());
 

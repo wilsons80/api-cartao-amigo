@@ -1,14 +1,12 @@
 package br.com.cartaoamigo.ws.pagarme.fatura;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.ws.HttpRestUtil;
 import br.com.cartaoamigo.ws.pagarme.PagarmeRecorrenciaProvider;
-import br.com.cartaoamigo.ws.pagarme.to.FaturaAssinaturaPlanoTO;
+import br.com.cartaoamigo.ws.pagarme.to.ListaFaturasAssinaturaPlanoTO;
 
 @Component
 public class FaturaAssinaturaPlanoRecorrenciaServiceImpl implements FaturaAssinaturaPlanoRecorrenciaService{
@@ -20,9 +18,8 @@ public class FaturaAssinaturaPlanoRecorrenciaServiceImpl implements FaturaAssina
 	
 
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<FaturaAssinaturaPlanoTO> getFaturasDaAssinatura(String idCliente, String idAssinatura) {
-		return httpRestUtil.get(appId, null, provider.getUrlListarFaturasAssinaturaCliente(idCliente, idAssinatura), List.class);
+	public ListaFaturasAssinaturaPlanoTO getFaturasDaAssinatura(String idCliente, String idAssinatura) {
+		return httpRestUtil.get(appId, null, provider.getUrlListarFaturasAssinaturaCliente(idCliente, idAssinatura), ListaFaturasAssinaturaPlanoTO.class);
 	}
 }

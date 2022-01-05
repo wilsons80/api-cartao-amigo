@@ -2,21 +2,27 @@ package br.com.cartaoamigo.ws.pagarme.to;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RetornoAssinaturaPlanoCriadaTO {
 
 	private String id;
-	private String payment_method;
-	private String currency;
+	private String code;
+	private LocalDateTime start_at;
 	private String interval;
 	private Integer interval_count;
-	private Integer boleto_due_days;
 	private LocalDateTime next_billing_at;
+	private String payment_method;
+	private String currency;
 	private Integer installments;
-	private ClientePagarMeTO customer;
-	private CartaoClienteTO card;
 	private String status;
 	private LocalDateTime created_at;
+	private ClientePagarMeTO customer;
+	private CartaoClienteTO card;
 	private PlanoTO plan;
+	
+	private Integer boleto_due_days;
 	
 	private String descricaoStatusTransacao;
 	private String linkPagamento;
@@ -142,6 +148,22 @@ public class RetornoAssinaturaPlanoCriadaTO {
 
 	public void setLinkPagamento(String linkPagamento) {
 		this.linkPagamento = linkPagamento;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public LocalDateTime getStart_at() {
+		return start_at;
+	}
+
+	public void setStart_at(LocalDateTime start_at) {
+		this.start_at = start_at;
 	}
 
 	

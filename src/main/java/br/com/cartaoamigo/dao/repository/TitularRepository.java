@@ -55,6 +55,7 @@ public interface TitularRepository extends JpaRepository<Titular, Long> {
 	
 	
 	@Query(value = "select t from Titular t 												"
-			+ " where t.idClientePagarMe is null    						 		        ")
-	public Optional<List<Titular>> findAllTitularesSemCadastroPagarMe(Pageable pageable);
+			+ " where t.idClientePagarMe is null    						 		        "
+			+ "   and (?1 is null or t.id = ?1)                                             ")
+	public Optional<List<Titular>> findAllTitularesSemCadastroPagarMe(Long idTitular, Pageable pageable);
 }

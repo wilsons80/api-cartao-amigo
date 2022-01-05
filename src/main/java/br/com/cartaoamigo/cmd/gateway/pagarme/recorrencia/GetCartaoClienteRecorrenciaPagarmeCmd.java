@@ -1,13 +1,12 @@
 package br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.exception.PagarmeException;
 import br.com.cartaoamigo.ws.pagarme.cartao.CartaoClienteRecorrenciaService;
 import br.com.cartaoamigo.ws.pagarme.to.CartaoClienteTO;
+import br.com.cartaoamigo.ws.pagarme.to.ListaCartoesClienteTO;
 
 
 @Component
@@ -15,7 +14,7 @@ public class GetCartaoClienteRecorrenciaPagarmeCmd {
 
 	@Autowired private CartaoClienteRecorrenciaService service;
 	
-	public List<CartaoClienteTO> getCartoesCliente(String idCliente) {
+	public ListaCartoesClienteTO getCartoesCliente(String idCliente) {
 		try {
 			return service.listarCartoes(idCliente);
 		} catch (Exception e) {
