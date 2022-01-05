@@ -1,9 +1,10 @@
 package br.com.cartaoamigo.cmd.gateway.pagarme;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,8 @@ import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 
 @Component
 public class SalvarNotificacaoPagarMeTransacaoCmd {
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SalvarNotificacaoPagarMeTransacaoCmd.class);
+
 	@Autowired private NotificacaoTransacaoRepository repository;
 	@Autowired private NotificacaoTransacaoTOBuilder toBuilder;
 	@Autowired private StatusTransacaoGatewayPagamentoTOBuilder statusTOBuilder;
@@ -36,6 +38,8 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
+		LOGGER.info("webHookPagarMeTO >>> " + notificacao.toString());
+		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);
 		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
 		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
