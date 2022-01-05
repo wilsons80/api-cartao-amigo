@@ -15,7 +15,7 @@ import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
-import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
+import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 
 @Component
 public class NotificacaoBuilder {
@@ -25,29 +25,29 @@ public class NotificacaoBuilder {
 	@Autowired private GetGatewayPagamentoCmd getGatewayPagamentoCmd;
 
 	
-	public NotificacaoTransacaoTO buildPagarMe(WebHookPagarMeTO webHookPagarMeTO) {
+	public NotificacaoTransacaoTO buildPagarMe(NotificacaoPagarmeTransacaoTO notificacao) {
 		NotificacaoTransacaoTO notificacaoTO = new NotificacaoTransacaoTO();
 		try {
 			notificacaoTO.setId(null);
-			notificacaoTO.setCodigoNotificacao(webHookPagarMeTO.getId());
+			notificacaoTO.setCodigoNotificacao(notificacao.getId());
 			notificacaoTO.setDtNotificacao(LocalDateTime.now());
-			notificacaoTO.setNumeroTransacao(webHookPagarMeTO.getData().getCode());
+			notificacaoTO.setNumeroTransacao(notificacao.getData().getCode());
 			
-			LOGGER.info("Buscando o ID da assinatura: " + webHookPagarMeTO.getData().getInvoice().getSubscriptionId());
-			notificacaoTO.setIdAssinaturaPagarme(webHookPagarMeTO.getData().getInvoice().getSubscriptionId());
+			LOGGER.info("Buscando o ID da assinatura: " + notificacao.getData().getInvoice().getSubscriptionId());
+			notificacaoTO.setIdAssinaturaPagarme(notificacao.getData().getInvoice().getSubscriptionId());
 
 			notificacaoTO.setQuantidadeNotificacao(1L);
-			if(StringUtils.isNotEmpty(webHookPagarMeTO.getAttempts())) {
-				String[] tentativas = webHookPagarMeTO.getAttempts().split("/");
+			if(StringUtils.isNotEmpty(notificacao.getAttempts())) {
+				String[] tentativas = notificacao.getAttempts().split("/");
 				notificacaoTO.setQuantidadeNotificacao(Long.valueOf(tentativas[0]));	
 			}
 			
 			
 			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo("PAGARME");
 			
-			LOGGER.info("Buscando o status da transação: " + webHookPagarMeTO.getData().getStatus() + " - " + gatewayPagamentoTO.getId());
+			LOGGER.info("Buscando o status da transação: " + notificacao.getData().getStatus() + " - " + gatewayPagamentoTO.getId());
 			
-			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(webHookPagarMeTO.getData().getStatus(), gatewayPagamentoTO.getId());
+			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(notificacao.getData().getStatus(), gatewayPagamentoTO.getId());
 			notificacaoTO.setStatus(statusTO);
 
 			return notificacaoTO;

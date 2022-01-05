@@ -187,11 +187,6 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				voucherRepository.save(voucher.get());
 			}			
 			
-			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo(PAGARME);
-			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(retornoAssinaturaTO.getStatus(), gatewayPagamentoTO.getId());
-
-			historicoPagamentoTO.setStatusTransacao    (statusTO);
-			historicoPagamentoTO.setGatewayPagamento   (gatewayPagamentoTO);
 			
 			Optional<FormaPagamento> formaPagamento = formaPagamentoRepository.findByNome(CARTAO_CREDITO);
 			historicoPagamentoTO.setFormaPagamento(formaPagamentoTOBuilder.buildTO(formaPagamento.get()));
@@ -199,6 +194,15 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setTipoPlano(tipoPlanoTOBuilder.buildTO(tipoPlano.get()));
 			historicoPagamentoTO.setValorPago(valorCobrado);
 			
+			//Obtém a cobrança da fatura gerada na assinatura
+			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFatura(assinaturaTO, retornoAssinaturaTO);
+
+			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo(PAGARME);
+			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(cobrancaFaturaTO.getStatus(), gatewayPagamentoTO.getId());
+
+			historicoPagamentoTO.setStatusTransacao    (statusTO);
+			historicoPagamentoTO.setGatewayPagamento   (gatewayPagamentoTO);
+
 			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
 
 			
@@ -210,6 +214,13 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		} catch (Exception e) {
 			throw new PagarmeException("Ocorreu um erro ao criar a assinatura com cartão: " + e.getMessage());
 		}
+	}
+
+
+	private CobrancaFaturaTO getCobrancaFatura(NovaAssinaturaPlanoTO assinaturaTO, RetornoAssinaturaPlanoCriadaTO retornoAssinaturaTO) {
+		ListaFaturasAssinaturaPlanoTO faturasDaAssinatura = getFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getFaturasDaAssinatura(assinaturaTO.getCustomer_id(), retornoAssinaturaTO.getId() );
+		FaturaAssinaturaPlanoTO faturaTO = faturasDaAssinatura.getData().stream().findFirst().get();
+		return getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getCobrancaFaturasDaAssinatura(faturaTO.getCharge().getId());
 	}
 
 	
@@ -326,11 +337,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				voucherRepository.save(voucher.get());
 			}			
 			
-			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo(PAGARME);
-			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(retornoAssinaturaTO.getStatus(), gatewayPagamentoTO.getId());
 
-			historicoPagamentoTO.setStatusTransacao    (statusTO);
-			historicoPagamentoTO.setGatewayPagamento   (gatewayPagamentoTO);
 			
 			Optional<FormaPagamento> formaPagamento = formaPagamentoRepository.findByNome(BOLETO);
 			historicoPagamentoTO.setFormaPagamento(formaPagamentoTOBuilder.buildTO(formaPagamento.get()));
@@ -338,13 +345,14 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setTipoPlano(tipoPlanoTOBuilder.buildTO(tipoPlano.get()));
 			historicoPagamentoTO.setValorPago(valorCobrado);
 			
-			//////////////////////////////////////////////////////////
-			// Obtenho a FATURA e COBRANÇA da assinatura 
-			ListaFaturasAssinaturaPlanoTO faturasDaAssinatura = getFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getFaturasDaAssinatura(assinaturaTO.getCustomer_id(), retornoAssinaturaTO.getId() );
-			FaturaAssinaturaPlanoTO faturaTO = faturasDaAssinatura.getData().stream().findFirst().get();
+			//Obtém a cobrança da fatura gerada na assinatura
+			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFatura(assinaturaTO, retornoAssinaturaTO);
 			
-			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getCobrancaFaturasDaAssinatura(faturaTO.getCharge().getId());
-			//////////////////////////////////////////////////////////
+			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo(PAGARME);
+			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(cobrancaFaturaTO.getStatus(), gatewayPagamentoTO.getId());
+
+			historicoPagamentoTO.setStatusTransacao        (statusTO);
+			historicoPagamentoTO.setGatewayPagamento       (gatewayPagamentoTO);
 			
 			historicoPagamentoTO.setLinkPagamento          (cobrancaFaturaTO.getLast_transaction().getPdf());			
 			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);

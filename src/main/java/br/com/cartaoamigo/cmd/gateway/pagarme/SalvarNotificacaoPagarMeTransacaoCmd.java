@@ -41,12 +41,12 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private GetWebhookPagarmeCmd getWebhookPagarmeCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
-		LOGGER.info(">>>>> ID webhook PAGAR.ME: " + notificacao.getId());
+		LOGGER.info(">>>>> ID webhook PAGAR.ME: " + notificacao.getId() );
 		
-		WebHookPagarMeTO webHookPagarMeTO = getWebhookPagarmeCmd.getWebhook(notificacao.getId());
-		LOGGER.info(">>>>> Dados webhook PAGAR.ME: " + webHookPagarMeTO.toString());
+		//WebHookPagarMeTO webHookPagarMeTO = getWebhookPagarmeCmd.getWebhook(notificacao.getId());
+		LOGGER.info(">>>>> Dados webhook PAGAR.ME: " + notificacao.toString());
 		
-		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(webHookPagarMeTO);		
+		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);		
 		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));		
 		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
 	}
