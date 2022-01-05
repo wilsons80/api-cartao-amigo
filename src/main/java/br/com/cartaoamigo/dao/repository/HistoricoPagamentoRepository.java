@@ -26,7 +26,7 @@ public interface HistoricoPagamentoRepository extends JpaRepository<HistoricoPag
 	
 	
 	@Query(value = " select hp from HistoricoPagamento hp "
-			+ " where hp.numeroTransacaoGatewayPagamento = ?1 ")
+			+ " where upper(hp.numeroTransacaoGatewayPagamento) = upper(?1) ")
 	public Optional<HistoricoPagamento> findByNumeroTransacao(String numeroTransacao);
 	
 }
