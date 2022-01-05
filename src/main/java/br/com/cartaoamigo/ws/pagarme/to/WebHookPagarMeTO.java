@@ -53,5 +53,11 @@ public class WebHookPagarMeTO {
 		this.data = data;
 	}
 
+	@Override
+	public String toString() {
+		return "WebHookPagarMeTO [id=" + id + ", event=" + event + ", status=" + status + ", attempts=" + attempts
+				+ ", data=" + data + "]";
+	}
+
 	
 }
