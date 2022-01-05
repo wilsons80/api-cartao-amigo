@@ -11,13 +11,11 @@ import org.springframework.util.MultiValueMap;
 
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
 import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
-import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
-import br.com.cartaoamigo.ws.pagarme.to.CobrancaFaturaTO;
 
 @Component
 public class NotificacaoBuilder {
@@ -25,7 +23,7 @@ public class NotificacaoBuilder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotificacaoBuilder.class);
 	@Autowired private GetStatusTransacaoCmd getStatusTransacaoCmd;
 	@Autowired private GetGatewayPagamentoCmd getGatewayPagamentoCmd;
-	@Autowired private GetCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd;
+
 	
 	public NotificacaoTransacaoTO buildPagarMe(NotificacaoPagarmeTransacaoTO notificacaoPagarme) {
 		NotificacaoTransacaoTO notificacaoTO = new NotificacaoTransacaoTO();
@@ -34,11 +32,7 @@ public class NotificacaoBuilder {
 			notificacaoTO.setCodigoNotificacao(notificacaoPagarme.getId());
 			notificacaoTO.setDtNotificacao(LocalDateTime.now());
 			notificacaoTO.setNumeroTransacao(notificacaoPagarme.getData().getCode());
-			
-			String idCobrancaFaturaPagarMe = notificacaoPagarme.getData().getCharge().getId();
-			
-			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getCobrancaFaturasDaAssinatura(idCobrancaFaturaPagarMe);
-			notificacaoTO.setIdAssinaturaPagarme(cobrancaFaturaTO.getInvoice().getSubscriptionId());
+			notificacaoTO.setIdAssinaturaPagarme(notificacaoPagarme.getData().getInvoice().getSubscriptionId());
 
 			notificacaoTO.setQuantidadeNotificacao(1L);
 			if(StringUtils.isNotEmpty(notificacaoPagarme.getAttempts())) {

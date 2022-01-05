@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import br.com.cartaoamigo.infra.adapter.LocalDateTimeAdapter;
-import br.com.cartaoamigo.ws.pagarme.to.CobrancaFaturaAssinaturaPlanoTO;
 
 public class NotificacaoTransacaoTO {
 	
@@ -28,8 +27,6 @@ public class NotificacaoTransacaoTO {
 	
 	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime updated_at;
-	
-	private CobrancaFaturaAssinaturaPlanoTO charge;
 	
 	private NotificacaoFaturaTO invoice;
 	
@@ -144,20 +141,12 @@ public class NotificacaoTransacaoTO {
 		this.customer = customer;
 	}
 
-	public CobrancaFaturaAssinaturaPlanoTO getCharge() {
-		return charge;
-	}
-
-	public void setCharge(CobrancaFaturaAssinaturaPlanoTO charge) {
-		this.charge = charge;
-	}
-
 	@Override
 	public String toString() {
 		return "NotificacaoTransacaoTO [id=" + id + ", code=" + code + ", amount=" + amount + ", paid_amount="
 				+ paid_amount + ", status=" + status + ", currency=" + currency + ", payment_method=" + payment_method
 				+ ", due_at=" + due_at + ", paid_at=" + paid_at + ", created_at=" + created_at + ", updated_at="
-				+ updated_at + ", charge=" + charge + ", invoice=" + invoice + ", customer=" + customer + "]";
+				+ updated_at + ", invoice=" + invoice + ", customer=" + customer + "]";
 	}
 
 
