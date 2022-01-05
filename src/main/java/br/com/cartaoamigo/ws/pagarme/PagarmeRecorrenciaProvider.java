@@ -22,6 +22,8 @@ public class PagarmeRecorrenciaProvider {
 	@Value("${pagarme.recorrencia.listar.assinaturas}")                    private String listarAssinaturaCliente;
 	@Value("${pagarme.recorrencia.listar.assinaturas.faturas}")            private String listarFaturasDaAssinaturaCliente;
 	@Value("${pagarme.recorrencia.cobranca.fatura}")                       private String cobrancaFatura;
+	@Value("${pagarme.recorrencia.obter.webhook}")                         private String obterWebhook;
+	
 	
 	
 	public String getUrlBandeira(String binCartao) {
@@ -76,5 +78,8 @@ public class PagarmeRecorrenciaProvider {
 		return String.format(cobrancaFatura, idCobranca);
 	}
 	
+	public String getUrlWebHook(String idWebHook) {
+		return String.format(obterWebhook, idWebHook);
+	}
 	
 }

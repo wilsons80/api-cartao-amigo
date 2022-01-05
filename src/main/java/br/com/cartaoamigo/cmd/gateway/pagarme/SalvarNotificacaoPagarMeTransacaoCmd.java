@@ -13,6 +13,7 @@ import br.com.cartaoamigo.builder.NotificacaoTransacaoTOBuilder;
 import br.com.cartaoamigo.builder.StatusTransacaoGatewayPagamentoTOBuilder;
 import br.com.cartaoamigo.cmd.GravarEnvioEmailCmd;
 import br.com.cartaoamigo.cmd.SalvarValidadeCartaoCmd;
+import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetWebhookPagarmeCmd;
 import br.com.cartaoamigo.dao.repository.HistoricoPagamentoRepository;
 import br.com.cartaoamigo.dao.repository.NotificacaoTransacaoRepository;
 import br.com.cartaoamigo.entity.HistoricoPagamento;
@@ -23,6 +24,8 @@ import br.com.cartaoamigo.to.EnvioEmailTO;
 import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
+import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
+import br.com.cartaoamigo.ws.pagarme.webhook.WebhookPagarMeService;
 
 @Component
 public class SalvarNotificacaoPagarMeTransacaoCmd {
@@ -36,12 +39,13 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private HistoricoPagamentoTOBuilder historicoPagamentoTOBuilder;
 	@Autowired private GravarEnvioEmailCmd gravarEnvioEmailCmd;
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
-	
+	@Autowired private GetWebhookPagarmeCmd getWebhookPagarmeCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
-		LOGGER.info(">>>>> Dados notificacao PAGAR.ME: " + notificacao.toString());
+		WebHookPagarMeTO webHookPagarMeTO = getWebhookPagarmeCmd.getWebhook(notificacao.getId());
+		LOGGER.info(">>>>> Dados webhook PAGAR.ME: " + webHookPagarMeTO.toString());
 		
-		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);		
+		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(webHookPagarMeTO);		
 		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));		
 		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
 	}

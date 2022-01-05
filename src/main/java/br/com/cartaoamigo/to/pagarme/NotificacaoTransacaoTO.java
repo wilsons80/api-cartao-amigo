@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import br.com.cartaoamigo.infra.adapter.LocalDateTimeAdapter;
+import br.com.cartaoamigo.ws.pagarme.to.UltimaCobrancaFaturaTO;
 
 public class NotificacaoTransacaoTO {
 	
@@ -32,6 +33,7 @@ public class NotificacaoTransacaoTO {
 	
 	private NotificacaoClienteTO customer;
 	
+	private UltimaCobrancaFaturaTO last_transaction;
 
 	
 	public NotificacaoTransacaoTO() {
@@ -140,14 +142,24 @@ public class NotificacaoTransacaoTO {
 	public void setCustomer(NotificacaoClienteTO customer) {
 		this.customer = customer;
 	}
+	
+	public UltimaCobrancaFaturaTO getLast_transaction() {
+		return last_transaction;
+	}
+
+	public void setLast_transaction(UltimaCobrancaFaturaTO last_transaction) {
+		this.last_transaction = last_transaction;
+	}
 
 	@Override
 	public String toString() {
 		return "NotificacaoTransacaoTO [id=" + id + ", code=" + code + ", amount=" + amount + ", paid_amount="
 				+ paid_amount + ", status=" + status + ", currency=" + currency + ", payment_method=" + payment_method
 				+ ", due_at=" + due_at + ", paid_at=" + paid_at + ", created_at=" + created_at + ", updated_at="
-				+ updated_at + ", invoice=" + invoice + ", customer=" + customer + "]";
+				+ updated_at + ", invoice=" + invoice + ", customer=" + customer + ", last_transaction="
+				+ last_transaction + "]";
 	}
 
+	
 
 }
