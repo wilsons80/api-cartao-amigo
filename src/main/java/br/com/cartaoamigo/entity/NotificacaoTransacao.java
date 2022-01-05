@@ -42,6 +42,9 @@ public class NotificacaoTransacao implements Serializable {
 	@Column(name = "qtd_notificacao")
 	private Long quantidadeNotificacao;
 	
+	@Column(name = "id_assinatura_pagarme")
+	private String idAssinaturaPagarme;
+	
 	public NotificacaoTransacao() {	
 	}
 
@@ -92,5 +95,14 @@ public class NotificacaoTransacao implements Serializable {
 	public void setQuantidadeNotificacao(Long quantidadeNotificacao) {
 		this.quantidadeNotificacao = quantidadeNotificacao;
 	}
+
+	public String getIdAssinaturaPagarme() {
+		return idAssinaturaPagarme;
+	}
+
+	public void setIdAssinaturaPagarme(String idAssinaturaPagarme) {
+		this.idAssinaturaPagarme = idAssinaturaPagarme;
+	}
+	
 	
 }

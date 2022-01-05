@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import br.com.cartaoamigo.infra.adapter.LocalDateTimeAdapter;
+import br.com.cartaoamigo.ws.pagarme.to.CobrancaFaturaAssinaturaPlanoTO;
 
 public class NotificacaoTransacaoTO {
 	
@@ -28,11 +29,13 @@ public class NotificacaoTransacaoTO {
 	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime updated_at;
 	
+	private CobrancaFaturaAssinaturaPlanoTO charge;
+	
 	private NotificacaoFaturaTO invoice;
 	
 	private NotificacaoClienteTO customer;
 	
-	private NotificacaoUltimaTransacaoTO last_transaction;
+
 	
 	public NotificacaoTransacaoTO() {
 	}
@@ -141,12 +144,12 @@ public class NotificacaoTransacaoTO {
 		this.customer = customer;
 	}
 
-	public NotificacaoUltimaTransacaoTO getLast_transaction() {
-		return last_transaction;
+	public CobrancaFaturaAssinaturaPlanoTO getCharge() {
+		return charge;
 	}
 
-	public void setLast_transaction(NotificacaoUltimaTransacaoTO last_transaction) {
-		this.last_transaction = last_transaction;
+	public void setCharge(CobrancaFaturaAssinaturaPlanoTO charge) {
+		this.charge = charge;
 	}
 
 	@Override
@@ -154,8 +157,8 @@ public class NotificacaoTransacaoTO {
 		return "NotificacaoTransacaoTO [id=" + id + ", code=" + code + ", amount=" + amount + ", paid_amount="
 				+ paid_amount + ", status=" + status + ", currency=" + currency + ", payment_method=" + payment_method
 				+ ", due_at=" + due_at + ", paid_at=" + paid_at + ", created_at=" + created_at + ", updated_at="
-				+ updated_at + ", invoice=" + invoice + ", customer=" + customer + ", last_transaction="
-				+ last_transaction + "]";
+				+ updated_at + ", charge=" + charge + ", invoice=" + invoice + ", customer=" + customer + "]";
 	}
+
 
 }

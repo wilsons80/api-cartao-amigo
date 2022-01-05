@@ -64,7 +64,7 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = toBuilder.buildTO(repository.save(notificacaoGateWay));
 		
-		Optional<HistoricoPagamento> historicoPagamento = historicoPagamentoRepository.findByNumeroTransacao(notificacaoTransacaoTO.getNumeroTransacao());
+		Optional<HistoricoPagamento> historicoPagamento = historicoPagamentoRepository.findByNumeroTransacao(notificacaoTransacaoTO.getIdAssinaturaPagarme());
 		if(historicoPagamento.isPresent()) {	
 			LOGGER.info(">>>>> Salvar notificacao PAGAR.ME: " + historicoPagamento.get().toString());
 			

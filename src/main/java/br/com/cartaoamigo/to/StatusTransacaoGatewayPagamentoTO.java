@@ -41,6 +41,13 @@ public class StatusTransacaoGatewayPagamentoTO {
 	public void setCodigoTransacao(String codigotransacao) {
 		this.codigoTransacao = codigotransacao;
 	}
+
+	@Override
+	public String toString() {
+		return "StatusTransacaoGatewayPagamentoTO [id=" + id + ", descricao=" + descricao + ", gatewayPagamento="
+				+ gatewayPagamento + ", codigoTransacao=" + codigoTransacao + "]";
+	}
+	
 	
 }
 

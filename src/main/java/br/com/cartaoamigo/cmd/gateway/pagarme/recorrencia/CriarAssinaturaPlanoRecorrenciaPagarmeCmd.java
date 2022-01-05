@@ -338,16 +338,21 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setTipoPlano(tipoPlanoTOBuilder.buildTO(tipoPlano.get()));
 			historicoPagamentoTO.setValorPago(valorCobrado);
 			
-			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
-			
+			//////////////////////////////////////////////////////////
+			// Obtenho a FATURA e COBRANÇA da assinatura 
 			ListaFaturasAssinaturaPlanoTO faturasDaAssinatura = getFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getFaturasDaAssinatura(assinaturaTO.getCustomer_id(), retornoAssinaturaTO.getId() );
 			FaturaAssinaturaPlanoTO faturaTO = faturasDaAssinatura.getData().stream().findFirst().get();
 			
 			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getCobrancaFaturasDaAssinatura(faturaTO.getCharge().getId());
-
+			//////////////////////////////////////////////////////////
+			
+			historicoPagamentoTO.setLinkPagamento          (cobrancaFaturaTO.getLast_transaction().getPdf());			
+			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
+			
 			retornoAssinaturaTO.setLinkPagamento           (cobrancaFaturaTO.getLast_transaction().getPdf());
 			retornoAssinaturaTO.setStatus                  (statusTO.getCodigoTransacao().toString());
 			retornoAssinaturaTO.setDescricaoStatusTransacao(statusTO.getDescricao());
+			
 			return retornoAssinaturaTO;	
 			
 		} catch (Exception e) {

@@ -14,6 +14,7 @@ public class FaturaAssinaturaPlanoTO {
 	private String payment_method;
 	private LocalDateTime due_at;
 	private LocalDateTime created_at;
+	private String subscriptionId;
 	private CobrancaFaturaAssinaturaPlanoTO charge;
 	private CicloAssinaturaTO cycle;
 
@@ -116,4 +117,13 @@ public class FaturaAssinaturaPlanoTO {
 		this.cycle = cycle;
 	}
 
+	public String getSubscriptionId() {
+		return subscriptionId;
+	}
+
+	public void setSubscriptionId(String subscriptionId) {
+		this.subscriptionId = subscriptionId;
+	}
+
+	
 }

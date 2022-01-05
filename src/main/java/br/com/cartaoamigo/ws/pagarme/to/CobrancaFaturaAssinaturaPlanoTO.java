@@ -2,6 +2,8 @@ package br.com.cartaoamigo.ws.pagarme.to;
 
 import java.time.LocalDateTime;
 
+import br.com.cartaoamigo.to.pagarme.NotificacaoUltimaTransacaoTO;
+
 public class CobrancaFaturaAssinaturaPlanoTO {
 
 	private String id;
@@ -15,6 +17,8 @@ public class CobrancaFaturaAssinaturaPlanoTO {
 	private LocalDateTime paid_at;
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
+	
+	private NotificacaoUltimaTransacaoTO last_transaction;
 
 	public CobrancaFaturaAssinaturaPlanoTO() {
 	}
@@ -107,4 +111,21 @@ public class CobrancaFaturaAssinaturaPlanoTO {
 		this.updated_at = updated_at;
 	}
 
+	public NotificacaoUltimaTransacaoTO getLast_transaction() {
+		return last_transaction;
+	}
+
+	public void setLast_transaction(NotificacaoUltimaTransacaoTO last_transaction) {
+		this.last_transaction = last_transaction;
+	}
+
+	@Override
+	public String toString() {
+		return "CobrancaFaturaAssinaturaPlanoTO [id=" + id + ", code=" + code + ", amount=" + amount + ", paid_amount="
+				+ paid_amount + ", status=" + status + ", currency=" + currency + ", payment_method=" + payment_method
+				+ ", due_at=" + due_at + ", paid_at=" + paid_at + ", created_at=" + created_at + ", updated_at="
+				+ updated_at + ", last_transaction=" + last_transaction + "]";
+	}
+
+	
 }

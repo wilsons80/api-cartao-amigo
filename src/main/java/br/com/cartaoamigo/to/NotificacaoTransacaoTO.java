@@ -18,6 +18,8 @@ public class NotificacaoTransacaoTO {
 	private StatusTransacaoGatewayPagamentoTO status;
 	private Long quantidadeNotificacao;
 
+	private String idAssinaturaPagarme;
+	
 	public NotificacaoTransacaoTO() {
 	}
 
@@ -76,13 +78,22 @@ public class NotificacaoTransacaoTO {
 		
 		++this.quantidadeNotificacao;
 	}
+	
+	public String getIdAssinaturaPagarme() {
+		return idAssinaturaPagarme;
+	}
+
+	public void setIdAssinaturaPagarme(String idAssinaturaPagarme) {
+		this.idAssinaturaPagarme = idAssinaturaPagarme;
+	}
 
 	@Override
 	public String toString() {
-		return "NotificacaoTransacaoTO [id=" + id + ", codigoNotificacao=" + codigoNotificacao + ", numeroTransacao=" + numeroTransacao + ", dtNotificacao=" + dtNotificacao + ", status=" + status + ", quantidadeNotificacao=" + quantidadeNotificacao + "]";
+		return "NotificacaoTransacaoTO [id=" + id + ", codigoNotificacao=" + codigoNotificacao + ", numeroTransacao="
+				+ numeroTransacao + ", dtNotificacao=" + dtNotificacao + ", status=" + status
+				+ ", quantidadeNotificacao=" + quantidadeNotificacao + ", idAssinaturaPagarme=" + idAssinaturaPagarme
+				+ "]";
 	}
-
-
 
 	
 }

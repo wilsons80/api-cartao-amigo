@@ -16,6 +16,7 @@ public class CobrancaFaturaTO {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
     
+    private FaturaAssinaturaPlanoTO invoice;
     private UltimaCobrancaFaturaTO last_transaction;
 
 	public CobrancaFaturaTO() {
@@ -115,6 +116,14 @@ public class CobrancaFaturaTO {
 
 	public void setLast_transaction(UltimaCobrancaFaturaTO last_transaction) {
 		this.last_transaction = last_transaction;
+	}
+
+	public FaturaAssinaturaPlanoTO getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(FaturaAssinaturaPlanoTO invoice) {
+		this.invoice = invoice;
 	}
 
 
