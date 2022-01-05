@@ -45,8 +45,10 @@ public class NotificacaoPagarmeTransacaoTO {
 
 	@Override
 	public String toString() {
-		return "NotificacaoPagarmeTransacaoTO [id=" + id + ", event=" + event + ", data=" + data + "]";
+		return "NotificacaoPagarmeTransacaoTO [id=" + id + ", event=" + event + ", attempts=" + attempts + ", data="
+				+ data + "]";
 	}
+
 	
 	
 

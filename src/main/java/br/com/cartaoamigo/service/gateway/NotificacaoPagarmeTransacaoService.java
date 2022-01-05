@@ -1,5 +1,7 @@
 package br.com.cartaoamigo.service.gateway;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 @RestController
 @RequestMapping(value = "pagarme/notificacao")
 public class NotificacaoPagarmeTransacaoService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotificacaoPagarmeTransacaoService.class);
 	
 	@Autowired private SalvarNotificacaoPagarMeTransacaoCmd salvarCmd;
 	@Autowired private GetNotificacaoTransacaoCmd getNotificacaoTransacaoCmd;
@@ -31,6 +34,7 @@ public class NotificacaoPagarmeTransacaoService {
 	 */
 	@PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void salvarNotificacao(@RequestBody NotificacaoPagarmeTransacaoTO notificacao) {
+		LOGGER.info("Dados da notificação >>> " + notificacao.toString());
 		salvarCmd.salvar(notificacao);
 	}
 	

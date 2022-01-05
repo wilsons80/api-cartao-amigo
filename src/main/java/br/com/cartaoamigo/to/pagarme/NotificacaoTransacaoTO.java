@@ -46,5 +46,11 @@ public class NotificacaoTransacaoTO {
 		this.invoice = invoice;
 	}
 
+	@Override
+	public String toString() {
+		return "NotificacaoTransacaoTO [id=" + id + ", code=" + code + ", status=" + status + ", invoice=" + invoice
+				+ "]";
+	}
+
 
 }

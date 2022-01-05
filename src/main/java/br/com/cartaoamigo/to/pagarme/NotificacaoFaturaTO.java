@@ -51,5 +51,11 @@ public class NotificacaoFaturaTO {
 		this.subscriptionId = subscriptionId;
 	}
 
+	@Override
+	public String toString() {
+		return "NotificacaoFaturaTO [id=" + id + ", code=" + code + ", status=" + status + ", payment_method="
+				+ payment_method + ", subscriptionId=" + subscriptionId + "]";
+	}
+
 	
 }
