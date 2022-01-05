@@ -25,7 +25,6 @@ import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
-import br.com.cartaoamigo.ws.pagarme.webhook.WebhookPagarMeService;
 
 @Component
 public class SalvarNotificacaoPagarMeTransacaoCmd {
@@ -42,6 +41,8 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private GetWebhookPagarmeCmd getWebhookPagarmeCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
+		LOGGER.info(">>>>> ID webhook PAGAR.ME: " + notificacao.getId());
+		
 		WebHookPagarMeTO webHookPagarMeTO = getWebhookPagarmeCmd.getWebhook(notificacao.getId());
 		LOGGER.info(">>>>> Dados webhook PAGAR.ME: " + webHookPagarMeTO.toString());
 		

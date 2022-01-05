@@ -2,9 +2,6 @@ package br.com.cartaoamigo.to.pagarme;
 
 import java.time.LocalDateTime;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import br.com.cartaoamigo.infra.adapter.LocalDateTimeAdapter;
 import br.com.cartaoamigo.ws.pagarme.to.UltimaCobrancaFaturaTO;
 
 public class NotificacaoTransacaoTO {
@@ -16,17 +13,9 @@ public class NotificacaoTransacaoTO {
 	private String status;          // Valores possíveis: pending, paid, canceled, scheduled ou failed.
 	private String currency;
 	private String payment_method;
-	
-	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime due_at;
-	
-	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime paid_at;
-	
-	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime created_at;
-	
-	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime updated_at;
 	
 	private NotificacaoFaturaTO invoice;

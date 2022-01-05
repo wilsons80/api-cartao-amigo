@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cartaoamigo.cmd.gateway.pagarme.SalvarNotificacaoPagarMeTransacaoCmd;
+import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetWebhookPagarmeCmd;
 import br.com.cartaoamigo.cmd.gatewaypagamento.GetNotificacaoTransacaoCmd;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
+import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
 import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 
 @RestController
@@ -21,6 +23,7 @@ public class NotificacaoPagarmeTransacaoService {
 	
 	@Autowired private SalvarNotificacaoPagarMeTransacaoCmd salvarCmd;
 	@Autowired private GetNotificacaoTransacaoCmd getNotificacaoTransacaoCmd;
+	@Autowired private GetWebhookPagarmeCmd getWebhookPagarmeCmd;
 	
 	/**
 	 * Endpoint usado para capturar o retorno das transações no pagarme.
@@ -41,5 +44,8 @@ public class NotificacaoPagarmeTransacaoService {
 		 return getNotificacaoTransacaoCmd.getNotificacaoByPagSeguro(codigoNotificacao);
 	}
 	
-	
+	@GetMapping(path = "/webhook/{idWebhook}", produces = MediaType.APPLICATION_JSON_VALUE )
+	public WebHookPagarMeTO getWebhook(@PathVariable(name = "idWebhook") String idWebhook) {
+		return getWebhookPagarmeCmd.getWebhook(idWebhook);
+	}
 }

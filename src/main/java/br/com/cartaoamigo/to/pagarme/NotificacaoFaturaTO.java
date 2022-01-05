@@ -2,10 +2,6 @@ package br.com.cartaoamigo.to.pagarme;
 
 import java.time.LocalDateTime;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import br.com.cartaoamigo.infra.adapter.LocalDateTimeAdapter;
-
 public class NotificacaoFaturaTO {
 	
 	private String id;
@@ -15,10 +11,7 @@ public class NotificacaoFaturaTO {
 	private String payment_method;
 	private String subscriptionId;
 	
-	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime due_at;
-	
-	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class) 
 	private LocalDateTime created_at;
 	
 	public NotificacaoFaturaTO() {
