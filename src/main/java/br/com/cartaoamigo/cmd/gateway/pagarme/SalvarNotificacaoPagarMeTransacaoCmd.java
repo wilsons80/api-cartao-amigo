@@ -54,6 +54,7 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		LOGGER.info("webHookPagarMeTO salvando historico...");
 		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao), webHookPagarMeTO.getEvent());
 		
+		LOGGER.info("FIM webHookPagarMeTO salvando historico...");
 	}
 	
 	
