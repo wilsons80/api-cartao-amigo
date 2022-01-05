@@ -3,8 +3,6 @@ package br.com.cartaoamigo.cmd.gateway.pagarme;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +11,6 @@ import br.com.cartaoamigo.builder.NotificacaoTransacaoTOBuilder;
 import br.com.cartaoamigo.builder.StatusTransacaoGatewayPagamentoTOBuilder;
 import br.com.cartaoamigo.cmd.GravarEnvioEmailCmd;
 import br.com.cartaoamigo.cmd.SalvarValidadeCartaoCmd;
-import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetWebhookPagarmeCmd;
 import br.com.cartaoamigo.dao.repository.HistoricoPagamentoRepository;
 import br.com.cartaoamigo.dao.repository.NotificacaoTransacaoRepository;
 import br.com.cartaoamigo.entity.HistoricoPagamento;
@@ -24,11 +21,9 @@ import br.com.cartaoamigo.to.EnvioEmailTO;
 import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
-import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
 
 @Component
 public class SalvarNotificacaoPagarMeTransacaoCmd {
-	private static final Logger LOGGER=LoggerFactory.getLogger(SalvarNotificacaoPagarMeTransacaoCmd.class);
 	
 	@Autowired private NotificacaoTransacaoRepository repository;
 	@Autowired private NotificacaoTransacaoTOBuilder toBuilder;
@@ -38,22 +33,15 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private HistoricoPagamentoTOBuilder historicoPagamentoTOBuilder;
 	@Autowired private GravarEnvioEmailCmd gravarEnvioEmailCmd;
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
-	@Autowired private GetWebhookPagarmeCmd getWebhookPagarmeCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
-		LOGGER.info(">>>>> Dados webhook PAGAR.ME: " + notificacao.toString());
-		
-		//WebHookPagarMeTO webHookPagarMeTO = getWebhookPagarmeCmd.getWebhook(notificacao.getId());
-		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);		
 		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));		
-		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
+		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao), notificacao.getEvent());
 	}
 	
 	
-	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
-		LOGGER.info(">>>>> Preparando para salvar notificacao PAGAR.ME: " + to.toString());
-		
+	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to, String eventoNotificacao) {
 		NotificacaoTransacao notificacaoGateWay = null;
 		Optional<NotificacaoTransacao> notificacao = repository.findByCodigoNotificacao(to.getCodigoNotificacao());
 		if(notificacao.isPresent()) {
@@ -70,8 +58,6 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		
 		Optional<HistoricoPagamento> historicoPagamento = historicoPagamentoRepository.findByNumeroTransacao(notificacaoTransacaoTO.getIdAssinaturaPagarme());
 		if(historicoPagamento.isPresent()) {	
-			LOGGER.info(">>>>> Salvar notificacao PAGAR.ME: " + historicoPagamento.get().toString());
-			
 			String codigoTransacaoAntes = historicoPagamento.get().getStatusTransacao().getCodigoTransacao();
 			
 			historicoPagamento.get().setStatusTransacao(notificacaoGateWay.getStatus());
@@ -79,15 +65,15 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 			HistoricoPagamentoTO historicoPagamentoTO = historicoPagamentoTOBuilder.buildTO(pagamento);
 			
 			//pagamento estava aprovado e chegou uma notificação cancelando o pagamento
-			if(isTransacaoAprovada(codigoTransacaoAntes) && 
-			   isTransacaoNaoAprovada(notificacaoGateWay.getStatus().getCodigoTransacao()) ) {
+			if(isTransacaoAprovada(eventoNotificacao, codigoTransacaoAntes) && 
+			   isTransacaoNaoAprovada(eventoNotificacao, notificacaoGateWay.getStatus().getCodigoTransacao()) ) {
 				
 				salvarValidadeCartaoCmd.decrementarValidade(historicoPagamento.get().getTitular().getPessoaFisica().getId(), 
 						                                    historicoPagamento.get().getTipoPlano().getQuantidadeParcelas().intValue(), 
 						                                    historicoPagamento.get().getTitular().getId());
 			}
 			
-			if(isTransacaoAprovada(notificacaoGateWay.getStatus().getCodigoTransacao()) ) {
+			if(isTransacaoAprovada(eventoNotificacao, notificacaoGateWay.getStatus().getCodigoTransacao()) ) {
 				
 				salvarValidadeCartaoCmd.incrementarValidade(pagamento.getTitular().getPessoaFisica().getId(), historicoPagamentoTO.getTipoPlano().getQuantidadeDiasVigencia().intValue());
 				
@@ -109,12 +95,12 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	}
 
 
-	private boolean isTransacaoAprovada(String codigoTransacao) {
-		return "paid".equals(codigoTransacao.toLowerCase());
+	private boolean isTransacaoAprovada(String eventoNotificacao, String codigoTransacao) {
+		return "charge.paid".equals(eventoNotificacao) && "paid".equals(codigoTransacao.toLowerCase());
 	}
 	
-	private boolean isTransacaoNaoAprovada(String codigoTransacao) {
-		return !isTransacaoAprovada(codigoTransacao);
+	private boolean isTransacaoNaoAprovada(String eventoNotificacao, String codigoTransacao) {
+		return !isTransacaoAprovada(eventoNotificacao, codigoTransacao);
 	}
 
 	

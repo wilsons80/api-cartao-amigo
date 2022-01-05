@@ -1,6 +1,7 @@
 package br.com.cartaoamigo.service.gateway;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
 import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
+import br.com.cartaoamigo.exception.NotFoundException;
 import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
@@ -33,7 +35,9 @@ public class NotificacaoBuilder {
 			notificacaoTO.setDtNotificacao(LocalDateTime.now());
 			notificacaoTO.setNumeroTransacao(notificacao.getData().getCode());
 			
-			LOGGER.info("Buscando o ID da assinatura: " + notificacao.getData().getInvoice().getSubscriptionId());
+			if(Objects.isNull(notificacao.getData().getInvoice())) {
+				throw new NotFoundException("Não é possível obter o ID da assinatura ao processar a notificação.");
+			}
 			notificacaoTO.setIdAssinaturaPagarme(notificacao.getData().getInvoice().getSubscriptionId());
 
 			notificacaoTO.setQuantidadeNotificacao(1L);
@@ -42,11 +46,7 @@ public class NotificacaoBuilder {
 				notificacaoTO.setQuantidadeNotificacao(Long.valueOf(tentativas[0]));	
 			}
 			
-			
 			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo("PAGARME");
-			
-			LOGGER.info("Buscando o status da transação: " + notificacao.getData().getStatus() + " - " + gatewayPagamentoTO.getId());
-			
 			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(notificacao.getData().getStatus(), gatewayPagamentoTO.getId());
 			notificacaoTO.setStatus(statusTO);
 
@@ -55,7 +55,6 @@ public class NotificacaoBuilder {
 		} catch (Exception e) {
 			LOGGER.info("=====================================================================");
 			LOGGER.info("Erro ao recuperar dados da notividação do PAGARME");
-			LOGGER.info(e.getMessage());
 			e.printStackTrace();
 			LOGGER.info("=====================================================================");
 
