@@ -36,11 +36,9 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
-		if(StringUtils.isNotEmpty(notificacao.getEvent())) {
-			NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);
-			NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
-			salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
-		}
+		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);
+		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
+		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
 	}
 	
 	
