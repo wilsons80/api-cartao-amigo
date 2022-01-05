@@ -35,10 +35,15 @@ public class NotificacaoBuilder {
 			notificacaoTO.setDtNotificacao(LocalDateTime.now());
 			notificacaoTO.setNumeroTransacao(notificacao.getData().getCode());
 			
-			if(Objects.isNull(notificacao.getData().getInvoice())) {
+			if(Objects.isNull(notificacao.getData().getInvoice()) && Objects.isNull(notificacao.getData().getSubscription())) {
 				throw new NotFoundException("Não é possível obter o ID da assinatura ao processar a notificação.");
 			}
-			notificacaoTO.setIdAssinaturaPagarme(notificacao.getData().getInvoice().getSubscriptionId());
+			
+			String idAssinatura = Objects.nonNull(notificacao.getData().getInvoice()) ? 
+					              notificacao.getData().getInvoice().getSubscriptionId() : 
+					              notificacao.getData().getSubscription().getId();
+			
+			notificacaoTO.setIdAssinaturaPagarme(idAssinatura);
 
 			notificacaoTO.setQuantidadeNotificacao(1L);
 			if(StringUtils.isNotEmpty(notificacao.getAttempts())) {

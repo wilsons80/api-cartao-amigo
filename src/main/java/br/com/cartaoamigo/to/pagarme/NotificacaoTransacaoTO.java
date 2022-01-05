@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.UltimaCobrancaFaturaTO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,6 +27,8 @@ public class NotificacaoTransacaoTO {
 	private NotificacaoClienteTO customer;
 	
 	private UltimaCobrancaFaturaTO last_transaction;
+	
+	private AssinaturaPlanoTO subscription;
 
 	
 	public NotificacaoTransacaoTO() {
@@ -141,6 +144,14 @@ public class NotificacaoTransacaoTO {
 
 	public void setLast_transaction(UltimaCobrancaFaturaTO last_transaction) {
 		this.last_transaction = last_transaction;
+	}
+	
+	public AssinaturaPlanoTO getSubscription() {
+		return subscription;
+	}
+
+	public void setSubscription(AssinaturaPlanoTO subscription) {
+		this.subscription = subscription;
 	}
 
 	@Override
