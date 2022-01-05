@@ -3,6 +3,8 @@ package br.com.cartaoamigo.cmd.gateway.pagarme;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,7 @@ import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 
 @Component
 public class SalvarNotificacaoPagarMeTransacaoCmd {
+	private static final Logger LOGGER=LoggerFactory.getLogger(SalvarNotificacaoPagarMeTransacaoCmd.class);
 	
 	@Autowired private NotificacaoTransacaoRepository repository;
 	@Autowired private NotificacaoTransacaoTOBuilder toBuilder;
@@ -36,6 +39,8 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
+		LOGGER.info(">>>>> Dados notificacao PAGAR.ME: " + notificacao.toString());
+		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);		
 		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));		
 		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
@@ -43,6 +48,8 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	
 	
 	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
+		LOGGER.info(">>>>> Preparando para salvar notificacao PAGAR.ME: " + to.toString());
+		
 		NotificacaoTransacao notificacaoGateWay = null;
 		Optional<NotificacaoTransacao> notificacao = repository.findByCodigoNotificacao(to.getCodigoNotificacao());
 		if(notificacao.isPresent()) {
@@ -58,7 +65,9 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		NotificacaoTransacaoTO notificacaoTransacaoTO = toBuilder.buildTO(repository.save(notificacaoGateWay));
 		
 		Optional<HistoricoPagamento> historicoPagamento = historicoPagamentoRepository.findByNumeroTransacao(notificacaoTransacaoTO.getNumeroTransacao());
-		if(historicoPagamento.isPresent()) {			
+		if(historicoPagamento.isPresent()) {	
+			LOGGER.info(">>>>> Salvar notificacao PAGAR.ME: " + historicoPagamento.get().toString());
+			
 			String codigoTransacaoAntes = historicoPagamento.get().getStatusTransacao().getCodigoTransacao();
 			
 			historicoPagamento.get().setStatusTransacao(notificacaoGateWay.getStatus());
