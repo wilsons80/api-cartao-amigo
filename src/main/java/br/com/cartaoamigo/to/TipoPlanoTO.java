@@ -9,6 +9,8 @@ public class TipoPlanoTO {
 	private Long quantidadeDiasVigencia;
 	private Boolean ativo;
 	private String idPlanoPagarme;
+	private Boolean isRecorrencia;
+	
 	
 	public TipoPlanoTO() {
 		
@@ -76,6 +78,14 @@ public class TipoPlanoTO {
 
 	public void setIdPlanoPagarme(String idPlanoPagarme) {
 		this.idPlanoPagarme = idPlanoPagarme;
+	}
+
+	public Boolean getIsRecorrencia() {
+		return isRecorrencia;
+	}
+
+	public void setIsRecorrencia(Boolean isRecorrencia) {
+		this.isRecorrencia = isRecorrencia;
 	}
 	
 	

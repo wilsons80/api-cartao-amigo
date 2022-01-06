@@ -1,4 +1,4 @@
-package br.com.cartaoamigo.cmd.gateway;
+package br.com.cartaoamigo.cmd.gateway.pagseguro;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -12,6 +12,7 @@ import br.com.cartaoamigo.builder.NotificacaoTransacaoTOBuilder;
 import br.com.cartaoamigo.builder.StatusTransacaoGatewayPagamentoTOBuilder;
 import br.com.cartaoamigo.cmd.GravarEnvioEmailCmd;
 import br.com.cartaoamigo.cmd.SalvarValidadeCartaoCmd;
+import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
 import br.com.cartaoamigo.cmd.gatewaypagamento.GetNotificacaoTransacaoCmd;
 import br.com.cartaoamigo.dao.repository.HistoricoPagamentoRepository;
 import br.com.cartaoamigo.dao.repository.NotificacaoTransacaoRepository;
@@ -26,7 +27,7 @@ import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
 import br.com.cartaoamigo.ws.pagseguro.to.NotificacaoTransacaoGatewayTO;
 
 @Component
-public class SalvarNotificacaoTransacaoCmd {
+public class SalvarNotificacaoTransacaoPagSeguroCmd {
 	
 	@Autowired private NotificacaoTransacaoRepository repository;
 	@Autowired private NotificacaoTransacaoTOBuilder toBuilder;
@@ -57,7 +58,7 @@ public class SalvarNotificacaoTransacaoCmd {
 	}
 	
 	
-	public NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
+	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
 		NotificacaoTransacao notificacaoGateWay = null;
 		Optional<NotificacaoTransacao> notificacao = repository.findByCodigoNotificacao(to.getCodigoNotificacao());
 		if(notificacao.isPresent()) {

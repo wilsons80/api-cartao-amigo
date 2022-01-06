@@ -16,6 +16,7 @@ public class EnvioEmailTO {
 	private Boolean        isTitular;
 	private String         username;
 	private Long           idHistoricoPagamento;
+	private Long           idAssinatura;
 	
 	public EnvioEmailTO() {
 	}
@@ -116,6 +117,12 @@ public class EnvioEmailTO {
 		this.idHistoricoPagamento = idHistoricoPagamento;
 	}
 
-	
+	public Long getIdAssinatura() {
+		return idAssinatura;
+	}
+
+	public void setIdAssinatura(Long idAssinatura) {
+		this.idAssinatura = idAssinatura;
+	}
 	
 }

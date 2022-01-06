@@ -12,6 +12,7 @@ public class EmailTO {
 	private Long           idTipoPlano;
 	private Boolean        isTitular;
 	private Long           idHistoricoPagamento;
+	private Long           idAssinatura;
 	
 	public EmailTO() {
 	}
@@ -94,6 +95,14 @@ public class EmailTO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Long getIdAssinatura() {
+		return idAssinatura;
+	}
+
+	public void setIdAssinatura(Long idAssinatura) {
+		this.idAssinatura = idAssinatura;
 	}
 
 	

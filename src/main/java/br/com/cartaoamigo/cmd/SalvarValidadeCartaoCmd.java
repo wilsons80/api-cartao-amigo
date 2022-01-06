@@ -17,24 +17,15 @@ public class SalvarValidadeCartaoCmd {
 	@Autowired private GetHistoricoPagamentoCmd getHistoricoPagamentoCmd;
 	
 	
-	public static void main(String[] args) {
-		Long qtdParcelasPlano = 12L;
-		Long qtdDiasPlano = 365L;
-		
-		LocalDateTime novaData1 = LocalDateTime.now().plusMonths(qtdParcelasPlano);
-		LocalDateTime novaData2 = LocalDateTime.now().plusDays(qtdDiasPlano);
-		
-		System.out.println(novaData1);
-		System.out.println(novaData2);
-	}
-	
 	public void incrementarValidade(Long idPessoaFisicaTitular, int qtdDiasVigenciaPlano) {
 		Optional<Cartao> cartaoTitular = cartaoRepository.findCartaoTitularByIdPessoaFisica(idPessoaFisicaTitular);
 		if(cartaoTitular.isPresent()) {
 			if(Objects.isNull(cartaoTitular.get().getDataValidadePlano())) {
 				cartaoTitular.get().setDataValidadePlano(LocalDateTime.now());
 			}
-			LocalDateTime novaData = cartaoTitular.get().getDataValidadePlano().plusDays(qtdDiasVigenciaPlano);
+			
+			//LocalDateTime novaData = cartaoTitular.get().getDataValidadePlano().plusDays(qtdDiasVigenciaPlano);
+			LocalDateTime novaData = LocalDateTime.now().plusDays(qtdDiasVigenciaPlano);
 			cartaoTitular.get().setDataValidadePlano(novaData);
 			cartaoRepository.save(cartaoTitular.get());
 		}

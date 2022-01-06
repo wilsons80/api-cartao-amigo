@@ -19,6 +19,7 @@ import br.com.cartaoamigo.dao.repository.EnvioEmailRepository;
 import br.com.cartaoamigo.entity.EnvioEmail;
 import br.com.cartaoamigo.enums.TipoEmail;
 import br.com.cartaoamigo.mail.sendgrid.EmailService;
+import br.com.cartaoamigo.mail.GetConteudoEmailAssinaturaCanceladaCmd;
 import br.com.cartaoamigo.mail.GetConteudoEmailContaCriadaCmd;
 import br.com.cartaoamigo.mail.GetConteudoEmailPagamentoCmd;
 import br.com.cartaoamigo.mail.GetConteudoEmailRedefinirSenhaCmd;
@@ -41,7 +42,7 @@ public class EnviarEmailCartaoAmigoCmd {
 	@Autowired private GetConteudoEmailPagamentoCmd getConteudoEmailPagamentoCmd; 
 	@Autowired private GetConteudoEmailRedefinirSenhaCmd getConteudoEmailRedefinirSenhaCmd;
 	@Autowired private GetConteudoEmailContaCriadaCmd getConteudoEmailContaCriadaCmd;
-	
+	@Autowired private GetConteudoEmailAssinaturaCanceladaCmd getConteudoEmailAssinaturaCanceladaCmd;
 	
 	
 	@Transactional(value = TxType.REQUIRES_NEW)
@@ -129,6 +130,19 @@ public class EnviarEmailCartaoAmigoCmd {
 			emailTO.setIdHistoricoPagamento(envioEmailTO.getIdHistoricoPagamento());
 			
 			conteudoHtml = getConteudoEmailPagamentoCmd.getConteudoHtml(emailTO).toString();
+		}
+		
+		if(email.getIdTipoEmail().equals(TipoEmail.CANCELAMENTO_ASSINATURA.getId())) {
+			
+			EmailTO emailTO = new EmailTO();
+			emailTO.setIdTipoEmail         (TipoEmail.CANCELAMENTO_ASSINATURA.getId());
+			emailTO.setLinkPagamento       (envioEmailTO.getLinkPagamento());
+			emailTO.setPessoaFisica        (envioEmailTO.getPessoaFisica());
+			emailTO.setIdTipoPlano         (envioEmailTO.getIdTipoPlano());
+			emailTO.setIdHistoricoPagamento(envioEmailTO.getIdHistoricoPagamento());
+			emailTO.setIdAssinatura        (envioEmailTO.getIdAssinatura());
+			
+			conteudoHtml = getConteudoEmailAssinaturaCanceladaCmd.getConteudoHtml(emailTO).toString();
 		}
 		
 		assuntoEmail = "Cartão Amigo - " + TipoEmail.getPorId(envioEmailTO.getIdTipoEmail()).getDescricao().replaceAll("_", " ");		

@@ -1,10 +1,10 @@
 package br.com.cartaoamigo.cmd.gateway.pagarme;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,12 +41,22 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		LOGGER.info("webHookPagarMeTO >>> " + notificacao.toString());
 		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);
-		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
-		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
+		
+		if(isAssinaturaCancelada(notificacao.getEvent())) {
+			salvarNotificacaoCancelamentoAssinatura(notificacaoTransacaoTO);
+		} else {
+			NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
+			salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
+		}
+		
 	}
 	
+	private void salvarNotificacaoCancelamentoAssinatura(NotificacaoTransacaoTO to) {
+		NotificacaoTransacao notificacaoGateWay = getBuilderNotificacaoTransacao(to);
+		repository.save(notificacaoGateWay);
+	}
 	
-	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
+	private NotificacaoTransacao getBuilderNotificacaoTransacao(NotificacaoTransacaoTO to) {
 		NotificacaoTransacao notificacaoGateWay = null;
 		Optional<NotificacaoTransacao> notificacao = repository.findByCodigoNotificacao(to.getCodigoNotificacao());
 		if(notificacao.isPresent()) {
@@ -59,27 +69,21 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		notificacaoGateWay.setQuantidadeNotificacao(notificacaoGateWay.getQuantidadeNotificacao()+1);	
 		notificacaoGateWay.setDtNotificacao        (LocalDateTime.now());
 		
+		return notificacaoGateWay;
+	}
+	
+	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
+		NotificacaoTransacao notificacaoGateWay = getBuilderNotificacaoTransacao(to);
+		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = toBuilder.buildTO(repository.save(notificacaoGateWay));
 		
 		Optional<HistoricoPagamento> historicoPagamento = historicoPagamentoRepository.findByNumeroTransacao(notificacaoTransacaoTO.getIdAssinaturaPagarme());
 		if(historicoPagamento.isPresent()) {	
-			String codigoTransacaoAntes = historicoPagamento.get().getStatusTransacao().getCodigoTransacao();
-			
 			historicoPagamento.get().setStatusTransacao(notificacaoGateWay.getStatus());
-			HistoricoPagamento pagamento = historicoPagamentoRepository.save(historicoPagamento.get());			
+			HistoricoPagamento pagamento              = historicoPagamentoRepository.save(historicoPagamento.get());			
 			HistoricoPagamentoTO historicoPagamentoTO = historicoPagamentoTOBuilder.buildTO(pagamento);
 			
-			//pagamento estava aprovado e chegou uma notificação cancelando o pagamento
-			if(isTransacaoAprovada(codigoTransacaoAntes) && 
-			   isTransacaoNaoAprovada(notificacaoGateWay.getStatus().getCodigoTransacao()) ) {
-				
-				salvarValidadeCartaoCmd.decrementarValidade(historicoPagamento.get().getTitular().getPessoaFisica().getId(), 
-						                                    historicoPagamento.get().getTipoPlano().getQuantidadeParcelas().intValue(), 
-						                                    historicoPagamento.get().getTitular().getId());
-			}
-			
 			if(isTransacaoAprovada(notificacaoGateWay.getStatus().getCodigoTransacao()) ) {
-				
 				salvarValidadeCartaoCmd.incrementarValidade(pagamento.getTitular().getPessoaFisica().getId(), historicoPagamentoTO.getTipoPlano().getQuantidadeDiasVigencia().intValue());
 				
 				/////////////////////////////////////////////////////////////////////////////////
@@ -104,9 +108,8 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		return "paid".equals(codigoTransacao.toLowerCase());
 	}
 	
-	private boolean isTransacaoNaoAprovada(String codigoTransacao) {
-		return !isTransacaoAprovada(codigoTransacao);
+	private boolean isAssinaturaCancelada(String evento) {
+		return "subscription.canceled".equals(evento);
 	}
-
 	
 }

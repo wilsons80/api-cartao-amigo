@@ -54,7 +54,14 @@ public class GetHistoricoPagamentoCmd {
 	public boolean isPossuiPagamentoAprovado(Long idTitular) {
 		Optional<List<HistoricoPagamento>> historicosPagamento = getAllByIdTitular(idTitular);
 		if(historicosPagamento.isPresent()) {
-			long count = historicosPagamento.get().stream().filter(pag -> pag.getStatusTransacao().getId().equals(3L) || pag.getStatusTransacao().getId().equals(4L)).count();
+			long count = historicosPagamento.get()
+					                        .stream()
+					                        .filter(pag -> pag.getStatusTransacao().getId().equals(3L) 
+					                        		       || 
+					                        		       pag.getStatusTransacao().getId().equals(4L)
+					                        		       ||
+					                        		       pag.getStatusTransacao().getCodigoTransacao().equals("paid")
+					                        		       ).count();
 			return count > 0;
 		}
 		return false;

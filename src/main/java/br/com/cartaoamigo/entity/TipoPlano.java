@@ -44,6 +44,10 @@ public class TipoPlano {
 	@Column(name = "id_plano_pagarme")
 	private String idPlanoPagarme;
 	
+	@Column(name="is_recorrencia")
+	@Convert(converter = SimNaoConverter.class)
+	private Boolean isRecorrencia;
+	
 	public TipoPlano() {
 	}
 
@@ -109,6 +113,14 @@ public class TipoPlano {
 
 	public void setIdPlanoPagarme(String idPlanoPagarme) {
 		this.idPlanoPagarme = idPlanoPagarme;
+	}
+
+	public Boolean getIsRecorrencia() {
+		return isRecorrencia;
+	}
+
+	public void setIsRecorrencia(Boolean isRecorrencia) {
+		this.isRecorrencia = isRecorrencia;
 	}
 	
 	

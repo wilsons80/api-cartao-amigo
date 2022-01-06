@@ -3,9 +3,10 @@ package br.com.cartaoamigo.enums;
 public enum TipoEmail {
 
 	// @formatter:off
-	CONTA_CRIADA 	    (1L, "Conta criada", "CONTA_CRIADA"), 
-	REDEFINIR_SENHA   	(2L, "Redefinir Senha", "REDEFINIR_SENHA"),
-	PAGAMENTO        	(3L, "Pagamento Efetuado", "PAGAMENTO");
+	CONTA_CRIADA 	        (1L, "Conta criada", "CONTA_CRIADA"), 
+	REDEFINIR_SENHA   	    (2L, "Redefinir Senha", "REDEFINIR_SENHA"),
+	PAGAMENTO        	    (3L, "Pagamento Efetuado", "PAGAMENTO"),
+	CANCELAMENTO_ASSINATURA	(4L, "Assinatura Cancelada", "CANCELAMENTO_ASSINATURA");
 	// @formatter:on
 
 	private Long id;

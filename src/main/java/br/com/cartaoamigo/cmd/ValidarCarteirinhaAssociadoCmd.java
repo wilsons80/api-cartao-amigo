@@ -44,7 +44,7 @@ public class ValidarCarteirinhaAssociadoCmd {
 		
 		TitularTO titularTO = getTitularCmd.getTOById(cartao.getIdTitular());
 		
-		//Busca a data de validade baseado ao titular, pois o dependente não faz pagamento da assinatura.
+		//Busca a data de validade baseado no titular, pois o dependente não faz pagamento da assinatura.
 		if(cartao.getIsTitular()) {
 			LocalDate dataFimValidade = Objects.nonNull(cartao.getDataValidadePlano()) ? cartao.getDataValidadePlano().toLocalDate() : null;
 			carteirinhaTO.setDataFimValidade(dataFimValidade);
