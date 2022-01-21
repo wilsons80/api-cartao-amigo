@@ -43,12 +43,15 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);
 		
+		/*
 		if(isAssinaturaCancelada(notificacao.getEvent())) {
 			salvarNotificacaoCancelamentoAssinatura(notificacaoTransacaoTO);
 		} else {
-			NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
-			salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
 		}
+		*/
+		
+		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
+		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
 		
 	}
 	
