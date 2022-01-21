@@ -1,5 +1,7 @@
 package br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,9 @@ public class GetTokenCartaoRecorrenciaPagarmeCmd {
 		try {
 			// buscar a bandeira do BIN do cartão
 			BandeiraCartaoTO bandeiraCartaoTO = getBandeiraCartaoRecorrenciaPagarmeCmd.getBandeira(tokenCartaoTO.getNumeroCartao());
+			if(Objects.isNull(bandeiraCartaoTO) || Objects.isNull(bandeiraCartaoTO.getBrand())) {
+				throw new PagarmeException("Não identificamos a bandeira do cartão.");
+			}
 			
 			return service.getTokenCartao(tokenCartaoTO.getNumeroCartao(),
 					                      tokenCartaoTO.getNomeImpresso(),
@@ -28,7 +33,7 @@ public class GetTokenCartaoRecorrenciaPagarmeCmd {
 					                      tokenCartaoTO.getMesVencimentoCartao(), 
 					                      tokenCartaoTO.getAnoVencimentoCartao());
 		} catch (Exception e) {
-			throw new PagarmeException("Ocorreu um erro ao obter o token do cartão da transação: " + e.getMessage());
+			throw new PagarmeException("Ocorreu um erro ao obter o token do cartão: " + e.getMessage());
 		}
 	}
 

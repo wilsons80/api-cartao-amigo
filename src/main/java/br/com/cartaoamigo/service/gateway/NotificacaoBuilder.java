@@ -12,12 +12,14 @@ import org.springframework.util.MultiValueMap;
 
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
 import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
+import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetWebhookPagarmeCmd;
 import br.com.cartaoamigo.exception.NotFoundException;
 import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
 import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
+import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
 
 @Component
 public class NotificacaoBuilder {
@@ -25,9 +27,9 @@ public class NotificacaoBuilder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotificacaoBuilder.class);
 	@Autowired private GetStatusTransacaoCmd getStatusTransacaoCmd;
 	@Autowired private GetGatewayPagamentoCmd getGatewayPagamentoCmd;
-
 	
-	public NotificacaoTransacaoTO buildPagarMe(NotificacaoPagarmeTransacaoTO notificacao) {
+	
+	public NotificacaoTransacaoTO buildPagarMe(WebHookPagarMeTO notificacao) {
 		NotificacaoTransacaoTO notificacaoTO = new NotificacaoTransacaoTO();
 		try {
 			notificacaoTO.setId(null);
@@ -35,13 +37,14 @@ public class NotificacaoBuilder {
 			notificacaoTO.setDtNotificacao(LocalDateTime.now());
 			notificacaoTO.setNumeroTransacao(notificacao.getData().getCode());
 			
-			if(Objects.isNull(notificacao.getData().getInvoice()) && Objects.isNull(notificacao.getData().getSubscription())) {
-				throw new NotFoundException("Não é possível obter o ID da assinatura ao processar a notificação.");
+			String idAssinatura = null;
+			if(notificacao.getEvent().contains("subscription")) {
+				idAssinatura = notificacao.getData().getId();
+			} else {
+				idAssinatura = Objects.nonNull(notificacao.getData().getInvoice()) ? 
+				       		   notificacao.getData().getInvoice().getSubscriptionId() : 
+							   notificacao.getData().getSubscription().getId();
 			}
-			
-			String idAssinatura = Objects.nonNull(notificacao.getData().getInvoice()) ? 
-					              notificacao.getData().getInvoice().getSubscriptionId() : 
-					              notificacao.getData().getSubscription().getId();
 			
 			notificacaoTO.setIdAssinaturaPagarme(idAssinatura);
 

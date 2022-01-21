@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import br.com.cartaoamigo.builder.PessoaFisicaTOBuilder;
 import br.com.cartaoamigo.builder.TipoUsuarioTOBuilder;
 import br.com.cartaoamigo.builder.TitularTOBuilder;
+import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.SalvarClienteRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.dao.repository.DependentesTitularRepository;
 import br.com.cartaoamigo.dao.repository.PessoaFisicaRepository;
 import br.com.cartaoamigo.dao.repository.TipoAcessoUsuarioRepository;
@@ -60,7 +61,7 @@ public class CadastrarTitularCmd {
 	@Autowired private ExcluirUsuarioCmd excluirUsuarioCmd;
 	@Autowired private UsuarioRepository usuarioRepository;
 	@Autowired private ValidarDependentesCPFDuplicadosRule validarDependentesCPFDuplicadosRule;
-	
+	@Autowired private SalvarClienteRecorrenciaPagarmeCmd salvarClienteRecorrenciaPagarmeCmd;
 	
 	public TitularTO cadastrar(TitularTO to) {
 		try {
@@ -136,7 +137,11 @@ public class CadastrarTitularCmd {
 			TipoAcessoUsuario tau = new TipoAcessoUsuario();
 			tau.setIdTipoUsuario(TipoUsuarioSistema.ASSOCIADO_TITULAR.getId());
 			tau.setIdUsuario(usuarioTO.getId());
-			tipoAcessoUsuarioRepository.save(tau);			
+			tipoAcessoUsuarioRepository.save(tau);		
+			
+			
+			//Cadastra o associado na base do PAGAR.ME
+			salvarClienteRecorrenciaPagarmeCmd.cadastrarAssociadoPagarMe(titular);
 			
 			/////////////////////////////////////////////////////////////////////////////////
 			//Enviar email para o titular informando a senha provisória
@@ -164,4 +169,5 @@ public class CadastrarTitularCmd {
 
 	}
 
+	
 }

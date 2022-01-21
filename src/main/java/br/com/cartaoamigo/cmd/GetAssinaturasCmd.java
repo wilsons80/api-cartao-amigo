@@ -19,27 +19,27 @@ public class GetAssinaturasCmd {
 
 	public Optional<Assinaturas> findById(Long idAssinatura) {
 		Optional<Assinaturas> entity = repository.findById(idAssinatura);
-		return Optional.ofNullable(entity.orElse(null));
+		return entity.isPresent() ? Optional.ofNullable(entity.get()) : null;
 	}
 	
 	public Optional<AssinaturasTO> findTOById(Long idAssinatura) {
 		Optional<Assinaturas> entity = repository.findById(idAssinatura);
-		return Optional.ofNullable(toBuilder.buildTO(entity.orElse(null)));
+		return entity.isPresent() ? Optional.ofNullable(toBuilder.buildTO(entity.get())) : null;
 	}
 	
 	public AssinaturasTO findAtivaByIdTitular(Long idTitular) {
 		Optional<Assinaturas> entity = repository.findAssinaturaAtivaByTitular(idTitular);
-		return toBuilder.buildTO(entity.orElse(null));
+		return entity.isPresent() ? toBuilder.buildTO(entity.get()) : null;
 	}
 	
 	public List<AssinaturasTO> getAllAssinaturasTitular(Long idTitular) {
 		Optional<List<Assinaturas>> entitys = repository.findAllAssinaturasTitular(idTitular);
-		return toBuilder.buildAll(entitys.orElse(null));
+		return entitys.isPresent() ? toBuilder.buildAll(entitys.get()) : null;
 	}
 	
 	public AssinaturasTO getAssinaturaCodigoPagarMe(String codigoAssinatura) {
 		Optional<Assinaturas> entitys = repository.findAssinaturaCodigoPagarMe(codigoAssinatura);
-		return toBuilder.buildTO(entitys.orElse(null));
+		return entitys.isPresent() ? toBuilder.buildTO(entitys.get()) : null;
 	}
 
 }

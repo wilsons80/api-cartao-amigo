@@ -15,7 +15,7 @@ public class ClientePagarMeTO {
 	private Boolean delinquent;
 	private LocalDateTime created_at;
 	private LocalDateTime updated_at;
-	private LocalDateTime birthdate;
+	private String birthdate;
 
 	private EnderecoClientePagarMeTO address;
 	private TelefoneClientePagarMeTO phones;
@@ -111,11 +111,11 @@ public class ClientePagarMeTO {
 		this.updated_at = updated_at;
 	}
 
-	public LocalDateTime getBirthdate() {
+	public String getBirthdate() {
 		return birthdate;
 	}
 
-	public void setBirthdate(LocalDateTime birthdate) {
+	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
 
