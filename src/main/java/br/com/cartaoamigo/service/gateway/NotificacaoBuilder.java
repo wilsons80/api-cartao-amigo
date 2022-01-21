@@ -12,13 +12,10 @@ import org.springframework.util.MultiValueMap;
 
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
 import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
-import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetWebhookPagarmeCmd;
-import br.com.cartaoamigo.exception.NotFoundException;
 import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
-import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
 
 @Component
