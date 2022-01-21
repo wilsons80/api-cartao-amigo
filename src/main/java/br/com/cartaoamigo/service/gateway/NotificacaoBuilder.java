@@ -16,7 +16,7 @@ import br.com.cartaoamigo.exception.NotificacaoPagSeguroException;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.NotificacaoTransacaoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
-import br.com.cartaoamigo.ws.pagarme.to.WebHookPagarMeTO;
+import br.com.cartaoamigo.to.pagarme.NotificacaoPagarmeTransacaoTO;
 
 @Component
 public class NotificacaoBuilder {
@@ -26,7 +26,7 @@ public class NotificacaoBuilder {
 	@Autowired private GetGatewayPagamentoCmd getGatewayPagamentoCmd;
 	
 	
-	public NotificacaoTransacaoTO buildPagarMe(WebHookPagarMeTO notificacao) {
+	public NotificacaoTransacaoTO buildPagarMe(NotificacaoPagarmeTransacaoTO notificacao) {
 		NotificacaoTransacaoTO notificacaoTO = new NotificacaoTransacaoTO();
 		try {
 			notificacaoTO.setId(null);
