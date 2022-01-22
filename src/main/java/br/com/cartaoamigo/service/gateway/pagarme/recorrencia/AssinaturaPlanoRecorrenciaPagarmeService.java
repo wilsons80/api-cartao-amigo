@@ -44,9 +44,9 @@ public class AssinaturaPlanoRecorrenciaPagarmeService {
 		return criarAssinaturaCmd.criarAssinaturaBoleto(assinaturaTO);
 	}
 	
-	@DeleteMapping(path = "/{idAssinatura}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public RetornoAssinaturaPlanoCanceladaTO cancelarAssinatura(@PathVariable(name = "idAssinatura") String idAssinatura) {
-		return cancelarAssinaturaCmd.cancelarAssinatura(idAssinatura);
+	@DeleteMapping(path = "/{codigoAssinaturaPagarme}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public RetornoAssinaturaPlanoCanceladaTO cancelarAssinatura(@PathVariable(name = "codigoAssinaturaPagarme") String codigoAssinaturaPagarme) {
+		return cancelarAssinaturaCmd.cancelarAssinatura(codigoAssinaturaPagarme);
 	}
 	
 }
