@@ -42,22 +42,7 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		LOGGER.info("webHookPagarMeTO >>> " + notificacao.toString());
 		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = notificacaoBuilderCmd.buildPagarMe(notificacao);
-		
-		/*
-		if(isAssinaturaCancelada(notificacao.getEvent())) {
-			salvarNotificacaoCancelamentoAssinatura(notificacaoTransacaoTO);
-		} else {
-		}
-		*/
-		
-		NotificacaoTransacao notificacaoTransacao = repository.save(toBuilder.build(notificacaoTransacaoTO));
-		salvarHistoricoPagamento(toBuilder.buildTO(notificacaoTransacao));
-		
-	}
-	
-	private void salvarNotificacaoCancelamentoAssinatura(NotificacaoTransacaoTO to) {
-		NotificacaoTransacao notificacaoGateWay = getBuilderNotificacaoTransacao(to);
-		repository.save(notificacaoGateWay);
+		salvarHistoricoPagamento(notificacaoTransacaoTO);
 	}
 	
 	private NotificacaoTransacao getBuilderNotificacaoTransacao(NotificacaoTransacaoTO to) {
@@ -75,10 +60,10 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		
 		return notificacaoGateWay;
 	}
+
 	
 	private NotificacaoTransacaoTO salvarHistoricoPagamento(NotificacaoTransacaoTO to) {
 		NotificacaoTransacao notificacaoGateWay = getBuilderNotificacaoTransacao(to);
-		
 		NotificacaoTransacaoTO notificacaoTransacaoTO = toBuilder.buildTO(repository.save(notificacaoGateWay));
 		
 		Optional<HistoricoPagamento> historicoPagamento = historicoPagamentoRepository.findByNumeroTransacao(notificacaoTransacaoTO.getIdAssinaturaPagarme());
@@ -112,8 +97,5 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 		return "paid".equals(codigoTransacao.toLowerCase());
 	}
 	
-	private boolean isAssinaturaCancelada(String evento) {
-		return "subscription.canceled".equals(evento);
-	}
 	
 }

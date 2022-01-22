@@ -2,8 +2,9 @@ package br.com.cartaoamigo.cmd;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,19 +20,23 @@ import br.com.cartaoamigo.to.TitularTO;
 @Component
 public class CancelarAssinaturaCmd {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(CancelarAssinaturaCmd.class);
+	
 	@Autowired private AssinaturasRepository repository;
 	@Autowired private AssinaturasTOBuilder toBuilder;
 	@Autowired private GetAssinaturasCmd getAssinaturasCmd;
 	@Autowired private GravarEnvioEmailCmd gravarEnvioEmailCmd;
 	@Autowired private GetTitularCmd getTitularCmd;
 	
-	public AssinaturasTO cancelarAssinatura(Long idAssinatura) {
-		Optional<Assinaturas> assinatura = getAssinaturasCmd.findById(idAssinatura);
-		if(!assinatura.isPresent()) {
+	public AssinaturasTO cancelarAssinatura(String codigoAssinaturaPagarme) {
+		LOGGER.info("cancelarAssinatura >>> " + codigoAssinaturaPagarme);
+		
+		Assinaturas assinatura = getAssinaturasCmd.getAssinaturaCodigoPagarMe(codigoAssinaturaPagarme);
+		if(Objects.isNull(assinatura)) {
 			throw new NotFoundException("A assinatura não foi encontrada para ser cancelada.");
 		}
 
-		TitularTO titular = getTitularCmd.getTOById(assinatura.get().getIdTitular());
+		TitularTO titular = getTitularCmd.getTOById(assinatura.getIdTitular());
 		if(Objects.isNull(titular)) {
 			throw new NotFoundException("Não foi possível encontrar o titular da assinatura.");
 		}
@@ -42,16 +47,16 @@ public class CancelarAssinaturaCmd {
 		EnvioEmailTO envioEmailTO = new EnvioEmailTO();
 		envioEmailTO.setIdTipoEmail         (TipoEmail.CANCELAMENTO_ASSINATURA.getId());
 		envioEmailTO.setPessoaFisica        (titular.getPessoaFisica());	
-		envioEmailTO.setIdTipoPlano         (assinatura.get().getIdPlano());
+		envioEmailTO.setIdTipoPlano         (assinatura.getIdPlano());
 		envioEmailTO.setIsTitular           (true);
-		envioEmailTO.setIdAssinatura        (idAssinatura);
+		envioEmailTO.setIdAssinatura        (assinatura.getId());
 		
 		gravarEnvioEmailCmd.gravarEnvioEmail(envioEmailTO);	
 		
-		assinatura.get().setAtivo           (false);
-		assinatura.get().setDataCancelamento(LocalDateTime.now());
+		assinatura.setAtivo           (false);
+		assinatura.setDataCancelamento(LocalDateTime.now());
 		
-		return toBuilder.buildTO(repository.save(assinatura.get()));
+		return toBuilder.buildTO(repository.save(assinatura));
 	}
 	
 }

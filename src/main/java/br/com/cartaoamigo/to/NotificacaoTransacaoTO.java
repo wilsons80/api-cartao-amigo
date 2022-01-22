@@ -19,6 +19,7 @@ public class NotificacaoTransacaoTO {
 	private Long quantidadeNotificacao;
 
 	private String idAssinaturaPagarme;
+	private Boolean assinaturaCancelada;
 	
 	public NotificacaoTransacaoTO() {
 	}
@@ -86,14 +87,23 @@ public class NotificacaoTransacaoTO {
 	public void setIdAssinaturaPagarme(String idAssinaturaPagarme) {
 		this.idAssinaturaPagarme = idAssinaturaPagarme;
 	}
+	
+	public Boolean getAssinaturaCancelada() {
+		return assinaturaCancelada;
+	}
+
+	public void setAssinaturaCancelada(Boolean assinaturaCancelada) {
+		this.assinaturaCancelada = assinaturaCancelada;
+	}
 
 	@Override
 	public String toString() {
 		return "NotificacaoTransacaoTO [id=" + id + ", codigoNotificacao=" + codigoNotificacao + ", numeroTransacao="
 				+ numeroTransacao + ", dtNotificacao=" + dtNotificacao + ", status=" + status
 				+ ", quantidadeNotificacao=" + quantidadeNotificacao + ", idAssinaturaPagarme=" + idAssinaturaPagarme
-				+ "]";
+				+ ", assinaturaCancelada=" + assinaturaCancelada + "]";
 	}
+
 
 	
 }

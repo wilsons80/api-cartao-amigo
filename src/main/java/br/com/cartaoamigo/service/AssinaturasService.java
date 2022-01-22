@@ -23,7 +23,7 @@ public class AssinaturasService {
 	
 	@GetMapping(path = "/{codigoPagarme}", produces = MediaType.APPLICATION_JSON_VALUE )
 	public AssinaturasTO findById(@PathVariable(name = "codigoPagarme") String codigoPagarme) {
-		return getCmd.getAssinaturaCodigoPagarMe(codigoPagarme);
+		return getCmd.getAssinaturaTOCodigoPagarMe(codigoPagarme);
 	}
 	
 	@GetMapping(path = "/titular/{idTitular}", produces = MediaType.APPLICATION_JSON_VALUE )
@@ -36,8 +36,8 @@ public class AssinaturasService {
 		return getCmd.findAtivaByIdTitular(idTitular);
 	}
 
-	@DeleteMapping(path = "{idAssinatura}", produces = MediaType.APPLICATION_JSON_VALUE )
-	public AssinaturasTO cancelarAssinatura(@PathVariable(name = "idAssinatura") Long idAssinatura) {
-		return cancelarAssinaturaCmd.cancelarAssinatura(idAssinatura);
+	@DeleteMapping(path = "{codigoAssinaturaPagarme}", produces = MediaType.APPLICATION_JSON_VALUE )
+	public AssinaturasTO cancelarAssinatura(@PathVariable(name = "codigoAssinaturaPagarme") String codigoAssinaturaPagarme) {
+		return cancelarAssinaturaCmd.cancelarAssinatura(codigoAssinaturaPagarme);
 	}
 }

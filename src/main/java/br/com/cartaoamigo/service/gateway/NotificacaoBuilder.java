@@ -37,6 +37,7 @@ public class NotificacaoBuilder {
 			String idAssinatura = null;
 			if(notificacao.getData().getId().startsWith("sub_")) {
 				idAssinatura = notificacao.getData().getId();
+				
 			} else {
 				idAssinatura = Objects.nonNull(notificacao.getData().getInvoice()) ? 
 				       		   notificacao.getData().getInvoice().getSubscriptionId() : 

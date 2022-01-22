@@ -37,9 +37,14 @@ public class GetAssinaturasCmd {
 		return entitys.isPresent() ? toBuilder.buildAll(entitys.get()) : null;
 	}
 	
-	public AssinaturasTO getAssinaturaCodigoPagarMe(String codigoAssinatura) {
+	public AssinaturasTO getAssinaturaTOCodigoPagarMe(String codigoAssinatura) {
 		Optional<Assinaturas> entitys = repository.findAssinaturaCodigoPagarMe(codigoAssinatura);
 		return entitys.isPresent() ? toBuilder.buildTO(entitys.get()) : null;
+	}
+
+	public Assinaturas getAssinaturaCodigoPagarMe(String codigoAssinatura) {
+		Optional<Assinaturas> entitys = repository.findAssinaturaCodigoPagarMe(codigoAssinatura);
+		return entitys.isPresent() ? entitys.get() : null;
 	}
 
 }
