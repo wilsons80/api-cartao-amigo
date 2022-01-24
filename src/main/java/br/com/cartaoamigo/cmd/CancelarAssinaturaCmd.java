@@ -27,6 +27,7 @@ public class CancelarAssinaturaCmd {
 	@Autowired private GetAssinaturasCmd getAssinaturasCmd;
 	@Autowired private GravarEnvioEmailCmd gravarEnvioEmailCmd;
 	@Autowired private GetTitularCmd getTitularCmd;
+	@Autowired private CancelarCartoesCmd cancelarCartoesCmd;
 	
 	public AssinaturasTO cancelarAssinatura(String codigoAssinaturaPagarme, boolean enviaEmail) {
 		LOGGER.info("cancelarAssinatura >>> " + codigoAssinaturaPagarme);
@@ -57,6 +58,8 @@ public class CancelarAssinaturaCmd {
 		
 		assinatura.setAtivo           (false);
 		assinatura.setDataCancelamento(LocalDateTime.now());
+		
+		cancelarCartoesCmd.cancelarCartoes(titular.getId());
 		
 		return toBuilder.buildTO(repository.save(assinatura));
 	}

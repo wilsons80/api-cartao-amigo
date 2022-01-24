@@ -28,6 +28,10 @@ public interface CartaoRepository extends JpaRepository<Cartao,Long>{
 			+ "   and c.isTitular = false                          " )
 	public Optional<Cartao> findCartaoDependenteByIdPessoaFisica(Long idPessoaFisica);
 	
+	@Query(value = "select c from Cartao c "
+			+ " where c.idTitular = ?1"
+			+ "   and c.ativo     = true")
+	public Optional<List<Cartao>> findAllAtivoByTitular(Long idTitular);
 	
 	@Query(value = "select c from Cartao c "
 			+ " where c.idTitular = ?1" )
