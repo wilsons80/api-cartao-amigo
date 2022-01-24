@@ -41,13 +41,13 @@ public class GetConteudoEmailAssinaturaCanceladaCmd {
 	    sb.append("              <span>Ficamos tristes com seu pedido de cancelamento do plano " + tipoPlanoTO.getDescricao().toUpperCase() + ".</span>                                        ");
 	    sb.append("            </div>                                                                                     ");
 	    sb.append("            <div>                                                                                      ");
-	    sb.append("              <span>Desta forma, além de não ter mais acesso a todos os benefícios do produto, você</span>   ");
+	    sb.append("              <span>Desta forma, além de não ter mais acesso a todos os benefícios do</span>   ");
 	    sb.append("            </div>                                                                                     ");
 	    sb.append("            <div>                                                                                      ");
-	    sb.append("              <span>também não irá mais desfrutar do Clube Cartão Amigo, nosso clube de vantagens que oferece</span>   ");
+	    sb.append("              <span>produto, você também não irá mais desfrutar do Clube Cartão Amigo, nosso clube de</span>   ");
 	    sb.append("            </div>                                                                                     ");
 	    sb.append("            <div>                                                                                      ");
-	    sb.append("              <span>descontos exclusivos e muito mais.</span>   ");
+	    sb.append("              <span>vantagens que oferece descontos exclusivos e muito mais.</span>   ");
 	    sb.append("            </div>                                                                                     ");
 	    sb.append("            <div>                                                                                      ");
 	    sb.append("              <span>Mas para reativar seu plano, é muito fácil. Basta entrar no sistema e renovar sua assinatura.</span>   ");
@@ -57,7 +57,7 @@ public class GetConteudoEmailAssinaturaCanceladaCmd {
 	    sb.append("                                                                                                       ");
 	    sb.append("                                                                                                       ");
 	    sb.append("        <div style=\"padding-top: 40px; color: #fd6925\">                                              ");
-	    sb.append("              <span>Para renovar, clique no link abaixo para ter acesso ao sistema</span>              ");
+	    sb.append("              <span>Para renovar sua assinatura, clique no link abaixo para ter acesso ao sistema</span>              ");
 	    sb.append("        </div>                                                                                         ");
 	    sb.append("                                                                                                       ");
 	    sb.append("        <div style=\"padding-top: 40px; color: #fd6925\">                                              ");

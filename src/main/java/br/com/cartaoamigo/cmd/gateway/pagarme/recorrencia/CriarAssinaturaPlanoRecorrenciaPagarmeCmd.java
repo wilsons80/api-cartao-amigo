@@ -177,8 +177,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				}				
 			}	
 			
-			//Cria a assinatura na base de dados para o titular
-			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId());
+
 			
 			historicoPagamentoTO.setId                             (null);
 			historicoPagamentoTO.setDtPagamentoPlanoContratado     (LocalDateTime.now());
@@ -217,6 +216,10 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
 
 			
+			//Cria a assinatura na base de dados para o titular
+			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO);
+			
+			
 			retornoAssinaturaTO.setLinkPagamento           (null);
 			retornoAssinaturaTO.setStatus                  (statusTO.getCodigoTransacao());
 			retornoAssinaturaTO.setDescricaoStatusTransacao(statusTO.getDescricao());
@@ -227,12 +230,18 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		}
 	}
 
-	private void criarAssinaturaPlano(String codigoAssinatura, Long idPlano, Long idTitular) {
+	private void criarAssinaturaPlano(String codigoAssinatura, Long idPlano, Long idTitular, StatusTransacaoGatewayPagamentoTO statusTO) {
 		AssinaturasTO to = new AssinaturasTO();
 		
 		to.setCodigoAssinatura(codigoAssinatura);
 		to.setIdPlano(idPlano);
 		to.setIdTitular(idTitular);
+		
+		if(statusTO.getCodigoTransacao().equals("canceled") || statusTO.getCodigoTransacao().equals("failed")) {
+			to.setAtivo(false);
+		}else {
+			to.setAtivo(true);
+		}
 		
 		salvarAssinaturaCmd.salvarAssinatura(to);
 	}

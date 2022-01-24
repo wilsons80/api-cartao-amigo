@@ -32,7 +32,7 @@ public class SalvarAssinaturaCmd {
 			throw new NotFoundException("O código da assinatura não foi encontrado.");
 		}
 		
-		entity.setAtivo           (true);
+		entity.setAtivo           (to.getAtivo());
 		entity.setDataCriacao     (LocalDateTime.now());
 		
 		entity.setCodigoAssinatura(to.getCodigoAssinatura());
