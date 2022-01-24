@@ -12,6 +12,7 @@ import br.com.cartaoamigo.entity.Cartao;
 import br.com.cartaoamigo.entity.ClinicasTipoEspecialidades;
 import br.com.cartaoamigo.exception.CartaoNaoEncontradoException;
 import br.com.cartaoamigo.exception.ClinicaTipoEspecialidadeNaoEncontradaException;
+import br.com.cartaoamigo.to.AssinaturasTO;
 import br.com.cartaoamigo.to.TitularTO;
 import br.com.cartaoamigo.to.ValidacaoCarteirinhaAssociadoTO;
 
@@ -23,6 +24,7 @@ public class ValidarCarteirinhaAssociadoCmd {
 	@Autowired private SalvarProcedimentoAssociadoClinicaCmd salvarProcedimentoAssociadoClinicaCmd;
 	@Autowired private GetTitularCmd getTitularCmd;
 	@Autowired private CartaoRepository cartaoRepository;
+	@Autowired private GetAssinaturasCmd getAssinaturasCmd;
 	
 	public ValidacaoCarteirinhaAssociadoTO getDadosCartao(Long idClinica, Long idTipoEspecialidade, String numeroCartao) {
 		Cartao cartao = getCartaoCmd.getByNumeroCartao(numeroCartao);
@@ -56,7 +58,9 @@ public class ValidarCarteirinhaAssociadoCmd {
 			}
 		}
 		
-		if(cartao.getAtivo() && titularTO.getAtivo() && Objects.nonNull(cartao.getDataValidadePlano()) && carteirinhaTO.getDataFimValidade().isAfter(LocalDate.now())) {
+		AssinaturasTO assinaturaTO = getAssinaturasCmd.findAtivaByIdTitular(titularTO.getId());
+		
+		if(cartao.getAtivo() && titularTO.getAtivo() && Objects.nonNull(assinaturaTO) && assinaturaTO.getAtivo()) {
 			carteirinhaTO.setStatus(true);
 		}
 		
