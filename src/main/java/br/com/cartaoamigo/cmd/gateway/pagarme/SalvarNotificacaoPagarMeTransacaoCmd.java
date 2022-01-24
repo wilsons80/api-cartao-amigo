@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import br.com.cartaoamigo.builder.HistoricoPagamentoTOBuilder;
 import br.com.cartaoamigo.builder.NotificacaoTransacaoTOBuilder;
 import br.com.cartaoamigo.builder.StatusTransacaoGatewayPagamentoTOBuilder;
+import br.com.cartaoamigo.cmd.CancelarAssinaturaCmd;
 import br.com.cartaoamigo.cmd.GravarEnvioEmailCmd;
 import br.com.cartaoamigo.cmd.SalvarValidadeCartaoCmd;
 import br.com.cartaoamigo.dao.repository.HistoricoPagamentoRepository;
@@ -36,7 +37,7 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 	@Autowired private HistoricoPagamentoTOBuilder historicoPagamentoTOBuilder;
 	@Autowired private GravarEnvioEmailCmd gravarEnvioEmailCmd;
 	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
-	
+	@Autowired private CancelarAssinaturaCmd cancelarAssinaturaCmd;
 	
 	public void salvar(NotificacaoPagarmeTransacaoTO notificacao) {
 		LOGGER.info("webHookPagarMeTO >>> " + notificacao.toString());
@@ -86,6 +87,10 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 				envioEmailTO.setIdHistoricoPagamento(historicoPagamentoTO.getId());
 				
 				gravarEnvioEmailCmd.gravarEnvioEmail(envioEmailTO);
+				
+			} else {
+				
+				cancelarAssinaturaCmd.cancelarAssinatura(historicoPagamentoTO.getNumeroTransacaoGatewayPagamento(), false);
 			}
 		}
 
@@ -94,7 +99,7 @@ public class SalvarNotificacaoPagarMeTransacaoCmd {
 
 
 	private boolean isTransacaoAprovada(String codigoTransacao) {
-		return "paid".equals(codigoTransacao.toLowerCase());
+		return "paid".equals(codigoTransacao.toLowerCase()) || "active".equals(codigoTransacao.toLowerCase()) ;
 	}
 	
 	

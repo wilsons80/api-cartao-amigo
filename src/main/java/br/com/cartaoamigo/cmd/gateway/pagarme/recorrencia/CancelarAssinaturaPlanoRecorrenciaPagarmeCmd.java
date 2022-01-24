@@ -17,7 +17,7 @@ public class CancelarAssinaturaPlanoRecorrenciaPagarmeCmd {
 	
 	public RetornoAssinaturaPlanoCanceladaTO cancelarAssinatura(String codigoAssinaturaPagarme) {
 		try {
-			cancelarAssinaturaCmd.cancelarAssinatura(codigoAssinaturaPagarme);
+			cancelarAssinaturaCmd.cancelarAssinatura(codigoAssinaturaPagarme, true);
 			
 			return service.cancelarAssinatura(codigoAssinaturaPagarme);
 		} catch (Exception e) {

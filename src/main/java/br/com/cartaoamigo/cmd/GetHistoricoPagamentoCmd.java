@@ -56,11 +56,9 @@ public class GetHistoricoPagamentoCmd {
 		if(historicosPagamento.isPresent()) {
 			long count = historicosPagamento.get()
 					                        .stream()
-					                        .filter(pag -> pag.getStatusTransacao().getId().equals(3L) 
-					                        		       || 
-					                        		       pag.getStatusTransacao().getId().equals(4L)
+					                        .filter(pag -> pag.getStatusTransacao().getCodigoTransacao().equals("paid")
 					                        		       ||
-					                        		       pag.getStatusTransacao().getCodigoTransacao().equals("paid")
+					                        		       pag.getStatusTransacao().getCodigoTransacao().equals("active")					                        		       
 					                        		       ).count();
 			return count > 0;
 		}

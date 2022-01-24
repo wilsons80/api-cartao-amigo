@@ -28,7 +28,7 @@ public class CancelarAssinaturaCmd {
 	@Autowired private GravarEnvioEmailCmd gravarEnvioEmailCmd;
 	@Autowired private GetTitularCmd getTitularCmd;
 	
-	public AssinaturasTO cancelarAssinatura(String codigoAssinaturaPagarme) {
+	public AssinaturasTO cancelarAssinatura(String codigoAssinaturaPagarme, boolean enviaEmail) {
 		LOGGER.info("cancelarAssinatura >>> " + codigoAssinaturaPagarme);
 		
 		Assinaturas assinatura = getAssinaturasCmd.getAssinaturaCodigoPagarMe(codigoAssinaturaPagarme);
@@ -41,17 +41,19 @@ public class CancelarAssinaturaCmd {
 			throw new NotFoundException("Não foi possível encontrar o titular da assinatura.");
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////
-		//Enviar email de pagamento >>> Pago
-		/////////////////////////////////////////////////////////////////////////////////
-		EnvioEmailTO envioEmailTO = new EnvioEmailTO();
-		envioEmailTO.setIdTipoEmail         (TipoEmail.CANCELAMENTO_ASSINATURA.getId());
-		envioEmailTO.setPessoaFisica        (titular.getPessoaFisica());	
-		envioEmailTO.setIdTipoPlano         (assinatura.getIdPlano());
-		envioEmailTO.setIsTitular           (true);
-		envioEmailTO.setIdAssinatura        (assinatura.getId());
-		
-		gravarEnvioEmailCmd.gravarEnvioEmail(envioEmailTO);	
+		if(enviaEmail) {
+			/////////////////////////////////////////////////////////////////////////////////
+			//Enviar email de pagamento >>> Pago
+			/////////////////////////////////////////////////////////////////////////////////
+			EnvioEmailTO envioEmailTO = new EnvioEmailTO();
+			envioEmailTO.setIdTipoEmail         (TipoEmail.CANCELAMENTO_ASSINATURA.getId());
+			envioEmailTO.setPessoaFisica        (titular.getPessoaFisica());	
+			envioEmailTO.setIdTipoPlano         (assinatura.getIdPlano());
+			envioEmailTO.setIsTitular           (true);
+			envioEmailTO.setIdAssinatura        (assinatura.getId());
+			
+			gravarEnvioEmailCmd.gravarEnvioEmail(envioEmailTO);	
+		}
 		
 		assinatura.setAtivo           (false);
 		assinatura.setDataCancelamento(LocalDateTime.now());

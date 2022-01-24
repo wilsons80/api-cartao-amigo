@@ -38,6 +38,6 @@ public class AssinaturasService {
 
 	@DeleteMapping(path = "{codigoAssinaturaPagarme}", produces = MediaType.APPLICATION_JSON_VALUE )
 	public AssinaturasTO cancelarAssinatura(@PathVariable(name = "codigoAssinaturaPagarme") String codigoAssinaturaPagarme) {
-		return cancelarAssinaturaCmd.cancelarAssinatura(codigoAssinaturaPagarme);
+		return cancelarAssinaturaCmd.cancelarAssinatura(codigoAssinaturaPagarme, true);
 	}
 }
