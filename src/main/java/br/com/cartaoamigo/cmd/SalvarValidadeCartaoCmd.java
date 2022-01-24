@@ -27,6 +27,7 @@ public class SalvarValidadeCartaoCmd {
 			//LocalDateTime novaData = cartaoTitular.get().getDataValidadePlano().plusDays(qtdDiasVigenciaPlano);
 			LocalDateTime novaData = LocalDateTime.now().plusDays(qtdDiasVigenciaPlano);
 			cartaoTitular.get().setDataValidadePlano(novaData);
+			cartaoTitular.get().setAtivo(true);
 			cartaoRepository.save(cartaoTitular.get());
 		}
 	}

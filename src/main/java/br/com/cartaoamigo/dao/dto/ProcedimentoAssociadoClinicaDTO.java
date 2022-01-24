@@ -9,7 +9,7 @@ public class ProcedimentoAssociadoClinicaDTO {
 	private String        nomeClinica;
 	private String        especialidade;
 	private LocalDateTime dataConsulta;
-	
+	private Boolean       assinaturaAtiva;
 	
 	public ProcedimentoAssociadoClinicaDTO() {
 	}
@@ -19,6 +19,7 @@ public class ProcedimentoAssociadoClinicaDTO {
 		this.nomeClinica             = (String) colunas[1];
 		this.especialidade           = (String) colunas[2];
 		this.dataConsulta            = (colunas[3] != null)? ((Timestamp)colunas[3]).toLocalDateTime() : null;
+		this.assinaturaAtiva         = (colunas[4] != null)? ((String)colunas[4]).equals("S") : false;
 	}
 
 	public String getNomeImpresso() {
@@ -51,6 +52,14 @@ public class ProcedimentoAssociadoClinicaDTO {
 
 	public void setDataConsulta(LocalDateTime dataConsulta) {
 		this.dataConsulta = dataConsulta;
+	}
+
+	public Boolean getAssinaturaAtiva() {
+		return assinaturaAtiva;
+	}
+
+	public void setAssinaturaAtiva(Boolean assinaturaAtiva) {
+		this.assinaturaAtiva = assinaturaAtiva;
 	}
 	
 	

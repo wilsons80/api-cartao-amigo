@@ -3,6 +3,7 @@ package br.com.cartaoamigo.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import br.com.cartaoamigo.infra.constantes.Constantes;
+import br.com.cartaoamigo.infra.dao.SimNaoConverter;
 
 @Entity
 @Table(name = "procedimento_associado_clinica")
@@ -36,7 +38,11 @@ public class ProcedimentoAssociadoClinica {
 	@Column(name = "dt_procedimento")
 	private LocalDateTime dataProcedimento;
 	
-
+	@Convert(converter = SimNaoConverter.class)
+	@Column(name = "assinatura_ativa")
+	private Boolean assinaturaAtiva;
+	
+	
 	public ProcedimentoAssociadoClinica() {
 	}
 
@@ -72,4 +78,13 @@ public class ProcedimentoAssociadoClinica {
 		this.dataProcedimento = dataProcedimento;
 	}
 
+	public Boolean getAssinaturaAtiva() {
+		return assinaturaAtiva;
+	}
+
+	public void setAssinaturaAtiva(Boolean assinaturaAtiva) {
+		this.assinaturaAtiva = assinaturaAtiva;
+	}
+
+	
 }

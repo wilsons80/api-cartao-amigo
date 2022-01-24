@@ -37,14 +37,18 @@ public class ValidarCarteirinhaAssociadoCmd {
 			throw new ClinicaTipoEspecialidadeNaoEncontradaException("Essa clínica não está cadastrada para atender com esse tipo de especialidade.");
 		}
 		
+		TitularTO titularTO = getTitularCmd.getTOById(cartao.getIdTitular());
+		
+		AssinaturasTO assinaturaTO = getAssinaturasCmd.findAtivaByIdTitular(titularTO.getId());
+		
 		// salva os dados do procedimento para ser mostrado no dashboard
-		salvarProcedimentoAssociadoClinicaCmd.salvarProcedimento(clinicasTipoEspecialidadesOptional.get(), cartao);		
+		salvarProcedimentoAssociadoClinicaCmd.salvarProcedimento(clinicasTipoEspecialidadesOptional.get(), cartao, assinaturaTO);		
 		
 
 		ValidacaoCarteirinhaAssociadoTO carteirinhaTO = new ValidacaoCarteirinhaAssociadoTO();
 		carteirinhaTO.setStatus           (false);
 		
-		TitularTO titularTO = getTitularCmd.getTOById(cartao.getIdTitular());
+		
 		
 		//Busca a data de validade baseado no titular, pois o dependente não faz pagamento da assinatura.
 		if(cartao.getIsTitular()) {
@@ -57,8 +61,6 @@ public class ValidarCarteirinhaAssociadoCmd {
 				carteirinhaTO.setDataFimValidade(dataFimValidade);
 			}
 		}
-		
-		AssinaturasTO assinaturaTO = getAssinaturasCmd.findAtivaByIdTitular(titularTO.getId());
 		
 		if(cartao.getAtivo() && titularTO.getAtivo() && Objects.nonNull(assinaturaTO) && assinaturaTO.getAtivo()) {
 			carteirinhaTO.setStatus(true);

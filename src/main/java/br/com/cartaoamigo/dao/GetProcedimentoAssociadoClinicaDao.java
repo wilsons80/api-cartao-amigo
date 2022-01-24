@@ -18,10 +18,11 @@ public class GetProcedimentoAssociadoClinicaDao extends BaseDao{
 	public List<ProcedimentoAssociadoClinicaDTO> getAllConsultasRealizadas(Long idTitular) {
 		StringBuilder sql = new StringBuilder();
 	
-		sql.append("select cartao.nome_impresso,                                                                                             ");
+		sql.append("select cartao.nome_impresso,                                                                                         ");
 		sql.append("       clinica.nm_fantasia,                                                                                          ");
 		sql.append("       te.descricao,                                                                                                 ");
-		sql.append("       pac.dt_procedimento                                                                                           ");
+		sql.append("       pac.dt_procedimento,                                                                                          ");
+		sql.append("       pac.assinatura_ativa                                                                                          ");
 		sql.append("  from procedimento_associado_clinica pac                                                                            ");
 		sql.append("  inner join clinicas_tipo_especialidades cte on cte.id_clinica_tipo_especidades = pac.id_clinica_tipo_especidades   ");
 		sql.append("  inner join tipo_especialidades te on te.id_tipo_especialidade = cte.id_tipo_especialidade                          ");
