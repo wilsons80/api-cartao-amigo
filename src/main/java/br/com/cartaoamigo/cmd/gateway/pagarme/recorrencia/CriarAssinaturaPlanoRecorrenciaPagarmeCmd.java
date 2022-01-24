@@ -346,8 +346,6 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				}				
 			}
 			
-			//Cria a assinatura na base de dados para o titular
-			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId());
 			
 			historicoPagamentoTO.setId                             (null);
 			historicoPagamentoTO.setDtPagamentoPlanoContratado     (LocalDateTime.now());
@@ -384,6 +382,10 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			
 			historicoPagamentoTO.setLinkPagamento          (cobrancaFaturaTO.getLast_transaction().getPdf());			
 			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
+			
+			//Cria a assinatura na base de dados para o titular
+			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO);
+
 			
 			retornoAssinaturaTO.setLinkPagamento           (cobrancaFaturaTO.getLast_transaction().getPdf());
 			retornoAssinaturaTO.setStatus                  (statusTO.getCodigoTransacao().toString());
