@@ -2,8 +2,10 @@ package br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,7 +23,6 @@ import br.com.cartaoamigo.cmd.GetAssinaturasCmd;
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
 import br.com.cartaoamigo.cmd.GetTitularCmd;
 import br.com.cartaoamigo.cmd.SalvarAssinaturaCmd;
-import br.com.cartaoamigo.cmd.SalvarValidadeCartaoCmd;
 import br.com.cartaoamigo.cmd.gateway.GetStatusTransacaoCmd;
 import br.com.cartaoamigo.dao.repository.CorretorRepository;
 import br.com.cartaoamigo.dao.repository.FormaPagamentoRepository;
@@ -44,12 +45,14 @@ import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
 import br.com.cartaoamigo.ws.pagarme.assinatura.AssinaturaPlanoRecorrenciaService;
+import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.CobrancaFaturaTO;
 import br.com.cartaoamigo.ws.pagarme.to.DiscontoTO;
 import br.com.cartaoamigo.ws.pagarme.to.FaturaAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.ListaFaturasAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.NovaAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCriadaTO;
+import br.com.cartaoamigo.ws.pagarme.to.UltimaCobrancaFaturaTO;
 
 
 @Component
@@ -68,7 +71,6 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 	@Autowired private TitularTOBuilder titularTOBuilder;
 	@Autowired private TitularRepository titularRepository;
 	@Autowired private CorretorRepository corretorRepository;
-	@Autowired private SalvarValidadeCartaoCmd salvarValidadeCartaoCmd;
 	@Autowired private PessoaFisicaTOBuilder pessoaFisicaTOBuilder;
 	@Autowired private GetStatusTransacaoCmd getStatusTransacaoCmd;	
 	@Autowired private GetGatewayPagamentoCmd getGatewayPagamentoCmd;
@@ -80,6 +82,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 	@Autowired private GetCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd;
 	@Autowired private GetAssinaturasCmd getAssinaturasCmd;
 	@Autowired private SalvarAssinaturaCmd salvarAssinaturaCmd;
+	@Autowired private GetAssinaturasPlanoRecorrenciaPagarmeCmd getAssinaturasPlanoRecorrenciaPagarmeCmd;
 	
 	public RetornoAssinaturaPlanoCriadaTO criarAssinaturaCartao(@RequestBody NovaAssinaturaPlanoTO novaAssinaturaPlanoTO) {
 		HistoricoPagamentoTO historicoPagamentoTO = new HistoricoPagamentoTO();
@@ -98,89 +101,35 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				throw new NotFoundException("O tipo de plano escolhido não existe: " + novaAssinaturaPlanoTO.getIdPlano());
 			}
 			
-			AssinaturasTO assinaturaAtiva = getAssinaturasCmd.findAtivaByIdTitular(novaAssinaturaPlanoTO.getIdTitular());
-			if(Objects.nonNull(assinaturaAtiva)) {
-				throw new PagarmeException("Não é possível criar a assinatura, pois já existe uma vigente no momento.");
-			}
+			validarAssinaturaVigente(novaAssinaturaPlanoTO);			
 			
 			Double valorCobrado = tipoPlano.get().getValor();
 			if(valorCobrado < 1.00) {
 				throw new PagarmeException("Valor da compra está inferior ao permitido.");
 			}
 			
-			Optional<Voucher> voucher = Optional.empty();
-			if(StringUtils.isNotEmpty(novaAssinaturaPlanoTO.getVoucher())) {
-				voucher = voucherRepository.findByCodigo(novaAssinaturaPlanoTO.getVoucher());
-				if(voucher.isPresent()) {
-					voucherAtivoRule.verificar(voucher.get());	
-					aplicarDescontos(novaAssinaturaPlanoTO, voucher.get().getPorcentagem());
-				} else {
-					throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
-				}
-				
-			}
+			Optional<Voucher> voucher = aplicarVoucher(novaAssinaturaPlanoTO);
 			
 			Optional<Titular> titular = getTitularCmd.getById(novaAssinaturaPlanoTO.getIdTitular());
 			if(!titular.isPresent()) {
 				throw new NotFoundException("Titular informado não existe: " + novaAssinaturaPlanoTO.getIdTitular());
 			}
 			
-			String codigoCorretor = novaAssinaturaPlanoTO.getCodigoCorretor();
-			if(StringUtils.isNotEmpty(codigoCorretor)){
-				titular.get().setCodigoCorretor(codigoCorretor);
-				titularRepository.save(titular.get());
-			} else {
-				codigoCorretor = titular.get().getCodigoCorretor();
-			}
-			
-			
-			//Preenche os dados do corretor
-			if(StringUtils.isNotEmpty(codigoCorretor) && valorCobrado > 0) {
-				Optional<Corretor> corretor = corretorRepository.findByCodigo(codigoCorretor);
-				if(!corretor.isPresent()) {
-					throw new NotFoundException("Não existe corretor cadastrado com o código: " + codigoCorretor);
-				}
-				
-				// Não permite que o corretor e o associado seja a mesma pessoa   
-				if(corretor.get().getPessoaFisica().getId().equals(titular.get().getId())) {
-					throw new CorretorInvalidoException("Não é possível usar o próprio código de corretor no pagamento.");
-				}
-				
-				Double valorCorretor = 0d;
-				if(corretor.get().getIsPorcentagem()) {
-					valorCorretor = (valorCobrado * corretor.get().getValorRecebimento()) / 100;
-				} else {
-					valorCorretor = corretor.get().getValorRecebimento();	
-				}
-				
-				historicoPagamentoTO.setCorretor(pessoaFisicaTOBuilder.buildTO(corretor.get().getPessoaFisica()));
-				historicoPagamentoTO.setValorCorretor(valorCorretor);
-			}
+			preencherDadosCorretor(historicoPagamentoTO, valorCobrado, titular, novaAssinaturaPlanoTO.getCodigoCorretor());
 			
 			RetornoAssinaturaPlanoCriadaTO retornoAssinaturaTO = null;
-			if(voucher.isPresent() && voucher.get().getPorcentagem() >= 100) {
-				retornoAssinaturaTO = new RetornoAssinaturaPlanoCriadaTO();
-				retornoAssinaturaTO.setId             (voucher.get().getId().toString());
-				retornoAssinaturaTO.setStatus         ("paid");					
+			try {
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// Realiza a chamada do endpoint de pagamento do PAGARME
+				LOGGER.info(">>>>> Dados pagamento: " + novaAssinaturaPlanoTO.toString());
 				
-				salvarValidadeCartaoCmd.incrementarValidade(titular.get().getId(), tipoPlano.get().getQuantidadeDiasVigencia().intValue());
+				novaAssinaturaPlanoTO.setPayment_method("credit_card");			
+				retornoAssinaturaTO = service.criarAssinaturaCartao(novaAssinaturaPlanoTO);					
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
-			} else {
-				try {
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// Realiza a chamada do endpoint de pagamento do PAGARME
-					LOGGER.info(">>>>> Dados pagamento: " + novaAssinaturaPlanoTO.toString());
-					
-					novaAssinaturaPlanoTO.setPayment_method("credit_card");			
-					retornoAssinaturaTO = service.criarAssinaturaCartao(novaAssinaturaPlanoTO);					
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					
-				}catch (Exception e) {
-					throw new PagarmeException(e.getMessage());
-				}				
-			}	
-			
-
+			}catch (Exception e) {
+				throw new PagarmeException(e.getMessage());
+			}				
 			
 			historicoPagamentoTO.setId                             (null);
 			historicoPagamentoTO.setDtPagamentoPlanoContratado     (LocalDateTime.now());
@@ -233,8 +182,55 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		}
 	}
 
-	private void aplicarDescontos(NovaAssinaturaPlanoTO novaAssinaturaPlanoTO, Double porcentagemDesconto) {
+	private Optional<Voucher> aplicarVoucher(NovaAssinaturaPlanoTO novaAssinaturaPlanoTO) {
+		Optional<Voucher> voucher = Optional.empty();
+		if(StringUtils.isNotEmpty(novaAssinaturaPlanoTO.getVoucher())) {
+			voucher = voucherRepository.findByCodigo(novaAssinaturaPlanoTO.getVoucher());
+			if(voucher.isPresent()) {
+				voucherAtivoRule.verificar(voucher.get());	
+				aplicarDescontos(novaAssinaturaPlanoTO, voucher.get().getPorcentagem());
+			} else {
+				throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
+			}
+			
+		}
+		return voucher;
+	}
+
+	private void preencherDadosCorretor(HistoricoPagamentoTO historicoPagamentoTO, Double valorCobrado, Optional<Titular> titular, String codigoCorretor) {
 		
+		if(StringUtils.isNotEmpty(codigoCorretor)){
+			titular.get().setCodigoCorretor(codigoCorretor);
+			titularRepository.save(titular.get());
+		} else {
+			codigoCorretor = titular.get().getCodigoCorretor();
+		}
+		
+		//Preenche os dados do corretor
+		if(StringUtils.isNotEmpty(codigoCorretor) && valorCobrado > 0) {
+			Optional<Corretor> corretor = corretorRepository.findByCodigo(codigoCorretor);
+			if(!corretor.isPresent()) {
+				throw new NotFoundException("Não existe corretor cadastrado com o código: " + codigoCorretor);
+			}
+			
+			// Não permite que o corretor e o associado seja a mesma pessoa   
+			if(corretor.get().getPessoaFisica().getId().equals(titular.get().getId())) {
+				throw new CorretorInvalidoException("Não é possível usar o próprio código de corretor no pagamento.");
+			}
+			
+			Double valorCorretor = 0d;
+			if(corretor.get().getIsPorcentagem()) {
+				valorCorretor = (valorCobrado * corretor.get().getValorRecebimento()) / 100;
+			} else {
+				valorCorretor = corretor.get().getValorRecebimento();	
+			}
+			
+			historicoPagamentoTO.setCorretor(pessoaFisicaTOBuilder.buildTO(corretor.get().getPessoaFisica()));
+			historicoPagamentoTO.setValorCorretor(valorCorretor);
+		}
+	}
+
+	private void aplicarDescontos(NovaAssinaturaPlanoTO novaAssinaturaPlanoTO, Double porcentagemDesconto) {
 		DiscontoTO disconto = new DiscontoTO();
 		disconto.setCycles       (12);           //Número de vezes que o desconto será aplicado.
 		disconto.setDiscount_type("percentage"); //Valores possíveis: flat ou percentage. Valor padrão: percentage.
@@ -282,83 +278,32 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				throw new PagarmeException("Valor da compra está inferior ao permitido.");
 			}
 			
-			AssinaturasTO assinaturaAtiva = getAssinaturasCmd.findAtivaByIdTitular(assinaturaTO.getIdTitular());
-			if(Objects.nonNull(assinaturaAtiva)) {
-				throw new PagarmeException("Não é possível criar a assinatura, pois já existe uma vigente no momento.");
-			}
+			validarAssinaturaVigente(assinaturaTO);
 
-			Optional<Voucher> voucher = Optional.empty();
-			if(StringUtils.isNotEmpty(assinaturaTO.getVoucher())) {
-				voucher = voucherRepository.findByCodigo(assinaturaTO.getVoucher());
-				if(voucher.isPresent()) {
-					voucherAtivoRule.verificar(voucher.get());			
-					aplicarDescontos(assinaturaTO, voucher.get().getPorcentagem());
-				} else {
-					throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
-				}
-			}
+			Optional<Voucher> voucher = aplicarVoucher(assinaturaTO);
 			
 			Optional<Titular> titular = getTitularCmd.getById(assinaturaTO.getIdTitular());
 			if(!titular.isPresent()) {
 				throw new NotFoundException("Titular informado não existe: " + assinaturaTO.getIdTitular());
 			}
 			
-			String codigoCorretor = assinaturaTO.getCodigoCorretor();
-			if(StringUtils.isNotEmpty(codigoCorretor)){
-				titular.get().setCodigoCorretor(codigoCorretor);
-				titularRepository.save(titular.get());
-			} else {
-				codigoCorretor = titular.get().getCodigoCorretor();
-			}
-			
-			
-			//Preenche os dados do corretor
-			if(StringUtils.isNotEmpty(codigoCorretor) && valorCobrado > 0) {
-				Optional<Corretor> corretor = corretorRepository.findByCodigo(codigoCorretor);
-				if(!corretor.isPresent()) {
-					throw new NotFoundException("Não existe corretor cadastrado com o código: " + codigoCorretor);
-				}
-				
-				// Não permite que o corretor e o associado seja a mesma pessoa   
-				if(corretor.get().getPessoaFisica().getId().equals(titular.get().getId())) {
-					throw new CorretorInvalidoException("Não é possível usar o próprio código de corretor no pagamento.");
-				}
-				
-				Double valorCorretor = 0d;
-				if(corretor.get().getIsPorcentagem()) {
-					valorCorretor = (valorCobrado * corretor.get().getValorRecebimento()) / 100;
-				} else {
-					valorCorretor = corretor.get().getValorRecebimento();	
-				}
-				
-				historicoPagamentoTO.setCorretor(pessoaFisicaTOBuilder.buildTO(corretor.get().getPessoaFisica()));
-				historicoPagamentoTO.setValorCorretor(valorCorretor);
-			}
+			preencherDadosCorretor(historicoPagamentoTO, valorCobrado, titular, assinaturaTO.getCodigoCorretor());
 
 			RetornoAssinaturaPlanoCriadaTO retornoAssinaturaTO = null;
-			if(voucher.isPresent() && voucher.get().getPorcentagem() >= 100) {
-				retornoAssinaturaTO = new RetornoAssinaturaPlanoCriadaTO();
-				retornoAssinaturaTO.setId             (voucher.get().getId().toString());
-				retornoAssinaturaTO.setStatus         ("paid");					
+			try {
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// Realiza a chamada do endpoint de pagamento do PAGARME
+				LOGGER.info(">>>>> Dados pagamento: " + assinaturaTO.toString());
 				
-				salvarValidadeCartaoCmd.incrementarValidade(titular.get().getId(), tipoPlano.get().getQuantidadeDiasVigencia().intValue());
+				assinaturaTO.setBoleto_due_days(5);
+				assinaturaTO.setPayment_method("boleto");			
+				retornoAssinaturaTO = service.criarAssinaturaBoleto(assinaturaTO);					
+				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
-			} else {
-				try {
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					// Realiza a chamada do endpoint de pagamento do PAGARME
-					LOGGER.info(">>>>> Dados pagamento: " + assinaturaTO.toString());
-					
-					assinaturaTO.setBoleto_due_days(5);
-					assinaturaTO.setPayment_method("boleto");			
-					retornoAssinaturaTO = service.criarAssinaturaBoleto(assinaturaTO);					
-					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-					
-				}catch (Exception e) {
-					throw new PagarmeException(e.getMessage());
-				}				
-			}
-			
+			}catch (Exception e) {
+				throw new PagarmeException(e.getMessage());
+			}				
+
 			
 			historicoPagamentoTO.setId                             (null);
 			historicoPagamentoTO.setDtPagamentoPlanoContratado     (LocalDateTime.now());
@@ -411,9 +356,24 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		}
 	}
 
+	private void validarAssinaturaVigente(NovaAssinaturaPlanoTO assinaturaTO) {
+		AssinaturasTO assinaturaAtiva = getAssinaturasCmd.findAtivaByIdTitular(assinaturaTO.getIdTitular());
+		if(Objects.nonNull(assinaturaAtiva)) {
+			throw new PagarmeException("Não é possível criar a assinatura, pois já existe uma vigente no momento.");
+		}
+		
+		List<AssinaturaPlanoTO> assinaturasPagarMe = getAssinaturasPlanoRecorrenciaPagarmeCmd.listarAssinaturasCliente(assinaturaTO.getCustomer_id());
+		List<AssinaturaPlanoTO> ativas = assinaturasPagarMe.stream().filter(a -> a.getStatus().equals("active")).collect(Collectors.toList());
+		if(Objects.nonNull(ativas) && ativas.size() > 0) {
+			throw new PagarmeException("Não é possível criar a assinatura, pois já existe uma vigente no momento.");
+		}
+	}
+
 	private CobrancaFaturaTO getCobrancaFatura(NovaAssinaturaPlanoTO assinaturaTO, RetornoAssinaturaPlanoCriadaTO retornoAssinaturaTO) {
 		ListaFaturasAssinaturaPlanoTO faturasDaAssinatura = getFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getFaturasDaAssinatura(assinaturaTO.getCustomer_id(), retornoAssinaturaTO.getId() );
 		FaturaAssinaturaPlanoTO faturaTO = faturasDaAssinatura.getData().stream().findFirst().get();
+		if(faturaTO.getStatus().equals("paid")) {return new CobrancaFaturaTO(faturaTO.getStatus(), new UltimaCobrancaFaturaTO() );}
+		
 		return getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getCobrancaFaturasDaAssinatura(faturaTO.getCharge().getId());
 	}
 	

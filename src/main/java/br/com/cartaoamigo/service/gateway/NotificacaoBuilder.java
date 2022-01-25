@@ -44,8 +44,6 @@ public class NotificacaoBuilder {
 			
 			notificacaoTO.setIdAssinaturaPagarme(idAssinatura);
 			
-			LOGGER.info("CODIGO ASSINTURA: " + idAssinatura);
-
 			notificacaoTO.setQuantidadeNotificacao(1L);
 			if(StringUtils.isNotEmpty(notificacao.getAttempts())) {
 				String[] tentativas = notificacao.getAttempts().split("/");

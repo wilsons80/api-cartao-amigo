@@ -21,6 +21,14 @@ public class CobrancaFaturaTO {
 
 	public CobrancaFaturaTO() {
 	}
+	
+	public CobrancaFaturaTO(String status, UltimaCobrancaFaturaTO last_transaction) {
+		super();
+		this.status = status;
+		this.last_transaction = last_transaction;
+	}
+
+
 
 	public String getId() {
 		return id;
