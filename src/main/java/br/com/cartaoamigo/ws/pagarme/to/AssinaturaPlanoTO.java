@@ -179,6 +179,17 @@ public class AssinaturaPlanoTO {
 		this.plan = plan;
 	}
 
+	@Override
+	public String toString() {
+		return "AssinaturaPlanoTO [id=" + id + ", code=" + code + ", start_at=" + start_at + ", interval=" + interval
+				+ ", interval_count=" + interval_count + ", billing_type=" + billing_type + ", current_cycle="
+				+ current_cycle + ", next_billing_at=" + next_billing_at + ", payment_method=" + payment_method
+				+ ", currency=" + currency + ", statement_descriptor=" + statement_descriptor + ", installments="
+				+ installments + ", minimum_price=" + minimum_price + ", status=" + status + ", boleto_due_days="
+				+ boleto_due_days + ", created_at=" + created_at + ", updated_at=" + updated_at + ", customer="
+				+ customer + ", plan=" + plan + "]";
+	}
+
 	
 
 }
