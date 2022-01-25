@@ -2,10 +2,8 @@ package br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -45,7 +43,6 @@ import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
 import br.com.cartaoamigo.ws.pagarme.assinatura.AssinaturaPlanoRecorrenciaService;
-import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.CobrancaFaturaTO;
 import br.com.cartaoamigo.ws.pagarme.to.DiscontoTO;
 import br.com.cartaoamigo.ws.pagarme.to.FaturaAssinaturaPlanoTO;
@@ -362,12 +359,8 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			throw new PagarmeException("Não é possível criar a assinatura, pois já existe uma vigente no momento.");
 		}
 		
-		List<AssinaturaPlanoTO> assinaturasPagarMe = getAssinaturasPlanoRecorrenciaPagarmeCmd.listarAssinaturasCliente(assinaturaTO.getCustomer_id());
-		if(Objects.nonNull(assinaturasPagarMe)) {
-			List<AssinaturaPlanoTO> ativas = assinaturasPagarMe.stream().filter(a -> a.getStatus().equals("active")).collect(Collectors.toList());
-			if(Objects.nonNull(ativas) && ativas.size() > 0) {
-				throw new PagarmeException("Cliente já possui assinatura vigente no momento.");
-			}
+		if(getAssinaturasPlanoRecorrenciaPagarmeCmd.temAssinaturaVigentePagarMe(assinaturaTO.getCustomer_id())) {
+			throw new PagarmeException("Cliente já possui assinatura vigente no momento.");
 		}
 	}
 
