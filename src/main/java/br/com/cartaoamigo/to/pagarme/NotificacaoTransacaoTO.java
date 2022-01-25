@@ -160,9 +160,8 @@ public class NotificacaoTransacaoTO {
 				+ paid_amount + ", status=" + status + ", currency=" + currency + ", payment_method=" + payment_method
 				+ ", due_at=" + due_at + ", paid_at=" + paid_at + ", created_at=" + created_at + ", updated_at="
 				+ updated_at + ", invoice=" + invoice + ", customer=" + customer + ", last_transaction="
-				+ last_transaction + "]";
+				+ last_transaction + ", subscription=" + subscription + "]";
 	}
-
 	
 
 }

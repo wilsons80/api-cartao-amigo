@@ -1,7 +1,6 @@
 package br.com.cartaoamigo.service.gateway;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,6 +37,8 @@ public class NotificacaoBuilder {
 			if("subscription".startsWith(notificacao.getType())) {
 				idAssinatura = notificacao.getData().getId();
 			} else if ("invoice".startsWith(notificacao.getType())) {
+				idAssinatura = notificacao.getData().getSubscription().getId() ;
+			} else if ("charge".startsWith(notificacao.getType())) {
 				idAssinatura = notificacao.getData().getInvoice().getSubscriptionId() ;
 			} 
 			

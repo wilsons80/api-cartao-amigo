@@ -195,7 +195,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				
 				voucher.get().setUtilizado(true);
 				voucher.get().setDataUtilizacao(LocalDateTime.now());
-				voucher.get().setIdPessoaFisica(titular.get().getId());
+				voucher.get().setIdPessoaFisica(titular.get().getPessoaFisica().getId());
 				
 				voucherRepository.save(voucher.get());
 			}			
@@ -373,7 +373,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				
 				voucher.get().setUtilizado(true);
 				voucher.get().setDataUtilizacao(LocalDateTime.now());
-				voucher.get().setIdPessoaFisica(titular.get().getId());
+				voucher.get().setIdPessoaFisica(titular.get().getPessoaFisica().getId());
 				
 				voucherRepository.save(voucher.get());
 			}			
