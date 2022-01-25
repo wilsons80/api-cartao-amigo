@@ -1,6 +1,8 @@
 package br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,14 @@ public class GetAssinaturasPlanoRecorrenciaPagarmeCmd {
 			throw new PagarmeException("Ocorreu um erro ao obter as assinaturas do cliente: " + e.getMessage());
 		}
 	}
+	
+	public boolean temAssinaturaVigentePagarMe(String idCliente) {
+		List<AssinaturaPlanoTO> assinaturasPagarMe = listarAssinaturasCliente(idCliente);
+		
+		List<AssinaturaPlanoTO> ativas = assinaturasPagarMe.stream().filter(a -> a.getStatus().equals("active")).collect(Collectors.toList());
+		return Objects.nonNull(ativas) && !ativas.isEmpty();
+	}
+	
 	
 
 }

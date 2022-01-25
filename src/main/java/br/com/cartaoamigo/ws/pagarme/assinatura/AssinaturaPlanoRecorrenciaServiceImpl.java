@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import br.com.cartaoamigo.ws.HttpRestUtil;
 import br.com.cartaoamigo.ws.pagarme.PagarmeRecorrenciaProvider;
 import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPagarMeTO;
+import br.com.cartaoamigo.ws.pagarme.to.CancelarAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.NovaAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCanceladaTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCriadaTO;
@@ -31,8 +32,8 @@ public class AssinaturaPlanoRecorrenciaServiceImpl implements AssinaturaPlanoRec
 	}
 
 	@Override
-	public RetornoAssinaturaPlanoCanceladaTO cancelarAssinatura(String idAssinatura) throws Exception {
-		return httpRestUtil.delete(appId, null, provider.getUrlCancelarAssinaturaPlano(idAssinatura), null , RetornoAssinaturaPlanoCanceladaTO.class);
+	public RetornoAssinaturaPlanoCanceladaTO cancelarAssinatura(String idAssinatura, CancelarAssinaturaPlanoTO cancelarTO) throws Exception {
+		return httpRestUtil.delete(appId, null, provider.getUrlCancelarAssinaturaPlano(idAssinatura), cancelarTO , RetornoAssinaturaPlanoCanceladaTO.class);
 	}
 
 	@Override

@@ -34,6 +34,11 @@ public class AssinaturaPlanoRecorrenciaPagarmeService {
 		return getAssinaturasCmd.listarAssinaturasCliente(idCliente);
 	}
 	
+	@GetMapping(path = "/vigente/cliente/{idCliente}")
+	public boolean temAssinaturasVigente(@PathVariable(name = "idCliente") String idCliente) {
+		return getAssinaturasCmd.temAssinaturaVigentePagarMe(idCliente);
+	}
+	
 	@PostMapping(path = "/criar/cartao", produces = MediaType.APPLICATION_JSON_VALUE)
 	public RetornoAssinaturaPlanoCriadaTO criarAssinaturaCartao(@RequestBody NovaAssinaturaPlanoTO assinaturaTO) {
 		return criarAssinaturaCmd.criarAssinaturaCartao(assinaturaTO);

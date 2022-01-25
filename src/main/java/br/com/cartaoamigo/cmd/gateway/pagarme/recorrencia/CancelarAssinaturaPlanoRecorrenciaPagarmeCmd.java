@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import br.com.cartaoamigo.cmd.CancelarAssinaturaCmd;
 import br.com.cartaoamigo.exception.PagarmeException;
 import br.com.cartaoamigo.ws.pagarme.assinatura.AssinaturaPlanoRecorrenciaService;
+import br.com.cartaoamigo.ws.pagarme.to.CancelarAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCanceladaTO;
 
 
@@ -19,7 +20,10 @@ public class CancelarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		try {
 			cancelarAssinaturaCmd.cancelarAssinatura(codigoAssinaturaPagarme, true);
 			
-			return service.cancelarAssinatura(codigoAssinaturaPagarme);
+			CancelarAssinaturaPlanoTO cancelarTO = new CancelarAssinaturaPlanoTO();
+			cancelarTO.setCancel_pending_invoices(true);
+			
+			return service.cancelarAssinatura(codigoAssinaturaPagarme, cancelarTO);
 		} catch (Exception e) {
 			throw new PagarmeException("Ocorreu um erro ao cancelar a assinatura: " + e.getMessage());
 		}
