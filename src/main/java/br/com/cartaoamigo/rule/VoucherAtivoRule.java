@@ -15,6 +15,10 @@ public class VoucherAtivoRule {
 			throw new VoucherInvalidoException("O código do cupom não está mais ativo.");
 		}
 		
+		if(voucher.getPorcentagem() > 100) {
+			throw new VoucherInvalidoException("O voucher não pode ser maior que 100%.");
+		}
+		
 		if(voucher.getDataValidade().toLocalDate().isBefore(LocalDate.now())) {
 			throw new VoucherInvalidoException("O código do cupom já venceu e não pode mais ser utilizado.");
 		}

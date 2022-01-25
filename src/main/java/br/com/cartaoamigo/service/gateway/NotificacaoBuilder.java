@@ -35,14 +35,11 @@ public class NotificacaoBuilder {
 			notificacaoTO.setNumeroTransacao(notificacao.getData().getCode());
 			
 			String idAssinatura = null;
-			if(notificacao.getData().getId().startsWith("sub_")) {
+			if("subscription".startsWith(notificacao.getType())) {
 				idAssinatura = notificacao.getData().getId();
-				
-			} else {
-				idAssinatura = Objects.nonNull(notificacao.getData().getInvoice()) ? 
-				       		   notificacao.getData().getInvoice().getSubscriptionId() : 
-							   notificacao.getData().getSubscription().getId();
-			}
+			} else if ("invoice".startsWith(notificacao.getType())) {
+				idAssinatura = notificacao.getData().getInvoice().getSubscriptionId() ;
+			} 
 			
 			notificacaoTO.setIdAssinaturaPagarme(idAssinatura);
 

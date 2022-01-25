@@ -113,10 +113,6 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				voucher = voucherRepository.findByCodigo(novaAssinaturaPlanoTO.getVoucher());
 				if(voucher.isPresent()) {
 					voucherAtivoRule.verificar(voucher.get());	
-					
-					//double valorDesconto = (tipoPlano.get().getValor() * voucher.get().getPorcentagem()) / 100;
-					//valorCobrado = tipoPlano.get().getValor() - valorDesconto;
-					
 					aplicarDescontos(novaAssinaturaPlanoTO, voucher.get().getPorcentagem());
 				} else {
 					throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
@@ -296,11 +292,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				voucher = voucherRepository.findByCodigo(assinaturaTO.getVoucher());
 				if(voucher.isPresent()) {
 					voucherAtivoRule.verificar(voucher.get());			
-					//double valorDesconto = (tipoPlano.get().getValor() * voucher.get().getPorcentagem()) / 100;
-					//valorCobrado = tipoPlano.get().getValor() - valorDesconto;
-					
 					aplicarDescontos(assinaturaTO, voucher.get().getPorcentagem());
-					
 				} else {
 					throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
 				}
