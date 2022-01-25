@@ -1,6 +1,7 @@
 package br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ import br.com.cartaoamigo.exception.CorretorInvalidoException;
 import br.com.cartaoamigo.exception.NotFoundException;
 import br.com.cartaoamigo.exception.PagarmeException;
 import br.com.cartaoamigo.exception.VoucherInvalidoException;
+import br.com.cartaoamigo.infra.util.NumeroUtil;
 import br.com.cartaoamigo.rule.VoucherAtivoRule;
 import br.com.cartaoamigo.to.AssinaturasTO;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
@@ -43,6 +45,7 @@ import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
 import br.com.cartaoamigo.ws.pagarme.assinatura.AssinaturaPlanoRecorrenciaService;
 import br.com.cartaoamigo.ws.pagarme.to.CobrancaFaturaTO;
+import br.com.cartaoamigo.ws.pagarme.to.DiscontoTO;
 import br.com.cartaoamigo.ws.pagarme.to.FaturaAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.ListaFaturasAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.NovaAssinaturaPlanoTO;
@@ -109,12 +112,16 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			if(StringUtils.isNotEmpty(novaAssinaturaPlanoTO.getVoucher())) {
 				voucher = voucherRepository.findByCodigo(novaAssinaturaPlanoTO.getVoucher());
 				if(voucher.isPresent()) {
-					voucherAtivoRule.verificar(voucher.get());			
-					double valorDesconto = (tipoPlano.get().getValor() * voucher.get().getPorcentagem()) / 100;
-					valorCobrado = tipoPlano.get().getValor() - valorDesconto;
+					voucherAtivoRule.verificar(voucher.get());	
+					
+					//double valorDesconto = (tipoPlano.get().getValor() * voucher.get().getPorcentagem()) / 100;
+					//valorCobrado = tipoPlano.get().getValor() - valorDesconto;
+					
+					aplicarDescontos(novaAssinaturaPlanoTO, voucher.get().getPorcentagem());
 				} else {
 					throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
 				}
+				
 			}
 			
 			Optional<Titular> titular = getTitularCmd.getById(novaAssinaturaPlanoTO.getIdTitular());
@@ -230,6 +237,17 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		}
 	}
 
+	private void aplicarDescontos(NovaAssinaturaPlanoTO novaAssinaturaPlanoTO, Double porcentagemDesconto) {
+		
+		DiscontoTO disconto = new DiscontoTO();
+		disconto.setCycles       (12);           //Número de vezes que o desconto será aplicado.
+		disconto.setDiscount_type("percentage"); //Valores possíveis: flat ou percentage. Valor padrão: percentage.
+		disconto.setStatus       ("active");
+		disconto.setValue        (NumeroUtil.formataDoubleComDuasCasasDecimais(porcentagemDesconto));
+		
+		novaAssinaturaPlanoTO.setDiscounts(Arrays.asList(disconto));
+	}
+
 	private void criarAssinaturaPlano(String codigoAssinatura, Long idPlano, Long idTitular, StatusTransacaoGatewayPagamentoTO statusTO) {
 		AssinaturasTO to = new AssinaturasTO();
 		
@@ -278,8 +296,11 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				voucher = voucherRepository.findByCodigo(assinaturaTO.getVoucher());
 				if(voucher.isPresent()) {
 					voucherAtivoRule.verificar(voucher.get());			
-					double valorDesconto = (tipoPlano.get().getValor() * voucher.get().getPorcentagem()) / 100;
-					valorCobrado = tipoPlano.get().getValor() - valorDesconto;
+					//double valorDesconto = (tipoPlano.get().getValor() * voucher.get().getPorcentagem()) / 100;
+					//valorCobrado = tipoPlano.get().getValor() - valorDesconto;
+					
+					aplicarDescontos(assinaturaTO, voucher.get().getPorcentagem());
+					
 				} else {
 					throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
 				}
@@ -402,5 +423,10 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		ListaFaturasAssinaturaPlanoTO faturasDaAssinatura = getFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getFaturasDaAssinatura(assinaturaTO.getCustomer_id(), retornoAssinaturaTO.getId() );
 		FaturaAssinaturaPlanoTO faturaTO = faturasDaAssinatura.getData().stream().findFirst().get();
 		return getCobrancaFaturasAssinaturasPlanoRecorrenciaPagarmeCmd.getCobrancaFaturasDaAssinatura(faturaTO.getCharge().getId());
+	}
+	
+	public static void main(String[] args) {
+		Double valor = 15.50;
+		System.out.println(NumeroUtil.somenteNumeros(NumeroUtil.formataDoubleComDuasCasasDecimais(valor)));
 	}
 }

@@ -4,6 +4,7 @@ public class NotificacaoPagarmeTransacaoTO {
 
 	private String id;
 	private String event;
+	private String type;
 	private String attempts;
 	private NotificacaoTransacaoTO data;
 
@@ -42,14 +43,20 @@ public class NotificacaoPagarmeTransacaoTO {
 	public void setData(NotificacaoTransacaoTO data) {
 		this.data = data;
 	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	@Override
 	public String toString() {
-		return "NotificacaoPagarmeTransacaoTO [id=" + id + ", event=" + event + ", attempts=" + attempts + ", data="
-				+ data + "]";
+		return "NotificacaoPagarmeTransacaoTO [id=" + id + ", event=" + event + ", type=" + type + ", attempts="
+				+ attempts + ", data=" + data + "]";
 	}
-
-	
 	
 
 }

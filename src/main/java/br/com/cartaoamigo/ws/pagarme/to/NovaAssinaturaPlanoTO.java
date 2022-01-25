@@ -1,5 +1,7 @@
 package br.com.cartaoamigo.ws.pagarme.to;
 
+import java.util.List;
+
 public class NovaAssinaturaPlanoTO {
 
 	private String plan_id;
@@ -12,6 +14,8 @@ public class NovaAssinaturaPlanoTO {
 	private String voucher;
 	private Long   idPlano;
 	private Long   idTitular;
+	
+	private List<DiscontoTO> discounts;
 	
 	public NovaAssinaturaPlanoTO() {
 	}
@@ -86,6 +90,14 @@ public class NovaAssinaturaPlanoTO {
 
 	public void setIdTitular(Long idTitular) {
 		this.idTitular = idTitular;
+	}
+
+	public List<DiscontoTO> getDiscounts() {
+		return discounts;
+	}
+
+	public void setDiscounts(List<DiscontoTO> discounts) {
+		this.discounts = discounts;
 	}
 
 	@Override
