@@ -363,9 +363,11 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		}
 		
 		List<AssinaturaPlanoTO> assinaturasPagarMe = getAssinaturasPlanoRecorrenciaPagarmeCmd.listarAssinaturasCliente(assinaturaTO.getCustomer_id());
-		List<AssinaturaPlanoTO> ativas = assinaturasPagarMe.stream().filter(a -> a.getStatus().equals("active")).collect(Collectors.toList());
-		if(Objects.nonNull(ativas) && ativas.size() > 0) {
-			throw new PagarmeException("Não é possível criar a assinatura, pois já existe uma vigente no momento.");
+		if(Objects.nonNull(assinaturasPagarMe)) {
+			List<AssinaturaPlanoTO> ativas = assinaturasPagarMe.stream().filter(a -> a.getStatus().equals("active")).collect(Collectors.toList());
+			if(Objects.nonNull(ativas) && ativas.size() > 0) {
+				throw new PagarmeException("Cliente já possui assinatura vigente no momento.");
+			}
 		}
 	}
 

@@ -1,14 +1,12 @@
 package br.com.cartaoamigo.ws.pagarme.assinatura;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.ws.HttpRestUtil;
 import br.com.cartaoamigo.ws.pagarme.PagarmeRecorrenciaProvider;
-import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPlanoTO;
+import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPagarMeTO;
 import br.com.cartaoamigo.ws.pagarme.to.NovaAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCanceladaTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCriadaTO;
@@ -37,9 +35,8 @@ public class AssinaturaPlanoRecorrenciaServiceImpl implements AssinaturaPlanoRec
 		return httpRestUtil.delete(appId, null, provider.getUrlCancelarAssinaturaPlano(idAssinatura), null , RetornoAssinaturaPlanoCanceladaTO.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<AssinaturaPlanoTO> listarAssinaturasCliente(String idCliente) throws Exception {
-		return httpRestUtil.get(appId, null, provider.getUrlListarAssinaturasCliente(idCliente), List.class);
+	public AssinaturaPagarMeTO listarAssinaturasCliente(String idCliente) throws Exception {
+		return httpRestUtil.get(appId, null, provider.getUrlListarAssinaturasCliente(idCliente), AssinaturaPagarMeTO.class);
 	}
 }
