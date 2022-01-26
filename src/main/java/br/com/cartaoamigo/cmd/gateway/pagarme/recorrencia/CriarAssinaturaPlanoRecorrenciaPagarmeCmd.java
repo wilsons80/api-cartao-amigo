@@ -185,7 +185,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			voucher = voucherRepository.findByCodigo(novaAssinaturaPlanoTO.getVoucher());
 			if(voucher.isPresent()) {
 				voucherAtivoRule.verificar(voucher.get());	
-				aplicarDescontos(novaAssinaturaPlanoTO, voucher.get().getPorcentagem());
+				aplicarDescontos(novaAssinaturaPlanoTO, voucher.get());
 			} else {
 				throw new VoucherInvalidoException("O código de cupom não existe em nossa base de dados."); 
 			}
@@ -227,12 +227,12 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		}
 	}
 
-	private void aplicarDescontos(NovaAssinaturaPlanoTO novaAssinaturaPlanoTO, Double porcentagemDesconto) {
+	private void aplicarDescontos(NovaAssinaturaPlanoTO novaAssinaturaPlanoTO, Voucher voucher) {
 		DiscontoTO disconto = new DiscontoTO();
-		disconto.setCycles       (12);           //Número de vezes que o desconto será aplicado.
-		disconto.setDiscount_type("percentage"); //Valores possíveis: flat ou percentage. Valor padrão: percentage.
+		disconto.setCycles       (voucher.getQtdMesesDesconto().intValue()); //Número de vezes que o desconto será aplicado.
+		disconto.setDiscount_type("percentage");                             //Valores possíveis: flat ou percentage. Valor padrão: percentage.
 		disconto.setStatus       ("active");
-		disconto.setValue        (NumeroUtil.formataDoubleComDuasCasasDecimais(porcentagemDesconto));
+		disconto.setValue        (NumeroUtil.formataDoubleComDuasCasasDecimais(voucher.getPorcentagem()));
 		
 		novaAssinaturaPlanoTO.setDiscounts(Arrays.asList(disconto));
 	}
