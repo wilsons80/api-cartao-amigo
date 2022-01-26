@@ -37,7 +37,8 @@ public class GetVoucherDao extends BaseDao{
 		sql.append("         v.st_ativo,                                                           ");
 		sql.append("         v.st_utilizado,                                                       ");
 		sql.append("         v.dt_utilizacao,                                                      ");
-		sql.append("         pf.nm_pessoa_fisica                                                   ");
+		sql.append("         pf.nm_pessoa_fisica,                                                  ");
+		sql.append("         v.qtd_meses_desconto                                                  ");
 		sql.append("   from voucher v                                                              ");
 		sql.append("  left join pessoas_fisicas pf on v.id_pessoa_fisica = pf.id_pessoa_fisica    ");
 		sql.append("  where 1=1                                                                    ");
@@ -62,7 +63,7 @@ public class GetVoucherDao extends BaseDao{
 			sql.append("  and DATE_TRUNC('DAY', v.dt_criacao) <= DATE_TRUNC('DAY', to_date( :p_dt_fim_gerado ,'dd/mm/yyyy') )     ");
 		}
 		
-		sql.append(" order by 5 ");
+		sql.append(" order by 5 desc");
 		
 		Query query = em.createNativeQuery(sql.toString());
 

@@ -27,7 +27,7 @@ import br.com.cartaoamigo.infra.util.NumeroUtil;
 @Component
 public class ExportarVoucherExcelFileExporter {
 	
-	private List<String> colunas = Arrays.asList("Código","Promoção", "Porcentagem", "Data Criação", "Data Validade", "Ativo", "Utilizado", "Data Utilização", "Quem utilizou");
+	private List<String> colunas = Arrays.asList("Código","Promoção", "Porcentagem", "Data Criação", "Data Validade", "Ativo", "Utilizado", "Data Utilização", "Quem utilizou", "Quantidade Meses Desconto");
 		
 	public byte[] gerar(List<VoucherDTO> dados) {
 		ByteArrayInputStream stream = gerarFileExcel(dados);
@@ -136,7 +136,11 @@ public class ExportarVoucherExcelFileExporter {
 
 			if(coluna.equals("Quem utilizou")) {
 	      	  dataRow.createCell(indexDados.getAndIncrement()).setCellValue(Optional.ofNullable(voucher.getNomePessoaUlilizacao()).orElse(""));
-	        }			
+	        }	
+			
+			if(coluna.equals("Quantidade Meses Desconto")) {
+		      dataRow.createCell(indexDados.getAndIncrement()).setCellValue(Optional.ofNullable(String.valueOf(voucher.getQtdMesesDesconto())).orElse(""));
+		    }
 			
 		});
 		

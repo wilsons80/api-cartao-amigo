@@ -293,7 +293,8 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				LOGGER.info(">>>>> Dados pagamento: " + assinaturaTO.toString());
 				
 				assinaturaTO.setBoleto_due_days(5);
-				assinaturaTO.setPayment_method("boleto");			
+				assinaturaTO.setPayment_method("boleto");
+				assinaturaTO.setBank("001");
 				retornoAssinaturaTO = service.criarAssinaturaBoleto(assinaturaTO);					
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				

@@ -9,6 +9,7 @@ public class NovaAssinaturaPlanoTO {
 	private String customer_id;
 	private String card_token;
     private Integer boleto_due_days;
+    private String bank;
     
 	private String codigoCorretor;
 	private String voucher;
@@ -98,6 +99,14 @@ public class NovaAssinaturaPlanoTO {
 
 	public void setDiscounts(List<DiscontoTO> discounts) {
 		this.discounts = discounts;
+	}
+
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
 	}
 
 	@Override

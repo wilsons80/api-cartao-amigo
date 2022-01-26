@@ -16,6 +16,7 @@ public class VoucherDTO {
 	private Boolean       utilizado;
 	private LocalDateTime dataUtilizacao;
 	private String        nomePessoaUlilizacao;
+	private Long          qtdMesesDesconto;
 	
 	public VoucherDTO() {
 	}
@@ -31,6 +32,7 @@ public class VoucherDTO {
 		this.utilizado             = (colunas[7] != null) ? ((String)colunas[7]).toUpperCase().equals("S") : false;
 		this.dataUtilizacao        = (colunas[8] != null)? ((Timestamp)colunas[8]).toLocalDateTime() : null;
 		this.nomePessoaUlilizacao  = (String) colunas[9];
+		this.qtdMesesDesconto      = (colunas[10] != null)? ((BigDecimal)colunas[10]).longValue() : null;
 	}
 
 	public Long getIdVoucher() {
@@ -111,6 +113,14 @@ public class VoucherDTO {
 
 	public void setDataUtilizacao(LocalDateTime dataUtilizacao) {
 		this.dataUtilizacao = dataUtilizacao;
+	}
+
+	public Long getQtdMesesDesconto() {
+		return qtdMesesDesconto;
+	}
+
+	public void setQtdMesesDesconto(Long qtdMesesDesconto) {
+		this.qtdMesesDesconto = qtdMesesDesconto;
 	}
 
 

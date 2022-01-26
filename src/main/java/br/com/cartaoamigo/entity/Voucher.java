@@ -53,6 +53,9 @@ public class Voucher {
 	@Column(name = "ID_PESSOA_FISICA")
 	private Long idPessoaFisica;
 	
+	@Column(name = "qtd_meses_desconto")
+	private Long qtdMesesDesconto;
+	
 	
 	public Voucher() {
 	}
@@ -135,6 +138,14 @@ public class Voucher {
 
 	public void setIdPessoaFisica(Long idPessoaFisica) {
 		this.idPessoaFisica = idPessoaFisica;
+	}
+
+	public Long getQtdMesesDesconto() {
+		return qtdMesesDesconto;
+	}
+
+	public void setQtdMesesDesconto(Long qtdMesesDesconto) {
+		this.qtdMesesDesconto = qtdMesesDesconto;
 	}
 
 }

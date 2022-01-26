@@ -14,6 +14,8 @@ public class VoucherTO {
 	private Boolean utilizado;
 	private LocalDateTime dataUtilizacao;
 	private Long idPessoaFisica;
+	private Long qtdMesesDesconto;
+	
 	
 	public VoucherTO() {
 	}
@@ -96,6 +98,14 @@ public class VoucherTO {
 
 	public void setIdPessoaFisica(Long idPessoaFisica) {
 		this.idPessoaFisica = idPessoaFisica;
+	}
+
+	public Long getQtdMesesDesconto() {
+		return qtdMesesDesconto;
+	}
+
+	public void setQtdMesesDesconto(Long qtdMesesDesconto) {
+		this.qtdMesesDesconto = qtdMesesDesconto;
 	}
 
 }
