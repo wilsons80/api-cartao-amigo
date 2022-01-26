@@ -2,6 +2,9 @@ package br.com.cartaoamigo.ws.pagarme.to;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CartaoClienteTO {
 
 	private String id;
@@ -14,6 +17,8 @@ public class CartaoClienteTO {
     private LocalDateTime created_at;
     
 	private String status;
+	
+	private BandeiraCartaoTO bandeiraCartaoTO;
 
 	public CartaoClienteTO() {
 	}
@@ -88,6 +93,14 @@ public class CartaoClienteTO {
 
 	public void setCreated_at(LocalDateTime created_at) {
 		this.created_at = created_at;
+	}
+
+	public BandeiraCartaoTO getBandeiraCartaoTO() {
+		return bandeiraCartaoTO;
+	}
+
+	public void setBandeiraCartaoTO(BandeiraCartaoTO bandeiraCartaoTO) {
+		this.bandeiraCartaoTO = bandeiraCartaoTO;
 	}
 	
 
