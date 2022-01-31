@@ -44,11 +44,8 @@ public class ValidarCarteirinhaAssociadoCmd {
 		// salva os dados do procedimento para ser mostrado no dashboard
 		salvarProcedimentoAssociadoClinicaCmd.salvarProcedimento(clinicasTipoEspecialidadesOptional.get(), cartao, assinaturaTO);		
 		
-
 		ValidacaoCarteirinhaAssociadoTO carteirinhaTO = new ValidacaoCarteirinhaAssociadoTO();
 		carteirinhaTO.setStatus           (false);
-		
-		
 		
 		//Busca a data de validade baseado no titular, pois o dependente não faz pagamento da assinatura.
 		if(cartao.getIsTitular()) {
@@ -62,8 +59,16 @@ public class ValidarCarteirinhaAssociadoCmd {
 			}
 		}
 		
-		if(cartao.getAtivo() && titularTO.getAtivo() && Objects.nonNull(assinaturaTO) && assinaturaTO.getAtivo()) {
-			carteirinhaTO.setStatus(true);
+		//Validação com PAGAR.ME
+		if(Objects.nonNull(assinaturaTO)) {
+			if(cartao.getAtivo() && titularTO.getAtivo() && assinaturaTO.getAtivo()) {
+				carteirinhaTO.setStatus(true);
+			}
+		} else {
+			//Validação com PAGSEGURO
+			if(cartao.getAtivo() && titularTO.getAtivo() && Objects.nonNull(cartao.getDataValidadePlano()) && carteirinhaTO.getDataFimValidade().isAfter(LocalDate.now())) {
+				carteirinhaTO.setStatus(true);
+			}
 		}
 		
 		carteirinhaTO.setNumeroCartao(cartao.getNumeroCartao());

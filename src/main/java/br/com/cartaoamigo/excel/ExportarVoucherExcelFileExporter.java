@@ -139,7 +139,11 @@ public class ExportarVoucherExcelFileExporter {
 	        }	
 			
 			if(coluna.equals("Quantidade Meses Desconto")) {
-		      dataRow.createCell(indexDados.getAndIncrement()).setCellValue(Optional.ofNullable(String.valueOf(voucher.getQtdMesesDesconto())).orElse(""));
+				if(Objects.nonNull(voucher.getQtdMesesDesconto())) {
+					dataRow.createCell(indexDados.getAndIncrement()).setCellValue(Optional.ofNullable(String.valueOf(voucher.getQtdMesesDesconto())).orElse(""));
+				} else {
+		      		dataRow.createCell(indexDados.getAndIncrement()).setCellValue("");
+		      	}
 		    }
 			
 		});
