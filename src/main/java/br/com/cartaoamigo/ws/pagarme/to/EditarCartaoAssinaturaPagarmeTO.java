@@ -7,7 +7,6 @@ public class EditarCartaoAssinaturaPagarmeTO {
 
 	private String card_id;
 	private Long idTitular;
-	private String idAsinaturaPagarMe;
 
 	public EditarCartaoAssinaturaPagarmeTO() {
 	}
@@ -28,14 +27,4 @@ public class EditarCartaoAssinaturaPagarmeTO {
 		this.idTitular = idTitular;
 	}
 
-	public String getIdAsinaturaPagarMe() {
-		return idAsinaturaPagarMe;
-	}
-
-	public void setIdAsinaturaPagarMe(String idAsinaturaPagarMe) {
-		this.idAsinaturaPagarMe = idAsinaturaPagarMe;
-	}
-
-
-	
 }

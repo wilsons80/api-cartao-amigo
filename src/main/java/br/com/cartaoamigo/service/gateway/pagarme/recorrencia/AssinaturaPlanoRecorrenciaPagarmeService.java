@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.CancelarAssinaturaPlanoRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.CriarAssinaturaPlanoRecorrenciaPagarmeCmd;
-import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.EditarCartaoAssinaturaRecorrenciaPagarmeCmd;
+import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.MudarCartaoAssinaturaRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetAssinaturasPlanoRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.EditarCartaoAssinaturaPagarmeTO;
@@ -31,7 +31,7 @@ public class AssinaturaPlanoRecorrenciaPagarmeService {
 	@Autowired private CriarAssinaturaPlanoRecorrenciaPagarmeCmd criarAssinaturaCmd;
 	@Autowired private CancelarAssinaturaPlanoRecorrenciaPagarmeCmd cancelarAssinaturaCmd;
 	@Autowired private GetAssinaturasPlanoRecorrenciaPagarmeCmd getAssinaturasCmd;
-	@Autowired private EditarCartaoAssinaturaRecorrenciaPagarmeCmd editarCartaoAssinatura;
+	@Autowired private MudarCartaoAssinaturaRecorrenciaPagarmeCmd editarCartaoAssinatura;
 	
 	@GetMapping(path = "/cliente/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<AssinaturaPlanoTO> listarAssinaturasCliente(@PathVariable(name = "idCliente") String idCliente) {
@@ -48,10 +48,10 @@ public class AssinaturaPlanoRecorrenciaPagarmeService {
 		return criarAssinaturaCmd.criarAssinaturaCartao(assinaturaTO);
 	}
 	
-	@PutMapping(path = "/editar/{idAssinatura}/cartao", produces = MediaType.APPLICATION_JSON_VALUE)
-	public AssinaturaPlanoTO editarCartaoAssinatura(@PathVariable(name = "idAssinatura") String idAssinatura,
+	@PutMapping(path = "/editar/{idAssinaturaPagarme}/cartao", produces = MediaType.APPLICATION_JSON_VALUE)
+	public AssinaturaPlanoTO editarCartaoAssinatura(@PathVariable(name = "idAssinaturaPagarme") String idAssinaturaPagarme,
 			                                        @RequestBody EditarCartaoAssinaturaPagarmeTO cartaoTO) {
-		return editarCartaoAssinatura.editarCartaoAssinatura(idAssinatura, cartaoTO);
+		return editarCartaoAssinatura.mudarCartaoAssinatura(idAssinaturaPagarme, cartaoTO);
 	}
 	
 	@PostMapping(path = "/criar/boleto", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -8,6 +8,7 @@ package br.com.cartaoamigo.infra.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -310,5 +311,22 @@ public class DataUtil {
       return strDate;
    }
    
+   
+   public static boolean isDataExpirada(int mes, int ano) {
+	   	int mesCartao = mes;
+		int anoCartao = ano;
+		
+		LocalDate agora = LocalDate.now();
+		int anoAtual = agora.getYear();
+		int mesAtual = agora.getMonthValue();
+
+		if(anoAtual > anoCartao) {
+			return true;
+		} else if (anoAtual == anoCartao && mesAtual > mesCartao) {
+			return true;
+		} else {
+			return false;
+		}
+   }
    
 }

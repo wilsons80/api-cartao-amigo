@@ -44,7 +44,7 @@ public class CriarCartaoClienteRecorrenciaPagarmeCmd {
 			cartaoClienteTO.setNumber   (numeroCartao);
 			cartaoClienteTO.setCvv      (cartaoTO.getCvv());
 			
-			salvarCarteiraCartaoPagamentoAssociadoCmd.salvar(cartaoClienteTO);
+			salvarCarteiraCartaoPagamentoAssociadoCmd.salvar(cartaoClienteTO, false);
 			
 			return cartaoClienteTO;
 			

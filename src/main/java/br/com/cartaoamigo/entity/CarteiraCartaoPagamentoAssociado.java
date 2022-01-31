@@ -3,6 +3,7 @@ package br.com.cartaoamigo.entity;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import br.com.cartaoamigo.infra.constantes.Constantes;
+import br.com.cartaoamigo.infra.dao.SimNaoConverter;
 
 @Entity
 @Table(name = "CARTEIRA_CARTAO_PAGAMENTO_ASSOCIADO")
@@ -48,6 +50,10 @@ public class CarteiraCartaoPagamentoAssociado {
 
 	@Column(name = "ultimos4digitos")
 	private String ultimos4digitos;
+	
+	@Convert(converter = SimNaoConverter.class)
+	@Column(name = "exclusao_logica")
+	private Boolean exclusaoLogica;
 
 	public CarteiraCartaoPagamentoAssociado() {
 	}
@@ -130,6 +136,14 @@ public class CarteiraCartaoPagamentoAssociado {
 
 	public void setUltimos4digitos(String ultimos4digitos) {
 		this.ultimos4digitos = ultimos4digitos;
+	}
+
+	public Boolean getExclusaoLogica() {
+		return exclusaoLogica;
+	}
+
+	public void setExclusaoLogica(Boolean exclusaoLogica) {
+		this.exclusaoLogica = exclusaoLogica;
 	}
 
 

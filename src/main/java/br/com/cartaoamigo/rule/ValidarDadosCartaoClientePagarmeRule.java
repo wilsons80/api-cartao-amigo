@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.exception.CamposObrigatoriosException;
+import br.com.cartaoamigo.infra.util.DataUtil;
 import br.com.cartaoamigo.infra.util.NumeroUtil;
 import br.com.cartaoamigo.infra.util.StringUtil;
 import br.com.cartaoamigo.ws.pagarme.to.CriarCartaoClienteTO;
@@ -48,6 +49,10 @@ public class ValidarDadosCartaoClientePagarmeRule {
 		
 		if(StringUtils.isEmpty(cartaoTO.getCustomer().getId())){ 
 			throw new CamposObrigatoriosException("O código do cliente deve ser informado.");
+		}
+		
+		if(DataUtil.isDataExpirada(cartaoTO.getExp_month(), cartaoTO.getExp_year())) {
+			throw new CamposObrigatoriosException("Cartão está com data vencida.");
 		}
 	}
 		

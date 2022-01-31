@@ -1,7 +1,8 @@
 package br.com.cartaoamigo.to;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import br.com.cartaoamigo.infra.util.DataUtil;
 
 public class CarteiraCartaoPagamentoAssociadoTO {
 	
@@ -16,6 +17,7 @@ public class CarteiraCartaoPagamentoAssociadoTO {
 	private String primeiros6digitos;
 	private String ultimos4digitos;
 	private boolean expirado;
+	private Boolean exclusaoLogica;
 	
 	public CarteiraCartaoPagamentoAssociadoTO() {
 	}
@@ -103,20 +105,18 @@ public class CarteiraCartaoPagamentoAssociadoTO {
 	public boolean expirado() {
 		int mesCartao = Integer.valueOf(getMesValidade());
 		int anoCartao = Integer.valueOf(getAnoValidade());
-		
-		LocalDate agora = LocalDate.now();
-		int anoAtual = agora.getYear();
-		int mesAtual = agora.getMonthValue();
-
-		if(anoAtual > anoCartao) {
-			expirado = true;
-		} else if (anoAtual == anoCartao && mesAtual > mesCartao) {
-			expirado = true;
-		} else {
-			expirado = false;
-		}
+		expirado = DataUtil.isDataExpirada(mesCartao, anoCartao);
 		
 		return expirado;
 	}
+
+	public Boolean getExclusaoLogica() {
+		return exclusaoLogica;
+	}
+
+	public void setExclusaoLogica(Boolean exclusaoLogica) {
+		this.exclusaoLogica = exclusaoLogica;
+	}
 		
+	
 }

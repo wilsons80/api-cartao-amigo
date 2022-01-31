@@ -38,7 +38,7 @@ public class EditarCartaoClienteRecorrenciaPagarmeCmd {
 			
 			CriarCartaoClienteTO editarCartao = service.editarCartao(cartaoTO, cartaoTO.getCustomer().getId(), cartaoTO.getId());
 			
-			salvarCarteiraCartaoPagamentoAssociadoCmd.salvar(editarCartao);
+			salvarCarteiraCartaoPagamentoAssociadoCmd.salvar(editarCartao, true);
 			
 			return editarCartao;
 		} catch (Exception e) {

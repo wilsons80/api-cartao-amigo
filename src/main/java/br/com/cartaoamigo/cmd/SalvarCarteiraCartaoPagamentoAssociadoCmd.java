@@ -16,8 +16,14 @@ public class SalvarCarteiraCartaoPagamentoAssociadoCmd {
 	@Autowired private CarteiraCartaoPagamentoAssociadoRepository carteiraCartaoPagamentoAssociadoRepository;
 	@Autowired private GetCarteiraCartaoPagamentoAssociadoCmd getCarteiraCartaoPagamentoAssociadoCmd;
 	
-	public void salvar(CriarCartaoClienteTO cartaoClienteTO) {
-		CarteiraCartaoPagamentoAssociado entity = getCarteiraCartaoPagamentoAssociadoCmd.getByIdCartaoPagarme(cartaoClienteTO.getId());
+	public void salvar(CriarCartaoClienteTO cartaoClienteTO, boolean isAcaoAlterarCartao) {
+		CarteiraCartaoPagamentoAssociado entity =  null;
+		
+		if(isAcaoAlterarCartao) {
+			entity = getCarteiraCartaoPagamentoAssociadoCmd.getByIdCartaoPagarme(cartaoClienteTO.getId());
+		} else {
+			entity = getCarteiraCartaoPagamentoAssociadoCmd.getByIdTitularAndDigitosCartao(cartaoClienteTO.getIdTitular(), cartaoClienteTO.getFirst_six_digits(), cartaoClienteTO.getLast_four_digits());
+		}
 		
 		if(Objects.isNull(entity)) {
 			entity = new CarteiraCartaoPagamentoAssociado(); 
@@ -32,6 +38,7 @@ public class SalvarCarteiraCartaoPagamentoAssociadoCmd {
 		entity.setBandeira         (cartaoClienteTO.getBrand());
 		entity.setPrimeiros6digitos(cartaoClienteTO.getFirst_six_digits());
 		entity.setUltimos4digitos  (cartaoClienteTO.getLast_four_digits());
+		entity.setExclusaoLogica   (false);
 		
 		carteiraCartaoPagamentoAssociadoRepository.save(entity);
 	}

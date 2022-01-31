@@ -11,7 +11,7 @@ import br.com.cartaoamigo.cmd.GetCarteiraCartaoPagamentoAssociadoCmd;
 import br.com.cartaoamigo.dao.repository.CarteiraCartaoPagamentoAssociadoRepository;
 import br.com.cartaoamigo.entity.Assinaturas;
 import br.com.cartaoamigo.entity.CarteiraCartaoPagamentoAssociado;
-import br.com.cartaoamigo.exception.CartaoComAssinaturaVigenteException;
+import br.com.cartaoamigo.exception.CartaoComAssinaturaExpiradaException;
 import br.com.cartaoamigo.exception.PagarmeException;
 import br.com.cartaoamigo.ws.pagarme.cartao.CartaoClienteRecorrenciaService;
 import br.com.cartaoamigo.ws.pagarme.to.CartaoClienteTO;
@@ -29,12 +29,13 @@ public class ExcluirCartaoClienteRecorrenciaPagarmeCmd {
 		try {
 			Optional<Assinaturas> assinaturaVigente = getAssinaturasCmd.findAssinaturaAtivaByTitularAndIdCartaoPagarMe(idTitular, idCartaoPagarMe);
 			if(assinaturaVigente.isPresent()) {
-				throw new CartaoComAssinaturaVigenteException("Esse cartão está vinculado à assinatura vigente, mude o cartão na assinatura para poder excluir esse cartão.");
+				throw new CartaoComAssinaturaExpiradaException("Esse cartão está vinculado à assinatura vigente, mude o cartão na assinatura para poder excluir esse cartão.");
 			}
 			
 			CarteiraCartaoPagamentoAssociado cartaoAssociado = getCarteiraCartaoPagamentoAssociadoCmd.getByIdCartaoPagarme(idCartaoPagarMe);
 			if(Objects.nonNull(cartaoAssociado)) {
-				carteiraCartaoPagamentoAssociadoRepository.delete(cartaoAssociado);
+				cartaoAssociado.setExclusaoLogica(true);
+				carteiraCartaoPagamentoAssociadoRepository.save(cartaoAssociado);
 			}
 			
 			return service.excluirCartao(idClientePagarMe, idCartaoPagarMe);

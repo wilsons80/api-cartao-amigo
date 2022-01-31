@@ -41,6 +41,7 @@ public class SalvarAssinaturaCmd {
 		entity.setIdPlano         (to.getIdPlano());
 		entity.setIdTitular       (to.getIdTitular());
 		entity.setFormaPagamento  (formaPagamentoTOBuilder.build(to.getFormaPagamento()));
+		entity.setIdCartaoPagarMe (to.getIdCartaoPagarMe());
 		
 		entity = repository.save(entity);
 		return toBuilder.buildTO(entity);

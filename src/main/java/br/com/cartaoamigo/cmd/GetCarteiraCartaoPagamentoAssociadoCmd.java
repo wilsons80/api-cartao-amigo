@@ -29,6 +29,12 @@ public class GetCarteiraCartaoPagamentoAssociadoCmd {
 		Optional<CarteiraCartaoPagamentoAssociado> entity = repository.findByIdCartaoPagarme(idCartaoPagarme);
 		return entity.orElse(null);
 	}
+
+	public CarteiraCartaoPagamentoAssociado getByIdTitularAndDigitosCartao(Long idTitular, String primeiros6digitos, String ultimos4digitos) {
+		Optional<CarteiraCartaoPagamentoAssociado> entity = repository.findByIdTitularAndDigitosCartao(idTitular, primeiros6digitos, ultimos4digitos);
+		return entity.orElse(null);
+	}
+
 	
 	
 	public CarteiraCartaoPagamentoAssociado getByIdCartaoPagarmeAndIdTitular(String idCartaoPagarme, Long idTitular) {
