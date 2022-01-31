@@ -22,7 +22,8 @@ public class AssinaturaPlanoTO {
     private LocalDateTime created_at;
     private LocalDateTime updated_at;    
     private ClientePagarMeTO customer;
-    private PlanoTO plan;
+    private PlanoTO plan;    
+    private CartaoClienteTO card;
 
 	public AssinaturaPlanoTO() {
 	}
@@ -179,6 +180,14 @@ public class AssinaturaPlanoTO {
 		this.plan = plan;
 	}
 
+	public CartaoClienteTO getCard() {
+		return card;
+	}
+
+	public void setCard(CartaoClienteTO card) {
+		this.card = card;
+	}
+
 	@Override
 	public String toString() {
 		return "AssinaturaPlanoTO [id=" + id + ", code=" + code + ", start_at=" + start_at + ", interval=" + interval
@@ -187,7 +196,7 @@ public class AssinaturaPlanoTO {
 				+ ", currency=" + currency + ", statement_descriptor=" + statement_descriptor + ", installments="
 				+ installments + ", minimum_price=" + minimum_price + ", status=" + status + ", boleto_due_days="
 				+ boleto_due_days + ", created_at=" + created_at + ", updated_at=" + updated_at + ", customer="
-				+ customer + ", plan=" + plan + "]";
+				+ customer + ", plan=" + plan + ", card=" + card + "]";
 	}
 
 	

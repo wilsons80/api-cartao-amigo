@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.builder.AssinaturasTOBuilder;
+import br.com.cartaoamigo.builder.FormaPagamentoTOBuilder;
 import br.com.cartaoamigo.dao.repository.AssinaturasRepository;
 import br.com.cartaoamigo.entity.Assinaturas;
 import br.com.cartaoamigo.exception.NotFoundException;
@@ -18,6 +19,7 @@ public class SalvarAssinaturaCmd {
 	
 	@Autowired private AssinaturasRepository repository;
 	@Autowired private AssinaturasTOBuilder toBuilder;
+	@Autowired private FormaPagamentoTOBuilder formaPagamentoTOBuilder;
 	
 	public AssinaturasTO salvarAssinatura(AssinaturasTO to) {
 		Assinaturas entity = new Assinaturas();
@@ -38,6 +40,7 @@ public class SalvarAssinaturaCmd {
 		entity.setCodigoAssinatura(to.getCodigoAssinatura());
 		entity.setIdPlano         (to.getIdPlano());
 		entity.setIdTitular       (to.getIdTitular());
+		entity.setFormaPagamento  (formaPagamentoTOBuilder.build(to.getFormaPagamento()));
 		
 		entity = repository.save(entity);
 		return toBuilder.buildTO(entity);

@@ -18,6 +18,7 @@ import br.com.cartaoamigo.builder.TipoPlanoTOBuilder;
 import br.com.cartaoamigo.builder.TitularTOBuilder;
 import br.com.cartaoamigo.cmd.CadastrarHistoricoPagamentoCmd;
 import br.com.cartaoamigo.cmd.GetAssinaturasCmd;
+import br.com.cartaoamigo.cmd.GetCarteiraCartaoPagamentoAssociadoCmd;
 import br.com.cartaoamigo.cmd.GetGatewayPagamentoCmd;
 import br.com.cartaoamigo.cmd.GetTitularCmd;
 import br.com.cartaoamigo.cmd.SalvarAssinaturaCmd;
@@ -39,6 +40,8 @@ import br.com.cartaoamigo.exception.VoucherInvalidoException;
 import br.com.cartaoamigo.infra.util.NumeroUtil;
 import br.com.cartaoamigo.rule.VoucherAtivoRule;
 import br.com.cartaoamigo.to.AssinaturasTO;
+import br.com.cartaoamigo.to.CarteiraCartaoPagamentoAssociadoTO;
+import br.com.cartaoamigo.to.FormaPagamentoTO;
 import br.com.cartaoamigo.to.GatewayPagamentoTO;
 import br.com.cartaoamigo.to.HistoricoPagamentoTO;
 import br.com.cartaoamigo.to.StatusTransacaoGatewayPagamentoTO;
@@ -80,6 +83,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 	@Autowired private GetAssinaturasCmd getAssinaturasCmd;
 	@Autowired private SalvarAssinaturaCmd salvarAssinaturaCmd;
 	@Autowired private GetAssinaturasPlanoRecorrenciaPagarmeCmd getAssinaturasPlanoRecorrenciaPagarmeCmd;
+	@Autowired private GetCarteiraCartaoPagamentoAssociadoCmd getCarteiraCartaoPagamentoAssociadoCmd;
 	
 	public RetornoAssinaturaPlanoCriadaTO criarAssinaturaCartao(@RequestBody NovaAssinaturaPlanoTO novaAssinaturaPlanoTO) {
 		HistoricoPagamentoTO historicoPagamentoTO = new HistoricoPagamentoTO();
@@ -136,6 +140,11 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setTipoMetodoPagamento            (retornoAssinaturaTO.getPayment_method());
 			historicoPagamentoTO.setTitular                        (titularTOBuilder.buildTO(titular.get()));	
 			
+			if(StringUtils.isNotEmpty(novaAssinaturaPlanoTO.getIdCartaoPagarMe())){
+				CarteiraCartaoPagamentoAssociadoTO cartaoPagamentoTO = getCarteiraCartaoPagamentoAssociadoCmd.getTOByIdCartaoPagarme(novaAssinaturaPlanoTO.getIdCartaoPagarMe());
+				historicoPagamentoTO.setCartaoPagamento(cartaoPagamentoTO);
+			}
+			
 			if(voucher.isPresent()) {
 				historicoPagamentoTO.setIdVoucher(voucher.get().getId());
 				
@@ -144,8 +153,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				voucher.get().setIdPessoaFisica(titular.get().getPessoaFisica().getId());
 				
 				voucherRepository.save(voucher.get());
-			}			
-			
+			}
 			
 			Optional<FormaPagamento> formaPagamento = formaPagamentoRepository.findByNome(CARTAO_CREDITO);
 			historicoPagamentoTO.setFormaPagamento(formaPagamentoTOBuilder.buildTO(formaPagamento.get()));
@@ -163,10 +171,9 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setGatewayPagamento   (gatewayPagamentoTO);
 
 			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
-
 			
 			//Cria a assinatura na base de dados para o titular
-			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO);
+			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO, historicoPagamentoTO.getFormaPagamento());
 			
 			
 			retornoAssinaturaTO.setLinkPagamento           (null);
@@ -237,12 +244,13 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		novaAssinaturaPlanoTO.setDiscounts(Arrays.asList(disconto));
 	}
 
-	private void criarAssinaturaPlano(String codigoAssinatura, Long idPlano, Long idTitular, StatusTransacaoGatewayPagamentoTO statusTO) {
+	private void criarAssinaturaPlano(String codigoAssinatura, Long idPlano, Long idTitular, StatusTransacaoGatewayPagamentoTO statusTO, FormaPagamentoTO formaPagamentoTO) {
 		AssinaturasTO to = new AssinaturasTO();
 		
 		to.setCodigoAssinatura(codigoAssinatura);
 		to.setIdPlano(idPlano);
 		to.setIdTitular(idTitular);
+		to.setFormaPagamento(formaPagamentoTO);
 		
 		if(statusTO.getCodigoTransacao().equals("canceled") || statusTO.getCodigoTransacao().equals("failed")) {
 			to.setAtivo(false);
@@ -340,7 +348,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
 			
 			//Cria a assinatura na base de dados para o titular
-			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO);
+			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO, historicoPagamentoTO.getFormaPagamento());
 
 			
 			retornoAssinaturaTO.setLinkPagamento           (cobrancaFaturaTO.getLast_transaction().getPdf());

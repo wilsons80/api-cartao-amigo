@@ -6,6 +6,7 @@
 package br.com.cartaoamigo.infra.util;
 
 import java.text.Normalizer;
+import java.util.stream.Stream;
 
 /**
  *
@@ -13,6 +14,12 @@ import java.text.Normalizer;
  */
 public class StringUtil {
 
+	public static boolean temNumero(String valor) {
+		String[] nomes = valor.split(" ");
+		return Stream.of(nomes).filter(nome -> NumeroUtil.isNumero(nome)).findAny().isPresent();	
+	}
+	
+	
    /**
     * Preenche com Brancos a Diteira
     *

@@ -11,6 +11,7 @@ public class AssinaturasTO {
 	private LocalDateTime dataCancelamento;
 	private Long idTitular;
 	private Long idPlano;
+	private FormaPagamentoTO formaPagamento;
 
 	public AssinaturasTO() {
 
@@ -70,6 +71,14 @@ public class AssinaturasTO {
 
 	public void setIdPlano(Long idPlano) {
 		this.idPlano = idPlano;
+	}
+
+	public FormaPagamentoTO getFormaPagamento() {
+		return formaPagamento;
+	}
+
+	public void setFormaPagamento(FormaPagamentoTO formaPagamento) {
+		this.formaPagamento = formaPagamento;
 	}
 
 }

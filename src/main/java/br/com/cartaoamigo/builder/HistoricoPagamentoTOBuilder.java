@@ -8,7 +8,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.com.cartaoamigo.cmd.GetCarteiraCartaoPagamentoAssociadoCmd;
 import br.com.cartaoamigo.dao.repository.PessoaFisicaRepository;
+import br.com.cartaoamigo.entity.CarteiraCartaoPagamentoAssociado;
 import br.com.cartaoamigo.entity.EntityBase;
 import br.com.cartaoamigo.entity.HistoricoPagamento;
 import br.com.cartaoamigo.entity.PessoaFisica;
@@ -25,6 +27,9 @@ public class HistoricoPagamentoTOBuilder {
 	@Autowired private StatusTransacaoGatewayPagamentoTOBuilder statusTransacaoGatewayPagamentoTOBuilder;
 	@Autowired private PessoaFisicaTOBuilder pessoaFisicaTOBuilder;
 	@Autowired private PessoaFisicaRepository pessoaFisicaRepository;
+	@Autowired private CarteiraCartaoPagamentoAssociadoTOBuilder cartaoPagamentoAssociadoTOBuilder;
+	@Autowired private GetCarteiraCartaoPagamentoAssociadoCmd getCartaoPagamentoAssociadoCmd;
+	
 	
 	public HistoricoPagamentoTO buildTO(HistoricoPagamento p) {
 		HistoricoPagamentoTO to = new HistoricoPagamentoTO();
@@ -41,7 +46,11 @@ public class HistoricoPagamentoTOBuilder {
 		if(Objects.nonNull(p.getCorretor()) && Objects.nonNull(p.getCorretor().getId())) {
 			to.setCorretor(pessoaFisicaTOBuilder.buildTO(p.getCorretor()));
 		}
-			
+
+		if(Objects.nonNull(p.getCartaoPagamento()) && Objects.nonNull(p.getCartaoPagamento().getId())) {
+			to.setCartaoPagamento(cartaoPagamentoAssociadoTOBuilder.buildTO(p.getCartaoPagamento()));
+		}
+
 		return to;
 	}
 	
@@ -61,6 +70,11 @@ public class HistoricoPagamentoTOBuilder {
 			PessoaFisica corretor = pessoaFisicaRepository.findById(p.getCorretor().getId()).orElseThrow(() -> new NotFoundException("Corretor informado não existe."));
 			corretor = pessoaFisicaTOBuilder.build(p.getCorretor());
 			to.setCorretor(corretor);
+		}
+
+		if(Objects.nonNull(p.getCartaoPagamento()) && Objects.nonNull(p.getCartaoPagamento().getId())) {
+			CarteiraCartaoPagamentoAssociado cartaoPagamento = getCartaoPagamentoAssociadoCmd.getById(p.getCartaoPagamento().getId());
+			to.setCartaoPagamento(cartaoPagamento);
 		}
 
 		return to;

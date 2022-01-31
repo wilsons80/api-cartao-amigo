@@ -12,9 +12,10 @@ import br.com.cartaoamigo.entity.Assinaturas;
 @Repository
 public interface AssinaturasRepository extends JpaRepository<Assinaturas, Long> {
 	
-	@Query("select a from Assinaturas a "
-			+ " where a.ativo = true     "
-			+ "   and a.idTitular = ?1  ")
+	@Query("select a from Assinaturas a          "
+			+ " where a.ativo = true             "
+			+ "   and a.dataCancelamento is null "
+			+ "   and a.idTitular = ?1           ")
 	Optional<Assinaturas> findAssinaturaAtivaByTitular(Long idTitular);
 	
 	@Query("select a from Assinaturas a "

@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -93,6 +94,21 @@ public class HttpRestUtil {
 		return restTemplate.exchange(new URI(url), HttpMethod.POST, httpEntity, responseType).getBody();
 	}
 	
+	public <O, T> T patch(String username, String password, String url,O corpo, Class<T> responseType) throws RestClientException, URISyntaxException {
+		HttpEntity<O> httpEntity =  getEntityAuthorizacaoBasic(corpo, username, password);
+		
+		restTemplate = new RestTemplate();;
+		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+		restTemplate.setRequestFactory(requestFactory);
+		
+		return restTemplate.exchange(new URI(url), HttpMethod.PATCH, httpEntity, responseType).getBody();
+	}
+
+	public <O, T> T put(String username, String password, String url,O corpo, Class<T> responseType) throws RestClientException, URISyntaxException {
+		HttpEntity<O> httpEntity =  getEntityAuthorizacaoBasic(corpo, username, password);
+		return restTemplate.exchange(new URI(url), HttpMethod.PUT, httpEntity, responseType).getBody();
+	}
+
 	public <T> T get(String username, String password, String url, Class<T> responseType) {
 		return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<T>(createHeaders(username, password)), responseType).getBody();
 	}

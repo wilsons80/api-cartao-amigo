@@ -34,10 +34,13 @@ public class CartaoClienteRecorrenciaServiceImpl implements CartaoClienteRecorre
 	}
 
 	@Override
-	public CriarCartaoClienteTO criarCarto(CriarCartaoClienteTO cartaoTO, String idCliente) throws Exception {
+	public CriarCartaoClienteTO criarCartao(CriarCartaoClienteTO cartaoTO, String idCliente) throws Exception {
 		return httpRestUtil.post(appId, null, provider.getUrlCriarCartaoCliente(idCliente), cartaoTO, CriarCartaoClienteTO.class);
 	}
 	
-	
+	@Override
+	public CriarCartaoClienteTO editarCartao(CriarCartaoClienteTO cartaoTO, String idCliente, String idCartao) throws Exception {
+		return httpRestUtil.put(appId, null, provider.getUrlEditarCartaoCliente(idCliente, idCartao), cartaoTO, CriarCartaoClienteTO.class);
+	}
 	
 }

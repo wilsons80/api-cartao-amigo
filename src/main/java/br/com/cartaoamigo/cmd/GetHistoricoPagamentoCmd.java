@@ -20,11 +20,10 @@ public class GetHistoricoPagamentoCmd {
 	@Autowired private HistoricoPagamentoRepository repository;
 	@Autowired private HistoricoPagamentoTOBuilder toBuilder;
 
-	public Optional <List<HistoricoPagamento>> getAllByIdTitular(Long idTitular) {
+	public Optional<List<HistoricoPagamento>> getAllByIdTitular(Long idTitular) {
 		Optional <List<HistoricoPagamento>> historico= repository.findAllByIdTitular(idTitular);
 		return historico;
 	}
-
 	
 	public List<HistoricoPagamentoTO> getAllTOByIdTitular(Long idTitular) {
 		Optional <List<HistoricoPagamento>> historico= repository.findAllByIdTitular(idTitular);
@@ -34,6 +33,15 @@ public class GetHistoricoPagamentoCmd {
 		return new ArrayList<HistoricoPagamentoTO>();
 	}
 	
+	public HistoricoPagamento getByAssinaturaPagarMeAndIdTitular(String idAssinaturaPagarMe, Long idTitular) {
+		Optional<HistoricoPagamento> entityOptional = repository.findByNumeroTransacaoAndTitular(idAssinaturaPagarMe, idTitular);
+		if(!entityOptional.isPresent()) {
+			throw new NotFoundException("Histórico de pagamento não encontrado");
+		}
+		return entityOptional.get();		
+	}
+	
+	
 	public HistoricoPagamentoTO getTOById(Long id) {
 		Optional<HistoricoPagamento> entityOptional = repository.findById(id);
 		if(!entityOptional.isPresent()) {
@@ -41,7 +49,6 @@ public class GetHistoricoPagamentoCmd {
 		}
 		return toBuilder.buildTO(entityOptional.get());		
 	}
-	
 	
 	public HistoricoPagamentoTO getUltimoPagamento(Long idTitular) {
 		List<HistoricoPagamentoTO> historicosPagamento = getAllTOByIdTitular(idTitular);

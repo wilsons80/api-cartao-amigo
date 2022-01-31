@@ -12,5 +12,7 @@ public interface CartaoClienteRecorrenciaService {
 	
 	CartaoClienteTO getCartao(String idCliente, String idCartao) throws Exception ;
 	
-	CriarCartaoClienteTO criarCarto(CriarCartaoClienteTO cartaoTO, String idCliente) throws Exception ;
+	CriarCartaoClienteTO criarCartao(CriarCartaoClienteTO cartaoTO, String idCliente) throws Exception ;
+	
+	CriarCartaoClienteTO editarCartao(CriarCartaoClienteTO cartaoTO, String idCliente, String idCartao) throws Exception ;
 }

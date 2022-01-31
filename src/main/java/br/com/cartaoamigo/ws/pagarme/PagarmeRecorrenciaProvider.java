@@ -17,7 +17,9 @@ public class PagarmeRecorrenciaProvider {
 	@Value("${pagarme.recorrencia.listar.cartao}")                         private String listarCartaoCliente;
 	@Value("${pagarme.recorrencia.excluir.cartao}")                        private String excluirCartaoCliente;
 	@Value("${pagarme.recorrencia.criar.cartao}")                          private String criarCartaoCliente;
+	@Value("${pagarme.recorrencia.editar.cartao}")                         private String editarCartaoCliente;
 	@Value("${pagarme.recorrencia.assinatura}")                            private String assinaturaPlano;
+	@Value("${pagarme.recorrencia.editar.cartao.assinatura}")              private String editarCartaoAssinaturaPlano;
 	@Value("${pagarme.recorrencia.cancelar.assinatura}")                   private String cancelarAssinaturaPlano;
 	@Value("${pagarme.recorrencia.listar.assinaturas}")                    private String listarAssinaturaCliente;
 	@Value("${pagarme.recorrencia.listar.assinaturas.faturas}")            private String listarFaturasDaAssinaturaCliente;
@@ -57,9 +59,17 @@ public class PagarmeRecorrenciaProvider {
 	public String getUrlCriarCartaoCliente(String idCliente) {
 		return String.format(criarCartaoCliente, idCliente);
 	}
+	
+	public String getUrlEditarCartaoCliente(String idCliente, String idCartao) {
+		return String.format(editarCartaoCliente, idCliente, idCartao);
+	}
 
 	public String getUrlAssinaturaPlano() {
 		return String.format(assinaturaPlano);
+	}
+
+	public String getUrlEditarCartaoAssinaturaPlano(String idAssinatura) {
+		return String.format(editarCartaoAssinaturaPlano, idAssinatura);
 	}
 
 	public String getUrlCancelarAssinaturaPlano(String idAssinatura) {

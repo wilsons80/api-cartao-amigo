@@ -15,8 +15,9 @@ public class CriarCartaoClienteTO {
 	private String label; // "Sua bandeira"
 	private String status;
 	
-	private ClientePagarMeTO customer;
+	private Long idTitular;
 	
+	private ClientePagarMeTO customer;	
 	private EnderecoCobrancaCartaoClientePagarMeTO billing_address;
 
 	public CriarCartaoClienteTO() {
@@ -132,6 +133,14 @@ public class CriarCartaoClienteTO {
 
 	public void setCustomer(ClientePagarMeTO customer) {
 		this.customer = customer;
+	}
+
+	public Long getIdTitular() {
+		return idTitular;
+	}
+
+	public void setIdTitular(Long idTitular) {
+		this.idTitular = idTitular;
 	}
 
 	

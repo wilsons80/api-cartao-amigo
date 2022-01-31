@@ -60,5 +60,11 @@ public class EnderecoCobrancaCartaoClientePagarMeTO {
 		this.country = country;
 	}
 
+	@Override
+	public String toString() {
+		return "EnderecoCobrancaCartaoClientePagarMeTO [line_1=" + line_1 + ", line_2=" + line_2 + ", zip_code="
+				+ zip_code + ", city=" + city + ", state=" + state + ", country=" + country + "]";
+	}
+
 
 }

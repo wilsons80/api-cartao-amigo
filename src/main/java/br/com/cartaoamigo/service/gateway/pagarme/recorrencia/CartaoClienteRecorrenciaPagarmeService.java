@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.CriarCartaoClienteRecorrenciaPagarmeCmd;
+import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.EditarCartaoClienteRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.ExcluirCartaoClienteRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetBandeiraCartaoRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetCartaoClienteRecorrenciaPagarmeCmd;
@@ -32,6 +33,7 @@ public class CartaoClienteRecorrenciaPagarmeService {
 	@Autowired private ExcluirCartaoClienteRecorrenciaPagarmeCmd excluirCmd;
 	@Autowired private GetCartaoClienteRecorrenciaPagarmeCmd getCartaoCmd;
 	@Autowired private CriarCartaoClienteRecorrenciaPagarmeCmd criarCartaoCmd;
+	@Autowired private EditarCartaoClienteRecorrenciaPagarmeCmd editarCartaoCmd;
 	@Autowired private GetBandeiraCartaoRecorrenciaPagarmeCmd getBandeiraCartaoRecorrenciaPagarmeCmd;
 	
 	@PostMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,11 +63,14 @@ public class CartaoClienteRecorrenciaPagarmeService {
 		return getBandeiraCartaoRecorrenciaPagarmeCmd.getBandeira(numeroCartao);
 	}
 
-	
 	@PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CriarCartaoClienteTO criarCartao(@RequestBody CriarCartaoClienteTO cartaoTO) {
 		return criarCartaoCmd.criarCartao(cartaoTO);
 	}
 	
+	@PostMapping(path = "/editar", produces = MediaType.APPLICATION_JSON_VALUE)
+	public CriarCartaoClienteTO editarCartao(@RequestBody CriarCartaoClienteTO cartaoTO) {
+		return editarCartaoCmd.editarCartao(cartaoTO);
+	}
 	
 }

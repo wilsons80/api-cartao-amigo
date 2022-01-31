@@ -5,9 +5,12 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -42,6 +45,10 @@ public class Assinaturas {
 
 	@Column(name = "id_plano")
 	private Long idPlano;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_forma_pagamento")
+	private FormaPagamento formaPagamento;
 
 	public Assinaturas() {
 	}
@@ -100,6 +107,14 @@ public class Assinaturas {
 
 	public void setIdPlano(Long idPlano) {
 		this.idPlano = idPlano;
+	}
+
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
+	}
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
 	}
 
 }

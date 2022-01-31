@@ -30,7 +30,7 @@ public class HistoricoPagamentoTO {
 	
 	private Double valorPago;
 	private Double valorCorretor;
-	
+	private CarteiraCartaoPagamentoAssociadoTO cartaoPagamento;
 	
 	public HistoricoPagamentoTO() {
 	}
@@ -174,6 +174,14 @@ public class HistoricoPagamentoTO {
 
 	public void setValorCorretor(Double valorCorretor) {
 		this.valorCorretor = valorCorretor;
+	}
+
+	public CarteiraCartaoPagamentoAssociadoTO getCartaoPagamento() {
+		return cartaoPagamento;
+	}
+
+	public void setCartaoPagamento(CarteiraCartaoPagamentoAssociadoTO cartaoPagamento) {
+		this.cartaoPagamento = cartaoPagamento;
 	}
 	
 	

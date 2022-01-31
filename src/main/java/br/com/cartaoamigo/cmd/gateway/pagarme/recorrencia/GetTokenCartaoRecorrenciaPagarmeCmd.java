@@ -33,7 +33,7 @@ public class GetTokenCartaoRecorrenciaPagarmeCmd {
 					                      tokenCartaoTO.getMesVencimentoCartao(), 
 					                      tokenCartaoTO.getAnoVencimentoCartao());
 		} catch (Exception e) {
-			throw new PagarmeException("Ocorreu um erro ao obter o token do cartão: " + e.getMessage());
+			throw new PagarmeException("Erro ao obter o token do cartão, tente novamente mais tarde.");
 		}
 	}
 

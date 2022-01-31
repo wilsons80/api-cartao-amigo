@@ -26,7 +26,6 @@ public class GetCartaoClienteRecorrenciaPagarmeCmd {
 			
 			listaDeCartoes.ifPresent(cartoes -> {
 				cartoes.forEach(cartao -> {
-					// buscar a bandeira do BIN do cartão
 					BandeiraCartaoTO bandeiraCartaoTO = getBandeiraCartaoRecorrenciaPagarmeCmd.getBandeira(cartao.getFirst_six_digits());
 					cartao.setBandeiraCartaoTO(bandeiraCartaoTO);
 				});

@@ -10,6 +10,7 @@ public class NovaAssinaturaPlanoTO {
 	private String card_token;
     private Integer boleto_due_days;
     private String bank;
+    private String idCartaoPagarMe;
     
 	private String codigoCorretor;
 	private String voucher;
@@ -108,15 +109,22 @@ public class NovaAssinaturaPlanoTO {
 	public void setBank(String bank) {
 		this.bank = bank;
 	}
+	
+	public String getIdCartaoPagarMe() {
+		return idCartaoPagarMe;
+	}
+
+	public void setIdCartaoPagarMe(String idCartaoPagarMe) {
+		this.idCartaoPagarMe = idCartaoPagarMe;
+	}
 
 	@Override
 	public String toString() {
 		return "NovaAssinaturaPlanoTO [plan_id=" + plan_id + ", payment_method=" + payment_method + ", customer_id="
-				+ customer_id + ", card_token=" + card_token + ", boleto_due_days=" + boleto_due_days
-				+ ", codigoCorretor=" + codigoCorretor + ", voucher=" + voucher + ", idPlano=" + idPlano
-				+ ", idTitular=" + idTitular + "]";
+				+ customer_id + ", card_token=" + card_token + ", boleto_due_days=" + boleto_due_days + ", bank=" + bank
+				+ ", idCartaoPagarMe=" + idCartaoPagarMe + ", codigoCorretor=" + codigoCorretor + ", voucher=" + voucher
+				+ ", idPlano=" + idPlano + ", idTitular=" + idTitular + ", discounts=" + discounts + "]";
 	}
 
-	
 
 }

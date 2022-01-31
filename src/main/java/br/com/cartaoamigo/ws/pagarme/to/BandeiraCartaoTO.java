@@ -32,6 +32,11 @@ public class BandeiraCartaoTO {
 	public void setBrandImage(String brandImage) {
 		this.brandImage = brandImage;
 	}
+
+	@Override
+	public String toString() {
+		return "BandeiraCartaoTO [brand=" + brand + ", brandName=" + brandName + ", brandImage=" + brandImage + "]";
+	}
 	
 
 }

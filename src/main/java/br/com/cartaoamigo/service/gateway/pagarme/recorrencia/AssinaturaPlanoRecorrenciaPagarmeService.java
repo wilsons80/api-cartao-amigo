@@ -8,14 +8,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.CancelarAssinaturaPlanoRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.CriarAssinaturaPlanoRecorrenciaPagarmeCmd;
+import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.EditarCartaoAssinaturaRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.cmd.gateway.pagarme.recorrencia.GetAssinaturasPlanoRecorrenciaPagarmeCmd;
 import br.com.cartaoamigo.ws.pagarme.to.AssinaturaPlanoTO;
+import br.com.cartaoamigo.ws.pagarme.to.EditarCartaoAssinaturaPagarmeTO;
 import br.com.cartaoamigo.ws.pagarme.to.NovaAssinaturaPlanoTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCanceladaTO;
 import br.com.cartaoamigo.ws.pagarme.to.RetornoAssinaturaPlanoCriadaTO;
@@ -28,6 +31,7 @@ public class AssinaturaPlanoRecorrenciaPagarmeService {
 	@Autowired private CriarAssinaturaPlanoRecorrenciaPagarmeCmd criarAssinaturaCmd;
 	@Autowired private CancelarAssinaturaPlanoRecorrenciaPagarmeCmd cancelarAssinaturaCmd;
 	@Autowired private GetAssinaturasPlanoRecorrenciaPagarmeCmd getAssinaturasCmd;
+	@Autowired private EditarCartaoAssinaturaRecorrenciaPagarmeCmd editarCartaoAssinatura;
 	
 	@GetMapping(path = "/cliente/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<AssinaturaPlanoTO> listarAssinaturasCliente(@PathVariable(name = "idCliente") String idCliente) {
@@ -42,6 +46,12 @@ public class AssinaturaPlanoRecorrenciaPagarmeService {
 	@PostMapping(path = "/criar/cartao", produces = MediaType.APPLICATION_JSON_VALUE)
 	public RetornoAssinaturaPlanoCriadaTO criarAssinaturaCartao(@RequestBody NovaAssinaturaPlanoTO assinaturaTO) {
 		return criarAssinaturaCmd.criarAssinaturaCartao(assinaturaTO);
+	}
+	
+	@PutMapping(path = "/editar/{idAssinatura}/cartao", produces = MediaType.APPLICATION_JSON_VALUE)
+	public AssinaturaPlanoTO editarCartaoAssinatura(@PathVariable(name = "idAssinatura") String idAssinatura,
+			                                        @RequestBody EditarCartaoAssinaturaPagarmeTO cartaoTO) {
+		return editarCartaoAssinatura.editarCartaoAssinatura(idAssinatura, cartaoTO);
 	}
 	
 	@PostMapping(path = "/criar/boleto", produces = MediaType.APPLICATION_JSON_VALUE)

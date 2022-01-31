@@ -14,20 +14,17 @@ import br.com.cartaoamigo.ws.pagarme.to.CriarCartaoClienteTO;
 
 
 @Component
-public class CriarCartaoClienteRecorrenciaPagarmeCmd {
+public class EditarCartaoClienteRecorrenciaPagarmeCmd {
 
 	@Autowired private CartaoClienteRecorrenciaService service;
 	@Autowired private ValidarDadosCartaoClientePagarmeRule validarDadosCartaoClientePagarmeRule;
 	@Autowired private GetBandeiraCartaoRecorrenciaPagarmeCmd getBandeiraCartaoRecorrenciaPagarmeCmd;
 	@Autowired private SalvarCarteiraCartaoPagamentoAssociadoCmd salvarCarteiraCartaoPagamentoAssociadoCmd;
-
 	
-	public CriarCartaoClienteTO criarCartao(CriarCartaoClienteTO cartaoTO) {
+	
+	public CriarCartaoClienteTO editarCartao(CriarCartaoClienteTO cartaoTO) {
 		try {
-			validarDadosCartaoClientePagarmeRule.validar(cartaoTO);
-			
-			String numeroCartao = NumeroUtil.somenteNumeros(cartaoTO.getNumber());
-			cartaoTO.setNumber(numeroCartao);
+			validarDadosCartaoClientePagarmeRule.validarEdicao(cartaoTO);
 			
 			String documento    = NumeroUtil.somenteNumeros(cartaoTO.getHolder_document());
 			cartaoTO.setHolder_document(documento);
@@ -36,21 +33,17 @@ public class CriarCartaoClienteRecorrenciaPagarmeCmd {
 			cartaoTO.setHolder_name(nomeImpresso);
 			
 			// buscar a bandeira do BIN do cartão
-			BandeiraCartaoTO bandeiraCartaoTO = getBandeiraCartaoRecorrenciaPagarmeCmd.getBandeira(cartaoTO.getNumber());
+			BandeiraCartaoTO bandeiraCartaoTO = getBandeiraCartaoRecorrenciaPagarmeCmd.getBandeira(cartaoTO.getFirst_six_digits());
 			cartaoTO.setBrand(bandeiraCartaoTO.getBrand());
 			
-			CriarCartaoClienteTO cartaoClienteTO = service.criarCartao(cartaoTO, cartaoTO.getCustomer().getId());
-			cartaoClienteTO.setIdTitular(cartaoTO.getIdTitular());
-			cartaoClienteTO.setNumber   (numeroCartao);
-			cartaoClienteTO.setCvv      (cartaoTO.getCvv());
+			CriarCartaoClienteTO editarCartao = service.editarCartao(cartaoTO, cartaoTO.getCustomer().getId(), cartaoTO.getId());
 			
-			salvarCarteiraCartaoPagamentoAssociadoCmd.salvar(cartaoClienteTO);
+			salvarCarteiraCartaoPagamentoAssociadoCmd.salvar(editarCartao);
 			
-			return cartaoClienteTO;
-			
+			return editarCartao;
 		} catch (Exception e) {
-			throw new PagarmeException("Ocorreu um erro ao criar o cartão: " + e.getMessage());
+			throw new PagarmeException("Erro: " + e.getMessage());
 		}
 	}
-
+	
 }

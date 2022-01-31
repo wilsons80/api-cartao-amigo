@@ -29,4 +29,10 @@ public interface HistoricoPagamentoRepository extends JpaRepository<HistoricoPag
 			+ " where upper(hp.numeroTransacaoGatewayPagamento) = upper(?1) ")
 	public Optional<HistoricoPagamento> findByNumeroTransacao(String numeroTransacao);
 	
+	@Query(value = " select hp from HistoricoPagamento hp                   "
+			+ " inner join Titular t on t = hp.titular                      "
+			+ " where upper(hp.numeroTransacaoGatewayPagamento) = upper(?1) "
+			+ "   and t.id = ?2                                             ")
+	public Optional<HistoricoPagamento> findByNumeroTransacaoAndTitular(String idAssinatura, Long idTitular);
+	
 }

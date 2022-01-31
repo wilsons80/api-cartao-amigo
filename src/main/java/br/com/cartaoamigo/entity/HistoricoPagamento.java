@@ -76,7 +76,11 @@ public class HistoricoPagamento  {
 	
 	@Column(name = "VL_CORRETOR")
 	private Double valorCorretor;
-
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_carteira_cartao_pagamento_associado")
+	private CarteiraCartaoPagamentoAssociado cartaoPagamento;
+	
 	
 	public HistoricoPagamento() {
 	}
@@ -209,6 +213,14 @@ public class HistoricoPagamento  {
 		this.valorCorretor = valorCorretor;
 	}
 
+	public CarteiraCartaoPagamentoAssociado getCartaoPagamento() {
+		return cartaoPagamento;
+	}
+
+	public void setCartaoPagamento(CarteiraCartaoPagamentoAssociado cartaoPagamento) {
+		this.cartaoPagamento = cartaoPagamento;
+	}
+
 	@Override
 	public String toString() {
 		return "HistoricoPagamento [id=" + id + ", titular=" + titular + ", corretor=" + corretor
@@ -218,18 +230,8 @@ public class HistoricoPagamento  {
 				+ numeroTransacaoGatewayPagamento + ", statusTransacao=" + statusTransacao + ", tipoMetodoPagamento="
 				+ tipoMetodoPagamento + ", linkPagamento=" + linkPagamento + ", publicKeyPrimaryReceiver="
 				+ publicKeyPrimaryReceiver + ", idVoucher=" + idVoucher + ", valorPago=" + valorPago
-				+ ", valorCorretor=" + valorCorretor + ", getId()=" + getId() + ", getTitular()=" + getTitular()
-				+ ", getDtPagamentoPlanoContratado()=" + getDtPagamentoPlanoContratado() + ", getGatewayPagamento()="
-				+ getGatewayPagamento() + ", getFormaPagamento()=" + getFormaPagamento() + ", getTipoPlano()="
-				+ getTipoPlano() + ", getQtdParcelas()=" + getQtdParcelas() + ", getNumeroTransacaoGatewayPagamento()="
-				+ getNumeroTransacaoGatewayPagamento() + ", getStatusTransacao()=" + getStatusTransacao()
-				+ ", getCorretor()=" + getCorretor() + ", getTipoMetodoPagamento()=" + getTipoMetodoPagamento()
-				+ ", getLinkPagamento()=" + getLinkPagamento() + ", getPublicKeyPrimaryReceiver()="
-				+ getPublicKeyPrimaryReceiver() + ", getIdVoucher()=" + getIdVoucher() + ", getValorPago()="
-				+ getValorPago() + ", getValorCorretor()=" + getValorCorretor() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", valorCorretor=" + valorCorretor + ", cartaoPagamento=" + cartaoPagamento + "]";
 	}
-	
 	
 	
 }

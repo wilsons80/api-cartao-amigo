@@ -1,8 +1,11 @@
 package br.com.cartaoamigo.ws.pagarme.to;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import br.com.cartaoamigo.infra.util.StringUtil;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CartaoClienteTO {
@@ -12,13 +15,17 @@ public class CartaoClienteTO {
 	private String last_four_digits;
 	private String brand;
 	private String holder_name;
-    private Integer exp_month;
+	private String holder_document;
+    private String exp_month;
     private Integer exp_year;
     private LocalDateTime created_at;
-    
+    private String type;
 	private String status;
 	
 	private BandeiraCartaoTO bandeiraCartaoTO;
+	private EnderecoCobrancaCartaoClientePagarMeTO billing_address;
+	
+	private boolean expirado;
 
 	public CartaoClienteTO() {
 	}
@@ -71,11 +78,11 @@ public class CartaoClienteTO {
 		this.holder_name = holder_name;
 	}
 
-	public Integer getExp_month() {
-		return exp_month;
+	public String getExp_month() {
+		return StringUtil.lpad(String.valueOf(exp_month), "0", 2);
 	}
 
-	public void setExp_month(Integer exp_month) {
+	public void setExp_month(String exp_month) {
 		this.exp_month = exp_month;
 	}
 
@@ -102,6 +109,58 @@ public class CartaoClienteTO {
 	public void setBandeiraCartaoTO(BandeiraCartaoTO bandeiraCartaoTO) {
 		this.bandeiraCartaoTO = bandeiraCartaoTO;
 	}
-	
 
+	public EnderecoCobrancaCartaoClientePagarMeTO getBilling_address() {
+		return billing_address;
+	}
+
+	public void setBilling_address(EnderecoCobrancaCartaoClientePagarMeTO billing_address) {
+		this.billing_address = billing_address;
+	}
+
+	public String getHolder_document() {
+		return holder_document;
+	}
+
+	public void setHolder_document(String holder_document) {
+		this.holder_document = holder_document;
+	}
+
+	public boolean expirado() {
+		int mesCartao = Integer.valueOf(getExp_month());
+		int anoCartao = getExp_year();
+		
+		LocalDate agora = LocalDate.now();
+		int anoAtual = agora.getYear();
+		int mesAtual = agora.getMonthValue();
+
+		if(anoAtual > anoCartao) {
+			expirado = true;
+		} else if (anoAtual == anoCartao && mesAtual > mesCartao) {
+			expirado = true;
+		} else {
+			expirado = false;
+		}
+		
+		return expirado;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "CartaoClienteTO [id=" + id + ", first_six_digits=" + first_six_digits + ", last_four_digits="
+				+ last_four_digits + ", brand=" + brand + ", holder_name=" + holder_name + ", holder_document="
+				+ holder_document + ", exp_month=" + exp_month + ", exp_year=" + exp_year + ", created_at=" + created_at
+				+ ", type=" + type + ", status=" + status + ", bandeiraCartaoTO=" + bandeiraCartaoTO
+				+ ", billing_address=" + billing_address + ", expirado=" + expirado + "]";
+	}
+	
+	
 }
