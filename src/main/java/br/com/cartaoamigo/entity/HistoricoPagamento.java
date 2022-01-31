@@ -81,6 +81,8 @@ public class HistoricoPagamento  {
 	@JoinColumn(name = "id_carteira_cartao_pagamento_associado")
 	private CarteiraCartaoPagamentoAssociado cartaoPagamento;
 	
+	@Column(name = "id_assinatura")
+	private Long idAssinatura;
 	
 	public HistoricoPagamento() {
 	}
@@ -219,6 +221,14 @@ public class HistoricoPagamento  {
 
 	public void setCartaoPagamento(CarteiraCartaoPagamentoAssociado cartaoPagamento) {
 		this.cartaoPagamento = cartaoPagamento;
+	}
+	
+	public Long getIdAssinatura() {
+		return idAssinatura;
+	}
+
+	public void setIdAssinatura(Long idAssinatura) {
+		this.idAssinatura = idAssinatura;
 	}
 
 	@Override

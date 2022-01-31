@@ -18,6 +18,13 @@ public interface AssinaturasRepository extends JpaRepository<Assinaturas, Long> 
 			+ "   and a.idTitular = ?1           ")
 	Optional<Assinaturas> findAssinaturaAtivaByTitular(Long idTitular);
 	
+	@Query("select a from Assinaturas a          "
+			+ " where a.ativo = true             "
+			+ "   and a.dataCancelamento is null "
+			+ "   and a.idTitular = ?1           "
+			+ "   and upper(a.idCartaoPagarMe) = upper(?2)")
+	Optional<Assinaturas> findAssinaturaAtivaByTitularAndIdCartaoPagarMe(Long idTitular, String idCartaoPagarMe);
+	
 	@Query("select a from Assinaturas a "
 			+ " where upper(a.codigoAssinatura) = upper(?1)  ")
 	Optional<Assinaturas> findAssinaturaCodigoPagarMe(String codigoAssinatura);

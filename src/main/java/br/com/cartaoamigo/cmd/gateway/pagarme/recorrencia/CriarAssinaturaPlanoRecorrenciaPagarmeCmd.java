@@ -170,11 +170,11 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setStatusTransacao    (statusTO);
 			historicoPagamentoTO.setGatewayPagamento   (gatewayPagamentoTO);
 
-			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
-			
 			//Cria a assinatura na base de dados para o titular
-			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO, historicoPagamentoTO.getFormaPagamento());
+			AssinaturasTO assinaturaTO = criarAssinaturaPlano(retornoAssinaturaTO.getId(), novaAssinaturaPlanoTO.getIdCartaoPagarMe(), tipoPlano.get().getId(), titular.get().getId(), statusTO, historicoPagamentoTO.getFormaPagamento());
+			historicoPagamentoTO.setIdAssinatura(assinaturaTO.getId());
 			
+			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
 			
 			retornoAssinaturaTO.setLinkPagamento           (null);
 			retornoAssinaturaTO.setStatus                  (statusTO.getCodigoTransacao());
@@ -244,13 +244,14 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 		novaAssinaturaPlanoTO.setDiscounts(Arrays.asList(disconto));
 	}
 
-	private void criarAssinaturaPlano(String codigoAssinatura, Long idPlano, Long idTitular, StatusTransacaoGatewayPagamentoTO statusTO, FormaPagamentoTO formaPagamentoTO) {
+	private AssinaturasTO criarAssinaturaPlano(String codigoAssinatura, String idCartaoPagarme, Long idPlano, Long idTitular, StatusTransacaoGatewayPagamentoTO statusTO, FormaPagamentoTO formaPagamentoTO) {
 		AssinaturasTO to = new AssinaturasTO();
 		
 		to.setCodigoAssinatura(codigoAssinatura);
 		to.setIdPlano(idPlano);
 		to.setIdTitular(idTitular);
 		to.setFormaPagamento(formaPagamentoTO);
+		to.setIdCartaoPagarMe(idCartaoPagarme);
 		
 		if(statusTO.getCodigoTransacao().equals("canceled") || statusTO.getCodigoTransacao().equals("failed")) {
 			to.setAtivo(false);
@@ -258,24 +259,24 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			to.setAtivo(true);
 		}
 		
-		salvarAssinaturaCmd.salvarAssinatura(to);
+		return salvarAssinaturaCmd.salvarAssinatura(to);
 	}
 
-	public RetornoAssinaturaPlanoCriadaTO criarAssinaturaBoleto(@RequestBody NovaAssinaturaPlanoTO assinaturaTO) {
+	public RetornoAssinaturaPlanoCriadaTO criarAssinaturaBoleto(@RequestBody NovaAssinaturaPlanoTO paramNovaAssinaturaTO) {
 		HistoricoPagamentoTO historicoPagamentoTO = new HistoricoPagamentoTO();
 		
 		try {
-			if(Objects.isNull(assinaturaTO.getIdPlano())) {
+			if(Objects.isNull(paramNovaAssinaturaTO.getIdPlano())) {
 				throw new NotFoundException("Escolha o tipo de plano para realizar o pagamento.");
 			}
 			
-			if(StringUtils.isEmpty(assinaturaTO.getCustomer_id())) {
+			if(StringUtils.isEmpty(paramNovaAssinaturaTO.getCustomer_id())) {
 				throw new NotFoundException("O código do cliente não foi encontrado.");
 			}
 			
-			Optional<TipoPlano> tipoPlano = tipoPlanoRepository.findById(assinaturaTO.getIdPlano());
+			Optional<TipoPlano> tipoPlano = tipoPlanoRepository.findById(paramNovaAssinaturaTO.getIdPlano());
 			if(!tipoPlano.isPresent()) {
-				throw new NotFoundException("O tipo de plano escolhido não existe: " + assinaturaTO.getIdPlano());
+				throw new NotFoundException("O tipo de plano escolhido não existe: " + paramNovaAssinaturaTO.getIdPlano());
 			}
 			
 			Double valorCobrado = tipoPlano.get().getValor();
@@ -283,27 +284,27 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 				throw new PagarmeException("Valor da compra está inferior ao permitido.");
 			}
 			
-			validarAssinaturaVigente(assinaturaTO);
+			validarAssinaturaVigente(paramNovaAssinaturaTO);
 
-			Optional<Voucher> voucher = aplicarVoucher(assinaturaTO);
+			Optional<Voucher> voucher = aplicarVoucher(paramNovaAssinaturaTO);
 			
-			Optional<Titular> titular = getTitularCmd.getById(assinaturaTO.getIdTitular());
+			Optional<Titular> titular = getTitularCmd.getById(paramNovaAssinaturaTO.getIdTitular());
 			if(!titular.isPresent()) {
-				throw new NotFoundException("Titular informado não existe: " + assinaturaTO.getIdTitular());
+				throw new NotFoundException("Titular informado não existe: " + paramNovaAssinaturaTO.getIdTitular());
 			}
 			
-			preencherDadosCorretor(historicoPagamentoTO, valorCobrado, titular, assinaturaTO.getCodigoCorretor());
+			preencherDadosCorretor(historicoPagamentoTO, valorCobrado, titular, paramNovaAssinaturaTO.getCodigoCorretor());
 
 			RetornoAssinaturaPlanoCriadaTO retornoAssinaturaTO = null;
 			try {
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				// Realiza a chamada do endpoint de pagamento do PAGARME
-				LOGGER.info(">>>>> Dados pagamento: " + assinaturaTO.toString());
+				LOGGER.info(">>>>> Dados pagamento: " + paramNovaAssinaturaTO.toString());
 				
-				assinaturaTO.setBoleto_due_days(5);
-				assinaturaTO.setPayment_method("boleto");
-				assinaturaTO.setBank("001");
-				retornoAssinaturaTO = service.criarAssinaturaBoleto(assinaturaTO);					
+				paramNovaAssinaturaTO.setBoleto_due_days(5);
+				paramNovaAssinaturaTO.setPayment_method("boleto");
+				paramNovaAssinaturaTO.setBank("001");
+				retornoAssinaturaTO = service.criarAssinaturaBoleto(paramNovaAssinaturaTO);					
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
 			}catch (Exception e) {
@@ -336,7 +337,7 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setValorPago(valorCobrado);
 			
 			//Obtém a cobrança da fatura gerada na assinatura
-			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFatura(assinaturaTO, retornoAssinaturaTO);
+			CobrancaFaturaTO cobrancaFaturaTO = getCobrancaFatura(paramNovaAssinaturaTO, retornoAssinaturaTO);
 			
 			GatewayPagamentoTO gatewayPagamentoTO = getGatewayPagamentoCmd.getByCodigo(PAGARME);
 			StatusTransacaoGatewayPagamentoTO statusTO = getStatusTransacaoCmd.getByStatusAndGateway(cobrancaFaturaTO.getStatus(), gatewayPagamentoTO.getId());
@@ -345,11 +346,12 @@ public class CriarAssinaturaPlanoRecorrenciaPagarmeCmd {
 			historicoPagamentoTO.setGatewayPagamento       (gatewayPagamentoTO);
 			
 			historicoPagamentoTO.setLinkPagamento          (cobrancaFaturaTO.getLast_transaction().getPdf());			
-			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
 			
 			//Cria a assinatura na base de dados para o titular
-			criarAssinaturaPlano(retornoAssinaturaTO.getId(), tipoPlano.get().getId(), titular.get().getId(), statusTO, historicoPagamentoTO.getFormaPagamento());
-
+			AssinaturasTO assinaturaTO = criarAssinaturaPlano(retornoAssinaturaTO.getId(), null, tipoPlano.get().getId(), titular.get().getId(), statusTO, historicoPagamentoTO.getFormaPagamento());
+			historicoPagamentoTO.setIdAssinatura(assinaturaTO.getId());
+			
+			historicoPagamentoTO = cadastrarHistoricoPagamentoCmd.cadastrar(historicoPagamentoTO);
 			
 			retornoAssinaturaTO.setLinkPagamento           (cobrancaFaturaTO.getLast_transaction().getPdf());
 			retornoAssinaturaTO.setStatus                  (statusTO.getCodigoTransacao().toString());

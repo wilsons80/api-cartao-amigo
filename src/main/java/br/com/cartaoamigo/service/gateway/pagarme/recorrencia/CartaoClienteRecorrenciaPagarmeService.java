@@ -41,10 +41,11 @@ public class CartaoClienteRecorrenciaPagarmeService {
 		return getCmd.getTokenCartao(tokenCartaoTO);
 	}
 	
-	@DeleteMapping(path = "/cartao/{idCliente}/{idCartao}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public CartaoClienteTO excluirCartao(@PathVariable(name = "idCliente") String idCliente, 
+	@DeleteMapping(path = "/titular/{idTitular}/cartao/{idCliente}/{idCartao}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public CartaoClienteTO excluirCartao(@PathVariable(name = "idTitular") Long idTitular,
+			                             @PathVariable(name = "idCliente") String idCliente, 
 			                             @PathVariable(name = "idCartao") String idCartao) {
-		return excluirCmd.excluir(idCliente, idCartao);
+		return excluirCmd.excluir(idTitular, idCliente, idCartao);
 	}
 	
 	@GetMapping(path = "/cartao/{idCliente}", produces = MediaType.APPLICATION_JSON_VALUE)

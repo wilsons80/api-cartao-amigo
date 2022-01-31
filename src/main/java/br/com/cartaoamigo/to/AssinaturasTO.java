@@ -12,7 +12,9 @@ public class AssinaturasTO {
 	private Long idTitular;
 	private Long idPlano;
 	private FormaPagamentoTO formaPagamento;
-
+	private String idCartaoPagarMe;
+	
+	
 	public AssinaturasTO() {
 
 	}
@@ -81,4 +83,13 @@ public class AssinaturasTO {
 		this.formaPagamento = formaPagamento;
 	}
 
+	public String getIdCartaoPagarMe() {
+		return idCartaoPagarMe;
+	}
+
+	public void setIdCartaoPagarMe(String idCartaoPagarMe) {
+		this.idCartaoPagarMe = idCartaoPagarMe;
+	}
+
+	
 }

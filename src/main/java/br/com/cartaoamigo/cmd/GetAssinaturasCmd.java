@@ -21,6 +21,12 @@ public class GetAssinaturasCmd {
 		Optional<Assinaturas> entity = repository.findById(idAssinatura);
 		return entity.isPresent() ? Optional.ofNullable(entity.get()) : null;
 	}
+
+	public Optional<Assinaturas> findAssinaturaAtivaByTitularAndIdCartaoPagarMe(Long idTitular, String idCartaoPagarMe) {
+		Optional<Assinaturas> entity = repository.findAssinaturaAtivaByTitularAndIdCartaoPagarMe(idTitular, idCartaoPagarMe);
+		return entity.isPresent() ? Optional.ofNullable(entity.get()) : null;
+	}
+
 	
 	public Optional<AssinaturasTO> findTOById(Long idAssinatura) {
 		Optional<Assinaturas> entity = repository.findById(idAssinatura);

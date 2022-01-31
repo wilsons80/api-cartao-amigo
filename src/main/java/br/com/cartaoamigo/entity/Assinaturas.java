@@ -50,6 +50,10 @@ public class Assinaturas {
 	@JoinColumn(name = "id_forma_pagamento")
 	private FormaPagamento formaPagamento;
 
+	@Column(name = "id_cartao_pagarme")
+	private String idCartaoPagarMe;
+	
+	
 	public Assinaturas() {
 	}
 
@@ -117,4 +121,13 @@ public class Assinaturas {
 		this.formaPagamento = formaPagamento;
 	}
 
+	public String getIdCartaoPagarMe() {
+		return idCartaoPagarMe;
+	}
+
+	public void setIdCartaoPagarMe(String idCartaoPagarMe) {
+		this.idCartaoPagarMe = idCartaoPagarMe;
+	}
+
+	
 }

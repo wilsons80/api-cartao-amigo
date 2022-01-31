@@ -31,6 +31,7 @@ public class HistoricoPagamentoTO {
 	private Double valorPago;
 	private Double valorCorretor;
 	private CarteiraCartaoPagamentoAssociadoTO cartaoPagamento;
+	private Long idAssinatura;
 	
 	public HistoricoPagamentoTO() {
 	}
@@ -182,6 +183,14 @@ public class HistoricoPagamentoTO {
 
 	public void setCartaoPagamento(CarteiraCartaoPagamentoAssociadoTO cartaoPagamento) {
 		this.cartaoPagamento = cartaoPagamento;
+	}
+
+	public Long getIdAssinatura() {
+		return idAssinatura;
+	}
+
+	public void setIdAssinatura(Long idAssinatura) {
+		this.idAssinatura = idAssinatura;
 	}
 	
 	
