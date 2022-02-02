@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.apache.commons.lang3.StringUtils;
+
 import br.com.cartaoamigo.infra.adapter.LocalDateTimeAdapter;
 
 public class UsuariosTO {
@@ -36,6 +38,9 @@ public class UsuariosTO {
 	}
 
 	public String getUsername() {
+		if(StringUtils.isNotEmpty(username)) {
+			username = username.trim();
+		}
 		return username;
 	}
 
@@ -44,6 +49,9 @@ public class UsuariosTO {
 	}
 
 	public String getSenha() {
+		if(StringUtils.isNotEmpty(senha)) {
+			senha = senha.trim();
+		}
 		return senha;
 	}
 
