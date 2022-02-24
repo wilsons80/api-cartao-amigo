@@ -14,6 +14,7 @@ public class TitularTO {
 	
 	private String senha;
 	private String senhaConfirmada;
+	private CartaoTO cartao;
 
 	public TitularTO() {
 	}
@@ -80,6 +81,14 @@ public class TitularTO {
 
 	public void setCodigoCorretor(String codigoCorretor) {
 		this.codigoCorretor = codigoCorretor;
+	}
+
+	public CartaoTO getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(CartaoTO cartao) {
+		this.cartao = cartao;
 	}
 
 }

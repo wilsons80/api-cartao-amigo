@@ -1,6 +1,7 @@
 package br.com.cartaoamigo.cmd;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Component;
 
 import br.com.cartaoamigo.builder.PessoaFisicaTOBuilder;
 import br.com.cartaoamigo.builder.TitularTOBuilder;
+import br.com.cartaoamigo.dao.repository.CartaoRepository;
 import br.com.cartaoamigo.dao.repository.PessoaFisicaRepository;
 import br.com.cartaoamigo.dao.repository.TitularRepository;
+import br.com.cartaoamigo.entity.Cartao;
 import br.com.cartaoamigo.entity.PessoaFisica;
 import br.com.cartaoamigo.entity.Titular;
 import br.com.cartaoamigo.exception.NotFoundException;
@@ -34,6 +37,7 @@ public class AlterarTitularCmd {
 	@Autowired private PessoaFisicaRepository pessoaFisicaRepository;
 	@Autowired private CamposObrigatoriosPessoaFisicaRule camposObrigatoriosPessoaFisicaRule;
 	@Autowired private ValidarDependentesCPFDuplicadosRule validarDependentesCPFDuplicadosRule;
+	@Autowired private CartaoRepository cartaoRepository;
 	
 	public TitularTO alterar(TitularTO titularTO) {
 		rule.verificar(titularTO);
@@ -57,6 +61,14 @@ public class AlterarTitularCmd {
 		entity = repository.save(toBuilder.build(titularTO));
 		
 		alterarListaDependentesCmd.alterarAll(titularTO.getDependentes(), entity);
+		
+		if(Objects.nonNull(titularTO.getCartao())) {
+			Optional<Cartao> cartao = cartaoRepository.findById(titularTO.getCartao().getId());
+			if(cartao.isPresent()) {
+				cartao.get().setAtivo(titularTO.getCartao().getAtivo());
+				cartaoRepository.save(cartao.get());
+			}
+		}
 		
 		return toBuilder.buildTO(repository.findById(entity.getId()).get());
 	}
